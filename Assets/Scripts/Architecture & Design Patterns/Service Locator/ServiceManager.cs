@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ServiceLocatorPattern
+namespace DesignPatterns.ServiceLocatorPattern
 {
     public class ServiceManager
     {

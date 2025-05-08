@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Service Locator\ServiceLocator.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Event Bus\AbstractEventBus.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Service Locator\SceneServiceLocatorBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Service Locator\ServiceManager.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Service Locator\GlobalServiceLocatorBootStrapper.cs" />

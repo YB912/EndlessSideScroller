@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace ServiceLocatorPattern
+namespace DesignPatterns.ServiceLocatorPattern
 {
     [AddComponentMenu("Service Locator/Scene Service Locator")]
     public class SceneServiceLocatorBootstrapper : AbstractServiceLocatorBootStrapper

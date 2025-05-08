@@ -15,7 +15,7 @@ namespace DesignPatterns.ServiceLocatorPattern
             var eventType = typeof(T);
             if (typeof(UnityEvent).IsAssignableFrom(eventType) == false)
             {
-                throw new ArgumentException($"EventBus.cs: The given type {eventType.FullName} is not a UnityEvent.");
+                throw new ArgumentException($"AbstractEventBus.Subscribe: The given type {eventType.FullName} is not a UnityEvent.");
             }
 
             if (_parameterlessEvents.TryGetValue(eventType, out UnityEvent unityEvent))
@@ -24,7 +24,7 @@ namespace DesignPatterns.ServiceLocatorPattern
             }
             else
             {
-                Debug.LogError($"EventBus.cs: Event of type {eventType.FullName} has not been registered.", this);
+                throw new ArgumentException($"AbstractEventBus.Subscribe: Event of type {eventType.FullName} has not been registered.");
             }
         }
 
@@ -37,7 +37,7 @@ namespace DesignPatterns.ServiceLocatorPattern
             }
             else
             {
-                Debug.LogError($"EventBus.cs: Event of type {eventType.FullName} has not been registered.", this);
+                throw new ArgumentException($"AbstractEventBus.Unsubscribe: Event of type {eventType.FullName} has not been registered.");
             }
         }
 
@@ -50,7 +50,7 @@ namespace DesignPatterns.ServiceLocatorPattern
             }
             else
             {
-                Debug.LogError($"EventBus.cs: Event of type {eventType.FullName} has not been registered.", this);
+                throw new ArgumentException($"AbstractEventBus.Publish: Event of type {eventType.FullName} has not been registered.");
             }
         }
     }

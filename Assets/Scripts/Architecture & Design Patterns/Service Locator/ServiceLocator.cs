@@ -15,7 +15,7 @@ namespace DesignPatterns.ServiceLocatorPattern
 
         static List<GameObject> _tempSceneGameObjects;
 
-        readonly ServiceManager _serviceManager;
+        readonly ServiceManager _serviceManager = new ServiceManager();
 
         const string _globalServiceLocatorName = "Service Locator (Global)";
         const string _sceneServiceLocatorName = "Service Locator (Scene)";
@@ -69,23 +69,6 @@ namespace DesignPatterns.ServiceLocatorPattern
             _sceneServiceLocators.Add(scene, this);
         }
 
-        public static ServiceLocator For(MonoBehaviour monoBehaviour)
-        {
-            var output = monoBehaviour.GetComponentInParent<ServiceLocator>();
-            if (output != null)
-            {
-                return output;
-            }
-
-            output = ForSceneOf(monoBehaviour);
-            if (output != null)
-            {
-                return output;
-            }
-
-            return global;
-        }
-
         public static ServiceLocator ForSceneOf(MonoBehaviour monoBehaviour)
         {
             Scene scene = monoBehaviour.gameObject.scene;
@@ -121,17 +104,16 @@ namespace DesignPatterns.ServiceLocatorPattern
             _serviceManager.Register(type, service);
         }
 
-        public ServiceLocator Get<T>(out T service) where T : class
+        public T Get<T>() where T : class
         {
-            if (TryGetService(out service))
+            if (TryGetService(out T service))
             {
-                return this;
+                return service;
             }
 
             if (TryGetNextInHierarchy(out ServiceLocator locator))
             {
-                locator.Get(out service);
-                return this;
+                return locator.Get<T>();
             }
 
             throw new ArgumentException($"ServiceLocator.Get: Serivce of type {typeof(T).FullName} has not been registered.");

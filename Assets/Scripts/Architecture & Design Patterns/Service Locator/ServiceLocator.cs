@@ -1,177 +1,59 @@
 
 using UnityEngine;
-using UnityEditor;
-using UnityEngine.SceneManagement;
-using System.Collections.Generic;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using DesignPatterns.Singleton;
 
 namespace DesignPatterns.ServiceLocatorPattern
 {
-    public class ServiceLocator : MonoBehaviour
+    public class ServiceLocator : Singleton<ServiceLocator>
     {
-        static ServiceLocator _global;
-        static Dictionary<Scene, ServiceLocator> _sceneServiceLocators = new();
+        static readonly Dictionary<Type, object> _services = new();
 
-        static List<GameObject> _tempSceneGameObjects;
-
-        readonly ServiceManager _serviceManager = new ServiceManager();
-
-        const string _globalServiceLocatorName = "Service Locator (Global)";
-        const string _sceneServiceLocatorName = "Service Locator (Scene)";
-
-        public static ServiceLocator global
+        public bool TryGet<T>(out T outputService) where T : class
         {
-            get
+            Type type = typeof(T);
+            if (_services.TryGetValue(type, out object service))
             {
-                if (_global != null) return _global;
-
-                var bootstrapper = FindFirstObjectByType<GlobalServiceLocatorBootStrapper>();
-                if (bootstrapper != null)
-                {
-                    bootstrapper.BootStrapOnDemand();
-                    return _global;
-                }
-
-                var container = new GameObject(_globalServiceLocatorName);
-                container.AddComponent<ServiceLocator>();
-                container.AddComponent<GlobalServiceLocatorBootStrapper>().BootStrapOnDemand();
-
-                return _global;
+                outputService = service as T;
+                return true;
             }
-        }
-
-        internal void ConfigureAsGlobal(bool dontDestroyOnLoad)
-        {
-            if (_global == this)
-            {
-                Debug.LogWarning("ServiceLocator.ConfigureAsGlobal: Already configured as gloabal.");
-            } else if (_global != null)
-            {
-                Debug.LogWarning("ServiceLocator.ConfigureAsGlobal: Another locator already configured as global.");
-            } else
-            {
-                _global = this;
-                if (dontDestroyOnLoad) DontDestroyOnLoad(gameObject);
-            }
-        }
-
-        internal void ConfigureForScene()
-        {
-            Scene scene = gameObject.scene;
-
-            if (_sceneServiceLocators.ContainsKey(scene))
-            {
-                Debug.LogWarning("ServiceLocator.ConfigureForScene: Another locator already configured for this scene.");
-                return;
-            }
-
-            _sceneServiceLocators.Add(scene, this);
-        }
-
-        public static ServiceLocator ForSceneOf(MonoBehaviour monoBehaviour)
-        {
-            Scene scene = monoBehaviour.gameObject.scene;
-
-            if (_sceneServiceLocators.TryGetValue(scene, out ServiceLocator serviceLocatorContainer) && serviceLocatorContainer != monoBehaviour)
-            {
-                return serviceLocatorContainer;
-            }
-
-            _tempSceneGameObjects.Clear();
-
-            scene.GetRootGameObjects(_tempSceneGameObjects);
-
-            foreach (var gameObject in _tempSceneGameObjects.Where(gameObject => gameObject.GetComponent<SceneServiceLocatorBootstrapper>() != null))
-            {
-                if (gameObject.TryGetComponent(out SceneServiceLocatorBootstrapper bootstrapper) && bootstrapper.locator != monoBehaviour)
-                {
-                    bootstrapper.BootStrapOnDemand();
-                    return bootstrapper.locator;
-                }
-            }
-
-            return global;
-        }
-
-        public void Register<T>(T service) where T : class
-        {
-            _serviceManager.Register(service);
-        }
-
-        public void Register(Type type, object service)
-        {
-            _serviceManager.Register(type, service);
+            outputService = null;
+            return false;
         }
 
         public T Get<T>() where T : class
         {
-            if (TryGetService(out T service))
+            Type type = typeof(T);
+            if (_services.TryGetValue(type, out object service))
             {
-                return service;
+                return service as T;
+            }
+            throw new ArgumentException($"Service of type {type.FullName} has not been registered.");
+        }
+
+        public void Register<T>(T service) where T : class
+        {
+            var type = typeof(T);
+            RegisterInternal(type, service);
+        }
+
+        public void Register(Type type, object service)
+        {
+            if (type.IsInstanceOfType(service) == false)
+            {
+                throw new ArgumentException($"Service {service} is not of type {type.FullName}");
             }
 
-            if (TryGetNextInHierarchy(out ServiceLocator locator))
-            {
-                return locator.Get<T>();
-            }
-
-            throw new ArgumentException($"ServiceLocator.Get: Serivce of type {typeof(T).FullName} has not been registered.");
+            RegisterInternal(type, service);
         }
 
-        bool TryGetService<T>(out T service) where T : class
+        void RegisterInternal(Type type, object service)
         {
-            return _serviceManager.TryGet(out service);
-        }
-
-        bool TryGetNextInHierarchy(out ServiceLocator locator)
-        {
-            if (this == _global)
+            if (_services.TryAdd(type, service) == false)
             {
-                locator = null;
-                return false;
-            }
-
-            locator = transform.parent?.GetComponentInParent<ServiceLocator>();
-            if (locator == null)
-            {
-                locator = ForSceneOf(this);
-            }
-
-            return locator != null;
-        }
-
-        private void OnDestroy()
-        {
-            if (_global == this)
-            {
-                _global = null;
-            } else
-            {
-                _sceneServiceLocators.Remove(gameObject.scene);
+                Debug.LogError($"Service of type {type.FullName} has already been registered.");
             }
         }
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void ResetStatics()
-        {
-            _global = null;
-            _sceneServiceLocators = new Dictionary<Scene, ServiceLocator>();
-            _tempSceneGameObjects = new List<GameObject>();
-        }
-
-#if UNITY_EDITOR
-        [MenuItem("GameObject/ServiceLocator/Add Global")]
-        static void AddGlobal()
-        {
-            var gameObject = new GameObject(_globalServiceLocatorName, typeof(GlobalServiceLocatorBootStrapper));
-        }
-
-        [MenuItem("GameObject/ServiceLocator/Add For Scene")]
-        static void AddForScene()
-        {
-            var gameObject = new GameObject(_sceneServiceLocatorName, typeof(SceneServiceLocatorBootstrapper));
-        }
-#endif
     }
 }

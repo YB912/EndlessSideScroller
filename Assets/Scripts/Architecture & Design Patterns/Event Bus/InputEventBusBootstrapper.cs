@@ -9,8 +9,7 @@ namespace DesignPatterns.EventBusPattern
     {
         public IEnumerator BootstrapCoroutine()
         {
-            var sceneServiceLocator = ServiceLocator.ForSceneOf(this);
-            sceneServiceLocator.Register(new InputEventBus());
+            ServiceLocator.instance.Register(new InputEventBus());
             yield break;
         }
     }

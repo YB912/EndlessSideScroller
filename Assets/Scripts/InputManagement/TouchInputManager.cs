@@ -1,5 +1,6 @@
 
 using DesignPatterns.ServiceLocatorPattern;
+using DesignPatterns.ObserverPattern;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,8 +13,9 @@ namespace InputManagement
         InputManager _inputManager;
         Camera _mainCamera;
 
-        public TouchInputManager()
+        internal TouchInputManager()
         {
+            currentTouchPositionInWorldObservable = new Observable<Vector3>(Vector3.zero);
 
             FetchDependencies();
             SubscribeToEvents();
@@ -21,7 +23,7 @@ namespace InputManagement
 
         private void FetchDependencies()
         {
-            _inputManager = ServiceLocator.global.Get<InputManager>();
+            _inputManager = ServiceLocator.instance.Get<InputManager>();
             _mainCamera = Camera.main;
         }
 

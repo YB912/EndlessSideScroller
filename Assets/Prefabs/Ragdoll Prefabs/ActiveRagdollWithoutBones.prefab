@@ -738,6 +738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4273265026180549263}
+  - component: {fileID: 1151083859562750974}
   m_Layer: 0
   m_Name: ActiveRagdollWithoutBones
   m_TagString: Untagged
@@ -773,6 +774,18 @@ Transform:
   - {fileID: 6122857263206813510}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1151083859562750974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2176301046843398005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b6ef4d526f5b9489d7de37e35aa0de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2185923915102005444
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,6 +799,7 @@ GameObject:
   - component: {fileID: 244360975943388225}
   - component: {fileID: 2043474957539648781}
   - component: {fileID: 387521510695662827}
+  - component: {fileID: 7620107155704460814}
   m_Layer: 6
   m_Name: Player.Back.UpperArm
   m_TagString: Untagged
@@ -962,6 +976,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.82, y: 2.81}
   m_EdgeRadius: 0
+--- !u!114 &7620107155704460814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2185923915102005444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a4150ace4cb6d64b8155541c20a53fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _backForeArmJoint: {fileID: 1289524734801875080}
 --- !u!1 &2654793800804709623
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,7 +1087,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2654793800804709623}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

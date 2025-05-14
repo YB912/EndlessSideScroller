@@ -63,12 +63,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Service Locator\ServiceLocator.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Event Bus\EventBus.cs" />
-    <Compile Include="Assets\Scripts\GrapplingClickDetector.cs" />
     <Compile Include="Assets\Scripts\InputManager.cs" />
     <Compile Include="Assets\Scripts\TouchInputManager.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Event Bus\InputEventBusBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Service Locator\SceneServiceLocatorBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Service Locator\ServiceManager.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Observer\Observable.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Service Locator\GlobalServiceLocatorBootStrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\MainSceneBootstrapper.cs" />
     <Compile Include="Assets\Input System\InputSystem_Actions.cs" />

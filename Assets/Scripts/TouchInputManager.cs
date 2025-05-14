@@ -7,15 +7,14 @@ namespace InputManagement
 {
     public class TouchInputManager
     {
-        Vector3 _currentTouchPositionInWorld; // TO DO: This needs to become an observable
+        public readonly Observable<Vector3> currentTouchPositionInWorldObservable;
 
         InputManager _inputManager;
         Camera _mainCamera;
 
-        public Vector3 currentTouchPositionInWorld => _currentTouchPositionInWorld;
-
         public TouchInputManager()
         {
+
             FetchDependencies();
             SubscribeToEvents();
         }
@@ -28,12 +27,12 @@ namespace InputManagement
 
         private void SubscribeToEvents()
         {
-            _inputManager.inputSystemActions.Player.Touch.started += UpdateCurrentTouchPositionInWorld;
+            _inputManager.inputSystemActions.Player.Touch.started += OnTouchStarted;
         }
 
-        private void UpdateCurrentTouchPositionInWorld(InputAction.CallbackContext context)
+        private void OnTouchStarted(InputAction.CallbackContext context)
         {
-            _currentTouchPositionInWorld = _mainCamera.ViewportToWorldPoint(context.ReadValue<Vector2>());
+            currentTouchPositionInWorldObservable.value = _mainCamera.ViewportToWorldPoint(context.ReadValue<Vector2>());
         }
     }
 }

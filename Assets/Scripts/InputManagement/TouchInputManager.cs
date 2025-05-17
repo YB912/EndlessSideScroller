@@ -9,6 +9,7 @@ namespace InputManagement
     public class TouchInputManager
     {
         public readonly Observable<Vector3> currentTouchPositionInWorldObservable;
+        public readonly Observable<bool> isTouchDown;
 
         InputManager _inputManager;
         Camera _mainCamera;
@@ -16,6 +17,7 @@ namespace InputManagement
         internal TouchInputManager()
         {
             currentTouchPositionInWorldObservable = new Observable<Vector3>(Vector3.zero);
+            isTouchDown = new Observable<bool>(false);
 
             FetchDependencies();
             SubscribeToEvents();
@@ -29,12 +31,20 @@ namespace InputManagement
 
         private void SubscribeToEvents()
         {
-            _inputManager.inputSystemActions.Player.Touch.started += OnTouchStarted;
+            _inputManager.inputSystemActions.Player.TouchStart.started += OnTouchStarted;
+            _inputManager.inputSystemActions.Player.TouchEnd.performed += OnTouchEnded;
         }
 
         private void OnTouchStarted(InputAction.CallbackContext context)
         {
-            currentTouchPositionInWorldObservable.value = _mainCamera.ViewportToWorldPoint(context.ReadValue<Vector2>());
+            isTouchDown.value = true;
+            var posContext = _inputManager.inputSystemActions.Player.TouchPosition.ReadValue<Vector2>();
+            currentTouchPositionInWorldObservable.value = _mainCamera.ViewportToWorldPoint(posContext);
+        }
+
+        private void OnTouchEnded(InputAction.CallbackContext context)
+        {
+            isTouchDown.value = false;
         }
     }
 }

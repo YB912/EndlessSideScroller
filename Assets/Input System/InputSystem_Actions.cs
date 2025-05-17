@@ -94,9 +94,27 @@ namespace InputManagement
             ""id"": ""6b671075-e5ad-4493-a7ce-ddae0984ae8c"",
             ""actions"": [
                 {
-                    ""name"": ""Touch"",
-                    ""type"": ""Value"",
+                    ""name"": ""TouchStart"",
+                    ""type"": ""Button"",
                     ""id"": ""10f101c0-34c3-497d-a479-f082b987be64"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TouchEnd"",
+                    ""type"": ""Button"",
+                    ""id"": ""bf2fbdcd-62c7-4b75-b7b3-02c6de8a1ca4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TouchPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""63ff453f-6045-498f-b884-6febc78b91ea"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -107,11 +125,33 @@ namespace InputManagement
                 {
                     ""name"": """",
                     ""id"": ""940cb811-0301-46f3-bfdd-06af00636d8d"",
-                    ""path"": ""<Touchscreen>/position"",
-                    ""interactions"": """",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": "";Touch"",
-                    ""action"": ""Touch"",
+                    ""action"": ""TouchStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ca82442-cf7a-4ed1-b852-8f50b02d97b6"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchEnd"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96154948-1938-4fb2-870e-71ca7f513057"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -183,7 +223,9 @@ namespace InputManagement
 }");
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-            m_Player_Touch = m_Player.FindAction("Touch", throwIfNotFound: true);
+            m_Player_TouchStart = m_Player.FindAction("TouchStart", throwIfNotFound: true);
+            m_Player_TouchEnd = m_Player.FindAction("TouchEnd", throwIfNotFound: true);
+            m_Player_TouchPosition = m_Player.FindAction("TouchPosition", throwIfNotFound: true);
         }
 
         ~@InputSystem_Actions()
@@ -264,7 +306,9 @@ namespace InputManagement
         // Player
         private readonly InputActionMap m_Player;
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-        private readonly InputAction m_Player_Touch;
+        private readonly InputAction m_Player_TouchStart;
+        private readonly InputAction m_Player_TouchEnd;
+        private readonly InputAction m_Player_TouchPosition;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -277,9 +321,17 @@ namespace InputManagement
             /// </summary>
             public PlayerActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
             /// <summary>
-            /// Provides access to the underlying input action "Player/Touch".
+            /// Provides access to the underlying input action "Player/TouchStart".
             /// </summary>
-            public InputAction @Touch => m_Wrapper.m_Player_Touch;
+            public InputAction @TouchStart => m_Wrapper.m_Player_TouchStart;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/TouchEnd".
+            /// </summary>
+            public InputAction @TouchEnd => m_Wrapper.m_Player_TouchEnd;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/TouchPosition".
+            /// </summary>
+            public InputAction @TouchPosition => m_Wrapper.m_Player_TouchPosition;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -306,9 +358,15 @@ namespace InputManagement
             {
                 if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-                @Touch.started += instance.OnTouch;
-                @Touch.performed += instance.OnTouch;
-                @Touch.canceled += instance.OnTouch;
+                @TouchStart.started += instance.OnTouchStart;
+                @TouchStart.performed += instance.OnTouchStart;
+                @TouchStart.canceled += instance.OnTouchStart;
+                @TouchEnd.started += instance.OnTouchEnd;
+                @TouchEnd.performed += instance.OnTouchEnd;
+                @TouchEnd.canceled += instance.OnTouchEnd;
+                @TouchPosition.started += instance.OnTouchPosition;
+                @TouchPosition.performed += instance.OnTouchPosition;
+                @TouchPosition.canceled += instance.OnTouchPosition;
             }
 
             /// <summary>
@@ -320,9 +378,15 @@ namespace InputManagement
             /// <seealso cref="PlayerActions" />
             private void UnregisterCallbacks(IPlayerActions instance)
             {
-                @Touch.started -= instance.OnTouch;
-                @Touch.performed -= instance.OnTouch;
-                @Touch.canceled -= instance.OnTouch;
+                @TouchStart.started -= instance.OnTouchStart;
+                @TouchStart.performed -= instance.OnTouchStart;
+                @TouchStart.canceled -= instance.OnTouchStart;
+                @TouchEnd.started -= instance.OnTouchEnd;
+                @TouchEnd.performed -= instance.OnTouchEnd;
+                @TouchEnd.canceled -= instance.OnTouchEnd;
+                @TouchPosition.started -= instance.OnTouchPosition;
+                @TouchPosition.performed -= instance.OnTouchPosition;
+                @TouchPosition.canceled -= instance.OnTouchPosition;
             }
 
             /// <summary>
@@ -429,12 +493,26 @@ namespace InputManagement
         public interface IPlayerActions
         {
             /// <summary>
-            /// Method invoked when associated input action "Touch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "TouchStart" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnTouch(InputAction.CallbackContext context);
+            void OnTouchStart(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "TouchEnd" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnTouchEnd(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "TouchPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnTouchPosition(InputAction.CallbackContext context);
         }
     }
 }

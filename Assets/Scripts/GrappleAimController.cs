@@ -19,11 +19,17 @@ public class GrappleAimController : MonoBehaviour, IInitializeable
     {
         _touchInputManager = ServiceLocator.instance.Get<TouchInputManager>();
         _touchInputManager.currentTouchPositionInWorldObservable.AddListener(OnTouchPositionChanged);
+        _touchInputManager.isTouchDown.AddListener(OnTouchToggled);
         Debug.Log($"GrappleAimController.Initialize");
     }
 
     private void OnTouchPositionChanged(Vector3 newPosition)
     {
         Debug.Log($"GrappleAimController.OnTouchPositionChanged: {newPosition}");
+    }
+
+    private void OnTouchToggled(bool isTouchDown)
+    {
+        Debug.Log($"GrappleAimController.OnTouchToggled: {isTouchDown}");
     }
 }

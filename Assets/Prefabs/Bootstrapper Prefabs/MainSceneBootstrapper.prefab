@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _modulesToBootstrapAtAwake:
   - {fileID: 8467743250525602801}
+  - {fileID: 4588220288842173419}
   - {fileID: 8952996580884126993}
 --- !u!1001 &1677323227337137002
 PrefabInstance:
@@ -112,6 +113,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2569081297845814786, guid: d361453a669ba2b4c8c29135f4333ef2, type: 3}
   m_PrefabInstance: {fileID: 1677323227337137002}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4588220288842173419 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2948642373352853633, guid: d361453a669ba2b4c8c29135f4333ef2, type: 3}
+  m_PrefabInstance: {fileID: 1677323227337137002}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2100271261547934996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -160,6 +166,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 376222179371228306, guid: dfe8747d6235fe74585364503d972a0e, type: 3}
+      propertyPath: _ragdollPrefab
+      value: 
+      objectReference: {fileID: 4471488005314565575, guid: 095ec3a894f78f142abc4d43af2082e4, type: 3}
     - target: {fileID: 6997124191076231173, guid: dfe8747d6235fe74585364503d972a0e, type: 3}
       propertyPath: m_Name
       value: PlayerRagdollBootstrapper

@@ -988,6 +988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4150ace4cb6d64b8155541c20a53fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 2176301046843398005}
   _backForeArmJoint: {fileID: 1289524734801875080}
 --- !u!1 &2654793800804709623
 GameObject:

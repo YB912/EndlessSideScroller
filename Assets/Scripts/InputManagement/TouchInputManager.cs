@@ -14,6 +14,8 @@ namespace InputManagement
         InputManager _inputManager;
         Camera _mainCamera;
 
+        float _cameraZ;
+
         internal TouchInputManager()
         {
             currentTouchPositionInWorldObservable = new Observable<Vector3>(Vector3.zero);
@@ -27,19 +29,27 @@ namespace InputManagement
         {
             _inputManager = ServiceLocator.instance.Get<InputManager>();
             _mainCamera = Camera.main;
+            _cameraZ = _mainCamera.transform.position.z;
         }
 
         private void SubscribeToEvents()
         {
             _inputManager.inputSystemActions.Player.TouchStart.started += OnTouchStarted;
+            _inputManager.inputSystemActions.Player.TouchPosition.performed += OnTouchPositionPerformed;
             _inputManager.inputSystemActions.Player.TouchEnd.performed += OnTouchEnded;
         }
 
         private void OnTouchStarted(InputAction.CallbackContext context)
         {
             isTouchDown.value = true;
-            var posContext = _inputManager.inputSystemActions.Player.TouchPosition.ReadValue<Vector2>();
-            currentTouchPositionInWorldObservable.value = _mainCamera.ViewportToWorldPoint(posContext);
+        }
+
+        private void OnTouchPositionPerformed(InputAction.CallbackContext context)
+        {
+            var posContext = context.ReadValue<Vector2>();
+            var newWorldPos = _mainCamera.ScreenToWorldPoint(posContext);
+            newWorldPos.z = _cameraZ;
+            currentTouchPositionInWorldObservable.value = newWorldPos;
         }
 
         private void OnTouchEnded(InputAction.CallbackContext context)

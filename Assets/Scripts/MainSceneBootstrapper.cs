@@ -6,12 +6,12 @@ public class MainSceneBootstrapper : MonoBehaviour
 {
     [SerializeField] GameObject[] _modulesToBootstrapAtAwake;
 
-    private void Awake()
+    void Awake()
     {
         StartCoroutine(BootstrapModulesAsync());
     }
 
-    private IEnumerator BootstrapModulesAsync()
+    IEnumerator BootstrapModulesAsync()
     {
         foreach (var module in _modulesToBootstrapAtAwake)
         {

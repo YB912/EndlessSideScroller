@@ -227,6 +227,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ActiveRagdollWithArmBones
       objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: -7622575119612384974, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -249,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 25.14
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -483,7 +487,13 @@ PrefabInstance:
       addedObject: {fileID: 1256947575990181935}
     - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2162347695371044535}
+      addedObject: {fileID: 4909856405641418163}
+    - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4358812854491695356}
+    - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8129899251550903248}
     - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3297983055413508233}
@@ -1056,7 +1066,30 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
   m_PrefabInstance: {fileID: 8856798449174816539}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2162347695371044535
+--- !u!114 &4909856405641418163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980145413510535865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e965cdc2af940f941880f4d647200974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _commonDependencies:
+    effectorTransform: {fileID: 2146673858378038686}
+  _aimDependencies:
+    IKManager: {fileID: 7529450375515982238}
+    IKTargetTransform: {fileID: 2693220998924326774}
+    aimMovementDuration: 0.3
+    minimumAimDistance: 15
+  _ropeDependencies:
+    ropeSegmentPrefab: {fileID: 1371022108987316997, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
+    forearmRigidbody: {fileID: 8098792871055524773}
+    segmentCreationInterval: 0.001
+--- !u!114 &4358812854491695356
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1068,10 +1101,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4150ace4cb6d64b8155541c20a53fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _IKManager: {fileID: 7529450375515982238}
-  _IKTargetTransform: {fileID: 2693220998924326774}
-  _effectorTransform: {fileID: 2146673858378038686}
-  _aimMovementDuration: 0.1
+--- !u!114 &8129899251550903248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980145413510535865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c2af249e7a71cf48bbb6c334f1a3775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &3297983055413508233
 Rigidbody2D:
   serializedVersion: 5
@@ -1782,7 +1823,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7830174050504884105}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

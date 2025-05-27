@@ -15,7 +15,7 @@ namespace DesignPatterns.EventBusPattern
 
         public void Publish<T>()
         {
-            GetOrCreateEvent<T>().Invoke();
+            GetOrCreateEvent<T>()?.Invoke();
         }
 
         public void Subscribe<T>(UnityAction handler)
@@ -28,30 +28,22 @@ namespace DesignPatterns.EventBusPattern
             GetOrCreateEvent<T>().RemoveListener(handler);
         }
 
-        private UnityEvent GetOrCreateEvent<T>()
+        UnityEvent GetOrCreateEvent<T>()
         {
             var eventType = typeof(T);
-            if (_events.TryGetValue(eventType, out var unityEvent) == false)
-            {
-                _events.Add(eventType, RegisterEvent(eventType));
-            }
-            return unityEvent;
-        }
 
-        private UnityEvent RegisterEvent(Type eventType)
-        {
-            if (_events.ContainsKey(eventType) == false)
+            if (_events.TryGetValue(eventType, out var unityEvent))
             {
-                var unityEvent = new UnityEvent();
-                _events.Add(eventType, unityEvent);
                 return unityEvent;
             }
-            else
-            {
-                throw new ArgumentException($"EventBus.RegisterEvent: Event of type {eventType} has already been registered.");
-            }
+
+            var newEvent = new UnityEvent();
+            _events.Add(eventType, newEvent);
+            return newEvent;
         }
     }
 
     public class InputEventBus : EventBus { }
+
+    public class GrapplingEventBus : EventBus { }
 }

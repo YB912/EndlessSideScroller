@@ -1884,7 +1884,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0.5}
-  m_ConnectedAnchor: {x: 0, y: -0.54000026}
+  m_ConnectedAnchor: {x: 0, y: -1.6200008}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -2052,14 +2052,6 @@ PrefabInstance:
     - target: {fileID: 4149276513499433309, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4293534871948073596, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
-      propertyPath: m_ConnectedAnchor.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4293534871948073596, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
-      propertyPath: m_ConnectedAnchor.y
-      value: -0.5166664
       objectReference: {fileID: 0}
     - target: {fileID: 4293534871948073596, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
       propertyPath: m_ConnectedRigidBody

@@ -73,7 +73,8 @@ namespace Mechanics.Grappling
                 var segment = CreateRopeSegment();
                 if (IsFirstSegmentCreated())
                 {
-                    _ropeSegments.Last().joint.connectedBody = segment.rigidBody;
+                    _ropeSegments.Last().hingeJoint.connectedBody = segment.rigidBody;
+                    _ropeSegments.Last().distanceJoint.connectedBody = segment.rigidBody;
                 }
                 else
                 {
@@ -99,7 +100,7 @@ namespace Mechanics.Grappling
         {
             if (_ropeSegments.Any())
             {
-                return _ropeSegments.Last().joint.connectedAnchor;
+                return _ropeSegments.Last().hingeJoint.connectedAnchor;
             }
             return _handTransform.position;
         }
@@ -111,17 +112,19 @@ namespace Mechanics.Grappling
 
         float GetSegmentMass()
         {
-            if (IsFirstSegmentCreated())
-            {
-                return _ropeSegments.Last().rigidBody.mass + 0.1f;
-            }
+            //if (IsFirstSegmentCreated())
+            //{
+            //    return _ropeSegments.Last().rigidBody.mass + 0.1f;
+            //}
             return 2;
         }
 
         void SetupFirstSegment(RopeSegmentController segment)
         {
-            var jointToHand = segment.AddComponent<HingeJoint2D>();
-            jointToHand.connectedBody = _forearmRigidbody;
+            var hingeJointToHand = segment.AddComponent<HingeJoint2D>();
+            var distanceJointToHand = segment.AddComponent<DistanceJoint2D>();
+            hingeJointToHand.connectedBody = _forearmRigidbody;
+            distanceJointToHand.connectedBody = _forearmRigidbody;
         }
 
         bool IsFirstSegmentCreated()

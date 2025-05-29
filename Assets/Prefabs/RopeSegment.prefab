@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8352091381676005079}
   - component: {fileID: 5830889260302764546}
   - component: {fileID: 4293534871948073596}
+  - component: {fileID: 8473272896127694230}
   - component: {fileID: 1334691694098016477}
   m_Layer: 7
   m_Name: RopeSegment
@@ -147,7 +148,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 2.9}
-  m_ConnectedAnchor: {x: 67.6, y: 34.600006}
+  m_ConnectedAnchor: {x: 0, y: 2.9}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -157,6 +158,26 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: -60
     m_UpperAngle: 60
+--- !u!232 &8473272896127694230
+DistanceJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371022108987316997}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 2.9}
+  m_ConnectedAnchor: {x: 0, y: 2.9}
+  m_AutoConfigureDistance: 0
+  m_Distance: 0.005
+  m_MaxDistanceOnly: 0
 --- !u!61 &1334691694098016477
 BoxCollider2D:
   m_ObjectHideFlags: 0

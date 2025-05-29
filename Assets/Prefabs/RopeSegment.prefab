@@ -146,17 +146,17 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0, y: 1.5}
-  m_ConnectedAnchor: {x: 0, y: -0.5166664}
+  m_Anchor: {x: 0, y: 2.9}
+  m_ConnectedAnchor: {x: 67.6, y: 34.600006}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
     m_MaximumMotorForce: 10000
-  m_UseLimits: 0
+  m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 359
+    m_LowerAngle: -60
+    m_UpperAngle: 60
 --- !u!61 &1334691694098016477
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -191,10 +191,10 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.75, y: 3}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -230,7 +230,7 @@ Transform:
   m_GameObject: {fileID: 2327245165454326435}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5750008, z: 0}
+  m_LocalPosition: {x: 0, y: 3.074997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

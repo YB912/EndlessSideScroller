@@ -49,6 +49,6 @@ namespace Mechanics.Grappling
     {
         public GameObject ropeSegmentPrefab;
         public Rigidbody2D forearmRigidbody;
-        [Range(0f, 0.1f)] public float segmentCreationInterval;
+        public int segmentCountLimit;
     }
 }

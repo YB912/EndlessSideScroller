@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\MainSceneBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Player\Grappling\GrapplingRopeController.cs" />
     <Compile Include="Assets\Scripts\Player\Grappling\RopeSegmentController.cs" />
+    <Compile Include="Assets\Scripts\Utility\Utility.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Observer\Observable.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerRagdollBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Custom Events\GrapplingEvents.cs" />
@@ -90,7 +91,6 @@
     <Compile Include="Assets\Input System\InputSystem_Actions.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleSprite.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Object Pool\ObjectPoolManager.cs" />
-    <Compile Include="Assets\Scripts\Player\Grappling\RopeSegmentSurfaceDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Other Packages\DOTween\readme.txt" />

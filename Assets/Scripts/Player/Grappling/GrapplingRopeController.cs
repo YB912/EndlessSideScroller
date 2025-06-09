@@ -3,12 +3,10 @@ using DesignPatterns.EventBusPattern;
 using DesignPatterns.ObjectPool;
 using DesignPatterns.ServiceLocatorPattern;
 using InputManagement;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 namespace Mechanics.Grappling
 {
@@ -16,31 +14,38 @@ namespace Mechanics.Grappling
     {
         GameObject _ropeSegmentPrefab;
         Rigidbody2D _forearmRigidbody;
-        float _segmentCreationInterval;
+        int _segmentCountLimit;
 
         List<RopeSegmentController> _ropeSegments = new();
         Transform _ropeSegmentsHolder;
         Transform _handTransform;
 
+        ObjectPoolManager _objectPool;
         GrapplingEventBus _grapplingEventBus;
         TouchInputManager _touchInputManager;
-        bool _grapplerAttached;
+        RopeSegmentController _currentSegment;
+        int _wallLayerInBitMap;
+        float _targetRopeLength;
+        float _segmentLength;
+        int _targetSegementsCount;
 
-        ObjectPoolManager _objectPool;
+        const string WALL_LAYER_NAME = "Wall";
+        float _raycastDistance = 500;
 
         internal void Initialize(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
         {
             FetchDependencies(ropeDependencies, commonDependencies);
             _grapplingEventBus.Subscribe<GrapplerAimedEvent>(OnGrapplerAimed);
-            _grapplingEventBus.Subscribe<GrapplerAttachedToSurfaceEvent>(OnGrapplerAttachedToSurface);
             _touchInputManager.isTouchDown.AddListener(OnTouchToggled);
+            _wallLayerInBitMap = Utility.LayerNameToBitMap(WALL_LAYER_NAME);
+            _segmentLength = _ropeSegmentPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
         }
 
         void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
         {
             _ropeSegmentPrefab = ropeDependencies.ropeSegmentPrefab;
             _forearmRigidbody = ropeDependencies.forearmRigidbody;
-            _segmentCreationInterval = ropeDependencies.segmentCreationInterval;
+            _segmentCountLimit = ropeDependencies.segmentCountLimit;
             _handTransform = commonDependencies.effectorTransform;
             _ropeSegmentsHolder = new GameObject("RopeSegmentsHolder").transform;
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
@@ -50,12 +55,7 @@ namespace Mechanics.Grappling
 
         void OnGrapplerAimed()
         {
-            StartCoroutine(CreateRope());
-        }
-
-        void OnGrapplerAttachedToSurface()
-        {
-            _grapplerAttached = true;
+            CreateRope();
         }
 
         void OnTouchToggled(bool isTouchDown)
@@ -66,26 +66,44 @@ namespace Mechanics.Grappling
             }
         }
 
-        IEnumerator CreateRope()
+        void CreateRope()
         {
-            while (_grapplerAttached == false)
+            CalculateTargetRopeLength();
+            CalculateTargetSegmentsCount();
+            for (var i = 0; i < _targetSegementsCount; i++)
             {
-                var segment = CreateRopeSegment();
-                if (IsFirstSegmentCreated())
+                CreateRopeSegment();
+                if (i == 0)
                 {
-                    _ropeSegments.Last().hingeJoint.connectedBody = segment.rigidBody;
-                    _ropeSegments.Last().distanceJoint.connectedBody = segment.rigidBody;
+                    SetupFirstSegmentJoints();
                 }
                 else
                 {
-                    SetupFirstSegment(segment);
+                    SetupNonFirstSegmentJoints();
                 }
-                _ropeSegments.Add(segment);
-                yield return new WaitForSeconds(_segmentCreationInterval);
+                _ropeSegments.Add(_currentSegment);
             }
+            _grapplingEventBus.Publish<GrapplerAttachedToSurfaceEvent>();
+            _currentSegment.SetAsAttachmentSegment();
         }
 
-        RopeSegmentController CreateRopeSegment()
+        void CalculateTargetRopeLength()
+        {
+            _targetRopeLength = Physics2D.Raycast(_handTransform.position, _forearmRigidbody.transform.right, _raycastDistance, _wallLayerInBitMap).distance;
+        }
+
+        void CalculateTargetSegmentsCount()
+        {
+            _targetSegementsCount = Mathf.CeilToInt(_targetRopeLength / _segmentLength);
+            _targetSegementsCount = Mathf.Min(_targetSegementsCount, _segmentCountLimit);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawRay(_handTransform.position, _forearmRigidbody.transform.right * _raycastDistance);
+        }
+
+        void CreateRopeSegment()
         {
             var position = GetSegmentPosition();
             var rotation = GetSegmentRotation();
@@ -93,7 +111,7 @@ namespace Mechanics.Grappling
             var segment = _objectPool.TakeFromPool(_ropeSegmentPrefab, position, rotation, _ropeSegmentsHolder).
                 GetComponent<RopeSegmentController>();
             segment.rigidBody.mass = mass;
-            return segment;
+            _currentSegment = segment;
         }
 
         Vector2 GetSegmentPosition()
@@ -112,24 +130,27 @@ namespace Mechanics.Grappling
 
         float GetSegmentMass()
         {
-            //if (IsFirstSegmentCreated())
-            //{
-            //    return _ropeSegments.Last().rigidBody.mass + 0.1f;
-            //}
-            return 2;
+            return 5; // To be cleaned further
         }
 
-        void SetupFirstSegment(RopeSegmentController segment)
+        void SetupFirstSegmentJoints()
         {
-            var hingeJointToHand = segment.AddComponent<HingeJoint2D>();
-            var distanceJointToHand = segment.AddComponent<DistanceJoint2D>();
+            var hingeJointToHand = _currentSegment.AddComponent<HingeJoint2D>();
             hingeJointToHand.connectedBody = _forearmRigidbody;
+
+            var distanceJointToHand = _currentSegment.AddComponent<DistanceJoint2D>();
             distanceJointToHand.connectedBody = _forearmRigidbody;
+            distanceJointToHand.distance = 0;
+            distanceJointToHand.autoConfigureConnectedAnchor = true;
+            distanceJointToHand.autoConfigureDistance = false;
+            distanceJointToHand.maxDistanceOnly = true;
         }
 
-        bool IsFirstSegmentCreated()
+        void SetupNonFirstSegmentJoints()
         {
-            return _ropeSegments.Any();
+            var previousSegment = _ropeSegments.Last();
+            previousSegment.hingeJoint.connectedBody = _currentSegment.rigidBody;
+            previousSegment.distanceJoint.connectedBody = _currentSegment.rigidBody;
         }
     }
 }

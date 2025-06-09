@@ -19,6 +19,8 @@ namespace Mechanics.Grappling
         float _minimumAimDistance;
 
         TouchInputManager _touchInputManager;
+        InputEventBus _inputEventBus;
+        GrapplingEventBus _grapplingEventBus;
         HingeJoint2D _forearmJoint;
 
         Vector3 _currentAimPosition;
@@ -28,7 +30,7 @@ namespace Mechanics.Grappling
         internal void Initialize(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
         {
             FetchDependencies(aimDependencies, commonDependencies);
-            AddObservableListeners();
+            SetupEventHandlers();
             _forearmJointLimitRange = _forearmJoint.limits.max - _forearmJoint.limits.min;
             DisableIK();
         }
@@ -37,30 +39,31 @@ namespace Mechanics.Grappling
         {
             _IKManager = aimDependencies.IKManager;
             _IKTargetTransform = aimDependencies.IKTargetTransform;
-            _effectorTransform = commonDependencies.effectorTransform;
             _aimMovementDuration = aimDependencies.aimMovementDuration;
             _minimumAimDistance = aimDependencies.minimumAimDistance;
+            _effectorTransform = commonDependencies.effectorTransform;
             _touchInputManager = ServiceLocator.instance.Get<TouchInputManager>();
+            _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
+            _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
             _forearmJoint = transform.GetChild(0).GetComponent<HingeJoint2D>();
         }
 
-        void AddObservableListeners()
+        void SetupEventHandlers()
         {
             _touchInputManager.currentTouchPositionInWorldObservable.AddListener(OnTouchPositionChanged);
-            _touchInputManager.isTouchDown.AddListener(OnTouchToggled);
-            ServiceLocator.instance.Get<GrapplingEventBus>().Subscribe<GrapplerAttachedToSurfaceEvent>(DisableIK);
+            _inputEventBus.Subscribe<TouchStartedEvent>(OnTouchStarted);
+            _inputEventBus.Subscribe<TouchEndedEvent>(OnTouchEnded);
+            _grapplingEventBus.Subscribe<GrapplerAttachedToSurfaceEvent>(DisableIK);
         }
 
-        void OnTouchToggled(bool isTouchDown)
+        void OnTouchStarted()
         {
-            if (isTouchDown)
-            {
-                StartCoroutine(WaitForTouchPositionAndAimCoroutine());
-            }
-            else
-            {
-                DisableIK();
-            }
+            StartCoroutine(WaitForTouchPositionAndAimCoroutine());
+        }
+
+        void OnTouchEnded()
+        {
+            DisableIK();
         }
 
         IEnumerator WaitForTouchPositionAndAimCoroutine()

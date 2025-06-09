@@ -3,15 +3,16 @@ using DesignPatterns.ServiceLocatorPattern;
 using DesignPatterns.ObserverPattern;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DesignPatterns.EventBusPattern;
 
 namespace InputManagement
 {
     public class TouchInputManager
     {
         public readonly Observable<Vector3> currentTouchPositionInWorldObservable;
-        public readonly Observable<bool> isTouchDown;
 
         InputManager _inputManager;
+        InputEventBus _inputEventBus;
         Camera _mainCamera;
 
         float _cameraZ;
@@ -19,7 +20,6 @@ namespace InputManagement
         internal TouchInputManager()
         {
             currentTouchPositionInWorldObservable = new Observable<Vector3>(Vector3.zero);
-            isTouchDown = new Observable<bool>(false);
 
             FetchDependencies();
             SubscribeToEvents();
@@ -28,6 +28,7 @@ namespace InputManagement
         private void FetchDependencies()
         {
             _inputManager = ServiceLocator.instance.Get<InputManager>();
+            _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
             _mainCamera = Camera.main;
             _cameraZ = _mainCamera.transform.position.z;
         }
@@ -41,7 +42,7 @@ namespace InputManagement
 
         private void OnTouchStarted(InputAction.CallbackContext context)
         {
-            isTouchDown.value = true;
+            _inputEventBus.Publish<TouchStartedEvent>();
         }
 
         private void OnTouchPositionPerformed(InputAction.CallbackContext context)
@@ -54,7 +55,7 @@ namespace InputManagement
 
         private void OnTouchEnded(InputAction.CallbackContext context)
         {
-            isTouchDown.value = false;
+            _inputEventBus.Publish<TouchEndedEvent>();
         }
     }
 }

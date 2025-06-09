@@ -496,6 +496,9 @@ PrefabInstance:
       addedObject: {fileID: 8129899251550903248}
     - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 3677589316379349262}
+    - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3297983055413508233}
     - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
@@ -1106,6 +1109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _commonDependencies:
     effectorTransform: {fileID: 2146673858378038686}
+    forearmRigidbody: {fileID: 8098792871055524773}
   _aimDependencies:
     IKManager: {fileID: 7529450375515982238}
     IKTargetTransform: {fileID: 2693220998924326774}
@@ -1113,7 +1117,6 @@ MonoBehaviour:
     minimumAimDistance: 15
   _ropeDependencies:
     ropeSegmentPrefab: {fileID: 1371022108987316997, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
-    forearmRigidbody: {fileID: 8098792871055524773}
     segmentCountLimit: 30
 --- !u!114 &4358812854491695356
 MonoBehaviour:
@@ -1137,6 +1140,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c2af249e7a71cf48bbb6c334f1a3775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3677589316379349262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980145413510535865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 617fe5dc973daaf4593685bfbff21bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &3297983055413508233

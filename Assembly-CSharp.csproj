@@ -76,7 +76,9 @@
     <Compile Include="Assets\Scripts\Player\Grappling\GrapplingAimController.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns\Event Bus\InputEventBusBootstrapper.cs" />
     <Compile Include="Assets\Scripts\InputManagement\TouchInputManager.cs" />
+    <Compile Include="Assets\Scripts\Player\Grappling\RopeCreator.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModulePhysics.cs" />
+    <Compile Include="Assets\Scripts\Custom Events\InputEvents.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInitializer.cs" />
     <Compile Include="Assets\Scripts\MainSceneBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Player\Grappling\GrapplingRopeController.cs" />

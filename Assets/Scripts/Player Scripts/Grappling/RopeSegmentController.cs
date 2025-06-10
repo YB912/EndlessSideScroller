@@ -1,7 +1,5 @@
 
 using UnityEngine;
-using DesignPatterns.ServiceLocatorPattern;
-using DesignPatterns.EventBusPattern;
 
 namespace Mechanics.Grappling
 {

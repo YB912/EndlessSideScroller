@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MainSceneBootstrapper : MonoBehaviour
 {
-    [SerializeField] GameObject[] _modulesToBootstrapAtAwake;
-
     void Awake()
     {
         StartCoroutine(BootstrapModulesAsync());
@@ -13,17 +11,12 @@ public class MainSceneBootstrapper : MonoBehaviour
 
     IEnumerator BootstrapModulesAsync()
     {
-        foreach (var module in _modulesToBootstrapAtAwake)
+        foreach (Transform module in transform)
         {
-            if (module == null)
-            {
-                Debug.LogError($"MainSceneBootstrapper.CentralBootstrapCoroutine: Null reference found in {nameof(_modulesToBootstrapAtAwake)}");
-                continue;
-            }
             var bootstrappableComponents = module.GetComponents<ISceneBootstrappable>();
             if (bootstrappableComponents.Length == 0)
             {
-                Debug.LogError($"MainSceneBootstrapper.CentralBootstrapCoroutine: There are no ISceneBootstrappable components on {module.name}");
+                Debug.LogError($"MainSceneBootstrapper.BootstrapModulesAsync: There are no ISceneBootstrappable components on {module.name}");
             }
             foreach (var bootstrappableComponent in bootstrappableComponents)
             {

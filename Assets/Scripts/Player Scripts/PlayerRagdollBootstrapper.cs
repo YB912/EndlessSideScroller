@@ -1,3 +1,4 @@
+using DesignPatterns.ServiceLocatorPattern;
 using System.Collections;
 using UnityEngine;
 
@@ -11,7 +12,9 @@ public class PlayerRagdollBootstrapper : MonoBehaviour, ISceneBootstrappable
     {
         var ragdoll = Instantiate(_ragdollPrefab);
         ragdoll.name = PLAYER_GAMEOBJECT_NAME;
-        ragdoll.GetComponent<IInitializeable>().Initialize();
+        var playerController = ragdoll.GetComponent<PlayerController>();
+        ServiceLocator.instance.Register(playerController);
+        playerController.Initialize();
         yield break;
     }
 }

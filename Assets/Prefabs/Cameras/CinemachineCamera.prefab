@@ -94,10 +94,10 @@ MonoBehaviour:
     ScreenPosition: {x: 0, y: 0}
     DeadZone:
       Enabled: 1
-      Size: {x: 0.1, y: 0}
+      Size: {x: 0, y: 2}
     HardLimits:
       Enabled: 1
-      Size: {x: 0.6, y: 0.2}
+      Size: {x: 0.1, y: 2}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 0, z: 0}
@@ -105,5 +105,5 @@ MonoBehaviour:
   Lookahead:
     Enabled: 1
     Time: 0.1
-    Smoothing: 0
+    Smoothing: 10.7
     IgnoreY: 1

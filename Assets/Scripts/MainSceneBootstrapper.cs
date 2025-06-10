@@ -13,6 +13,7 @@ public class MainSceneBootstrapper : MonoBehaviour
     {
         foreach (Transform module in transform)
         {
+            if (module.gameObject.activeInHierarchy == false) { continue; }
             var bootstrappableComponents = module.GetComponents<ISceneBootstrappable>();
             if (bootstrappableComponents.Length == 0)
             {

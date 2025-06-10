@@ -40,8 +40,8 @@ namespace Mechanics.Grappling
         void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
         {
             _ropeSegmentPrefab = ropeDependencies.ropeSegmentPrefab;
+            _forearmRigidbody = ropeDependencies.forearmRigidbody;
             _segmentCountLimit = ropeDependencies.segmentCountLimit;
-            _forearmRigidbody = commonDependencies.forearmRigidbody;
             _handTransform = commonDependencies.effectorTransform;
             _ropeSegmentsHolder = new GameObject("RopeSegmentsHolder").transform;
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
@@ -56,11 +56,7 @@ namespace Mechanics.Grappling
             for (var i = 0; i < _targetSegementsCount; i++)
             {
                 CreateRopeSegment();
-                if (i == 0)
-                {
-                    SetupFirstSegmentJoints();
-                }
-                else
+                if (i != 0)
                 {
                     SetupNonFirstSegmentJoints();
                 }
@@ -110,19 +106,6 @@ namespace Mechanics.Grappling
         float GetSegmentMass()
         {
             return 5; // To be cleaned further
-        }
-
-        void SetupFirstSegmentJoints()
-        {
-            var hingeJointToHand = _currentSegment.gameObject.AddComponent<HingeJoint2D>();
-            hingeJointToHand.connectedBody = _forearmRigidbody;
-
-            var distanceJointToHand = _currentSegment.gameObject.AddComponent<DistanceJoint2D>();
-            distanceJointToHand.connectedBody = _forearmRigidbody;
-            distanceJointToHand.distance = 0;
-            distanceJointToHand.autoConfigureConnectedAnchor = true;
-            distanceJointToHand.autoConfigureDistance = false;
-            distanceJointToHand.maxDistanceOnly = true;
         }
 
         void SetupNonFirstSegmentJoints()

@@ -34,7 +34,6 @@ namespace Mechanics.Grappling
     internal class CommonGrapplingDependencies
     {
         public Transform effectorTransform;
-        public Rigidbody2D forearmRigidbody;
     }
 
     [System.Serializable]
@@ -50,6 +49,7 @@ namespace Mechanics.Grappling
     internal class GrapplingRopeDependencies
     {
         public GameObject ropeSegmentPrefab;
+        public Rigidbody2D forearmRigidbody;
         public int segmentCountLimit;
     }
 }

@@ -521,6 +521,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8161142440266185364, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8161853114812768331}
+    - targetCorrespondingSourceObject: {fileID: 8161142440266185364, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4288624652243253012}
+    - targetCorrespondingSourceObject: {fileID: 8161142440266185364, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7407039007832326048}
     - targetCorrespondingSourceObject: {fileID: 4279131060698544000, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3360573406487567352}
@@ -868,8 +874,54 @@ DistanceJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 2.7843766, y: 0.00000065192575}
   m_AutoConfigureDistance: 0
+  m_Distance: 0.005
+  m_MaxDistanceOnly: 0
+--- !u!233 &4288624652243253012
+HingeJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840933486576901519}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 2.79, y: 0}
+  m_ConnectedAnchor: {x: -93.54713, y: 36.910995}
+  m_UseConnectedAnchor: 1
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 1
+  m_AngleLimits:
+    m_LowerAngle: -60
+    m_UpperAngle: 60
+--- !u!232 &7407039007832326048
+DistanceJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840933486576901519}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 2.79, y: 0}
+  m_ConnectedAnchor: {x: -93.54713, y: 36.910995}
+  m_AutoConfigureDistance: 1
   m_Distance: 0.005
   m_MaxDistanceOnly: 0
 --- !u!1 &854933166957111476 stripped
@@ -1109,7 +1161,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _commonDependencies:
     effectorTransform: {fileID: 2146673858378038686}
-    forearmRigidbody: {fileID: 8098792871055524773}
   _aimDependencies:
     IKManager: {fileID: 7529450375515982238}
     IKTargetTransform: {fileID: 2693220998924326774}
@@ -1117,6 +1168,7 @@ MonoBehaviour:
     minimumAimDistance: 15
   _ropeDependencies:
     ropeSegmentPrefab: {fileID: 1371022108987316997, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
+    forearmRigidbody: {fileID: 8098792871055524773}
     segmentCountLimit: 30
 --- !u!114 &4358812854491695356
 MonoBehaviour:

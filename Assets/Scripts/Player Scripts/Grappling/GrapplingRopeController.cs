@@ -13,32 +13,12 @@ namespace Mechanics.Grappling
         List<RopeSegmentController> _currentRope;
 
         RopeCreator _ropeCreator;
-        GrapplingEventBus _grapplingEventBus;
-        InputEventBus _inputEventBus;
 
         GameObject _foreArm;
         HingeJoint2D _hingeJointToRope;
         DistanceJoint2D _distanceJointToRope;
 
-        internal void Initialize(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
-        {
-            FetchDependencies(ropeDependencies, commonDependencies);
-            _ropeCreator.Initialize(ropeDependencies, commonDependencies);
-            _grapplingEventBus.Subscribe<GrapplerAimedEvent>(OnGrapplerAimed);
-            _inputEventBus.Subscribe<TouchEndedEvent>(OnTouchEnded);
-        }
-
-        void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
-        {
-            _ropeCreator = GetComponent<RopeCreator>();
-            _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
-            _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
-            _foreArm = ropeDependencies.forearmRigidbody.gameObject;
-            _hingeJointToRope = _foreArm.GetComponents<HingeJoint2D>()[1];
-            _distanceJointToRope = _foreArm.GetComponents<DistanceJoint2D>()[1];
-        }
-
-        void OnGrapplerAimed()
+        public void StartGrappling()
         {
             var newRope = _ropeCreator.CreateRope();
             _currentRope = newRope;
@@ -46,9 +26,23 @@ namespace Mechanics.Grappling
             _ropes.Add(newRope);
         }
 
-        void OnTouchEnded()
+        public void EndGrappling()
         {
             DetatchRopeEndFromHand();
+        }
+
+        internal void Initialize(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
+        {
+            FetchDependencies(ropeDependencies, commonDependencies);
+            _ropeCreator.Initialize(ropeDependencies, commonDependencies);
+        }
+
+        void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
+        {
+            _ropeCreator = GetComponent<RopeCreator>();
+            _foreArm = ropeDependencies.forearmRigidbody.gameObject;
+            _hingeJointToRope = _foreArm.GetComponents<HingeJoint2D>()[1];
+            _distanceJointToRope = _foreArm.GetComponents<DistanceJoint2D>()[1];
         }
 
         void AttachRopeEndToHand()

@@ -19,13 +19,22 @@ namespace Mechanics.Grappling
         float _minimumAimDistance;
 
         TouchInputManager _touchInputManager;
-        InputEventBus _inputEventBus;
         GrapplingEventBus _grapplingEventBus;
         HingeJoint2D _forearmJoint;
 
         Vector3 _currentAimPosition;
         Tween _currentTween;
         float _forearmJointLimitRange;
+
+        public void StartAiming()
+        {
+            StartCoroutine(WaitForTouchPositionAndAimCoroutine());
+        }
+
+        public void EndAiming()
+        {
+            DisableIK();
+        }
 
         internal void Initialize(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
         {
@@ -43,7 +52,6 @@ namespace Mechanics.Grappling
             _minimumAimDistance = aimDependencies.minimumAimDistance;
             _effectorTransform = commonDependencies.effectorTransform;
             _touchInputManager = ServiceLocator.instance.Get<TouchInputManager>();
-            _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
             _forearmJoint = transform.GetChild(0).GetComponent<HingeJoint2D>();
         }
@@ -51,19 +59,6 @@ namespace Mechanics.Grappling
         void SetupEventHandlers()
         {
             _touchInputManager.currentTouchPositionInWorldObservable.AddListener(OnTouchPositionChanged);
-            _inputEventBus.Subscribe<TouchStartedEvent>(OnTouchStarted);
-            _inputEventBus.Subscribe<TouchEndedEvent>(OnTouchEnded);
-            _grapplingEventBus.Subscribe<GrapplerAttachedToSurfaceEvent>(DisableIK);
-        }
-
-        void OnTouchStarted()
-        {
-            StartCoroutine(WaitForTouchPositionAndAimCoroutine());
-        }
-
-        void OnTouchEnded()
-        {
-            DisableIK();
         }
 
         IEnumerator WaitForTouchPositionAndAimCoroutine()
@@ -88,7 +83,7 @@ namespace Mechanics.Grappling
 
         void OnAimingFinished()
         {
-            ServiceLocator.instance.Get<GrapplingEventBus>().Publish<GrapplerAimedEvent>();
+            _grapplingEventBus.Publish<GrapplerAimedEvent>();
         }
 
         void EnableIK()

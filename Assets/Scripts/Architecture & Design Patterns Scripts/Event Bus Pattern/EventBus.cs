@@ -23,7 +23,7 @@ namespace DesignPatterns.EventBusPattern
             GetOrCreateEvent<T>().AddListener(handler);
         }
 
-        public void Unsubscribe<T>(UnityAction handler, object caller)
+        public void Unsubscribe<T>(UnityAction handler)
         {
             GetOrCreateEvent<T>().RemoveListener(handler);
         }

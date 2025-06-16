@@ -6,7 +6,7 @@ namespace Mechanics.Grappling
 {
     [RequireComponent(typeof(GrapplingAimController))]
     [RequireComponent(typeof(GrapplingRopeController))]
-    [RequireComponent (typeof(RopeCreator))]
+    [RequireComponent(typeof(RopeCreator))]
     public class GrapplingManager : MonoBehaviour, IInitializeable
     {
         [SerializeField] CommonGrapplingDependencies _commonDependencies;
@@ -15,6 +15,9 @@ namespace Mechanics.Grappling
 
         GrapplingAimController _aimController;
         GrapplingRopeController _ropeController;
+
+        public GrapplingAimController aimController => _aimController;
+        public GrapplingRopeController ropeController => _ropeController;
 
         public void Initialize()
         {

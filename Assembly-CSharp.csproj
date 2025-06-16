@@ -61,34 +61,38 @@
     <Analyzer Include="D:\Unity\6000.0.39f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Observer\Observable.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Observer Pattern\Observable.cs" />
     <Compile Include="Assets\Scripts\Camera Scripts\MainCameraInitializer.cs" />
     <Compile Include="Assets\Scripts\Custom Events Scripts\LoadingEvents.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\Scripts\Camera Scripts\MainCameraBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Grappling\RopeCreator.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\State Pattern\Player Statemachine Scripts\PlayerSwingingAimingState.cs" />
     <Compile Include="Assets\Scripts\IInitializeable.cs" />
     <Compile Include="Assets\Scripts\InputManagement Scripts\TouchInputManager.cs" />
     <Compile Include="Assets\Scripts\Utility Scripts\Utility.cs" />
-    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Event Bus\EventBus.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleUI.cs" />
-    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Singleton\Singleton.cs" />
-    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Event Bus\InputEventBusBootstrapper.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Scripts\InputManagement Scripts\InputManager.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\PlayerRagdollBootstrapper.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Service Locator Pattern\ServiceLocator.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Event Bus Pattern\EventBus.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Singleton Pattern\Singleton.cs" />
     <Compile Include="Assets\Scripts\InputManagement Scripts\InputManagementBootstrapper.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Event Bus Pattern\GrapplingEventBusBootstrapper.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModulePhysics.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\State Pattern\Player Statemachine Scripts\PlayerSwingingIdleState.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\State Pattern\Player Statemachine Scripts\PlayerSwingingGrappledState.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Object Pool Pattern\ObjectPoolManager.cs" />
     <Compile Include="Assets\Scripts\MainSceneBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Custom Events Scripts\InputEvents.cs" />
-    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Service Locator\ServiceLocator.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\State Pattern\Statemachine Base Scripts\State.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Grappling\RopeSegmentController.cs" />
-    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Event Bus\GrapplingEventBusBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Grappling\GrapplingAimController.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\State Pattern\Player Statemachine Scripts\PlayerSwingingStateMachine.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleUtils.cs" />
-    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Object Pool\ObjectPoolManagerBootstrapper.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModulePhysics2D.cs" />
     <Compile Include="Assets\Input System\InputSystem_Actions.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Grappling\GrapplingManager.cs" />
@@ -96,7 +100,9 @@
     <Compile Include="Assets\Scripts\Custom Events Scripts\GrapplingEvents.cs" />
     <Compile Include="Assets\Scripts\LoadingEventBusBootstrapper.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleSprite.cs" />
-    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Object Pool\ObjectPoolManager.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Object Pool Pattern\ObjectPoolManagerBootstrapper.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\State Pattern\Statemachine Base Scripts\StateMachine.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\Event Bus Pattern\InputEventBusBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Other Packages\DOTween\readme.txt" />
@@ -1228,6 +1234,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Config.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Splines.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Splines.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.2D.Aseprite.Common">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Aseprite.Common.dll</HintPath>
       <Private>False</Private>
@@ -1238,10 +1248,6 @@
     </Reference>
     <Reference Include="Unity.2D.Animation.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Animation.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Splines.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Splines.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Collections.Editor">

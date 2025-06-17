@@ -1,15 +1,17 @@
 
 using DesignPatterns.EventBusPattern;
-using DesignPatterns.ServiceLocatorPattern;
 
 namespace DesignPatterns.StatePattern
 {
     public class PlayerSwingingGrappledState : State
     {
         InputEventBus _inputEventBus;
-        public PlayerSwingingGrappledState(IStateMachine statemachine, PlayerController player) : base(statemachine, player)
+        PlayerController _player;
+
+        public PlayerSwingingGrappledState(IStateMachine statemachine, InputEventBus inputEventBus, PlayerController player) : base(statemachine)
         {
-            _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
+            _inputEventBus = inputEventBus;
+            _player = player;
         }
 
         public override void OnEnter()

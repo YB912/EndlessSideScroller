@@ -1,7 +1,6 @@
 
 
 using DesignPatterns.EventBusPattern;
-using DesignPatterns.ServiceLocatorPattern;
 
 namespace DesignPatterns.StatePattern
 {
@@ -9,9 +8,10 @@ namespace DesignPatterns.StatePattern
     {
         InputEventBus _inputEventBus;
 
-        public PlayerSwingingIdleState(IStateMachine statemachine, PlayerController player) : base(statemachine, player)
+        public PlayerSwingingIdleState(IStateMachine statemachine, InputEventBus inputEventBus) 
+            : base(statemachine)
         {
-            _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
+            _inputEventBus = inputEventBus;
         }
 
         protected override void SubscribeToTransitionEvents()

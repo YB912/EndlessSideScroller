@@ -25,7 +25,6 @@ namespace DesignPatterns.StatePattern
         public StateMachine()
         {
             Pause();
-            SetupStates();
         }
 
         public virtual void Pause()

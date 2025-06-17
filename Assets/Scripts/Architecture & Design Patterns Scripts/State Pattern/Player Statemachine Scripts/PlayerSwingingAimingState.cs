@@ -8,11 +8,13 @@ namespace DesignPatterns.StatePattern
     {
         InputEventBus _inputEventBus;
         GrapplingEventBus _grarapplingEventBus;
+        PlayerController _player;
 
-        public PlayerSwingingAimingState(IStateMachine statemachine, PlayerController player) : base(statemachine, player)
+        public PlayerSwingingAimingState(IStateMachine statemachine, InputEventBus inputEventBus, GrapplingEventBus grapplingEventBus, PlayerController player) : base(statemachine)
         {
-            _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
-            _grarapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
+            _inputEventBus = inputEventBus;
+            _grarapplingEventBus = grapplingEventBus;
+            _player = player;
         }
 
         public override void OnEnter()

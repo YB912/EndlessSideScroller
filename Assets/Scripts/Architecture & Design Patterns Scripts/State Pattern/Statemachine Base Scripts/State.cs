@@ -1,5 +1,5 @@
 
-using System;
+using DesignPatterns.EventBusPattern;
 
 namespace DesignPatterns.StatePattern
 {
@@ -13,13 +13,10 @@ namespace DesignPatterns.StatePattern
     public abstract class State : IState
     {
         protected IStateMachine _statemachine;
-        protected PlayerController _player;
 
-        public State(IStateMachine statemachine, PlayerController player)
+        public State(IStateMachine statemachine)
         {
             _statemachine = statemachine;
-            _player = player;
-            SubscribeToTransitionEvents();
         }
 
         public virtual void OnEnter()

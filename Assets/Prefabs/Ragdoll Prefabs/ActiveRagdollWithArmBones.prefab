@@ -406,6 +406,9 @@ PrefabInstance:
       addedObject: {fileID: 6757108485672694297}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 4963878393000747996}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 7529450375515982238}
     - targetCorrespondingSourceObject: {fileID: 4004303586255423961, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
@@ -2051,6 +2054,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyParts:
     _head: {fileID: 7830174050504884105}
+    _abdomen: {fileID: 4051647961546050491}
+    _backUpperLeg: {fileID: 3708326960690097136}
+    _frontUpperLeg: {fileID: 5583214110442024642}
+    _backForearm: {fileID: 840933486576901519}
+--- !u!114 &4963878393000747996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9011250527351408294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5080a9ae390db445833c1c040f622ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxForwardAttachmentForce: 10
+  _maxOutwardAttachmentForce: 30
+  _detachmentForce: 1000
+  _attachmentForceDuration: 2
+  _attachmentForceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.008333334
+      value: 0.009433962
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &7529450375515982238
 MonoBehaviour:
   m_ObjectHideFlags: 0

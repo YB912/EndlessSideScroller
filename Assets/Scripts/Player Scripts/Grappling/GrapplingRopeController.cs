@@ -1,6 +1,4 @@
 
-using DesignPatterns.EventBusPattern;
-using DesignPatterns.ServiceLocatorPattern;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

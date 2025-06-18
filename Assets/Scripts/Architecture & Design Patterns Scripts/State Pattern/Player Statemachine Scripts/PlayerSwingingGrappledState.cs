@@ -18,12 +18,15 @@ namespace DesignPatterns.StatePattern
         {
             base.OnEnter();
             _player.grapplingManager.ropeController.StartGrappling();
+            _player.swingingForceController.ApplyAttachmentForce();
         }
 
         public override void OnExit()
         {
             base.OnExit();
             _player.grapplingManager.ropeController.EndGrappling();
+            _player.swingingForceController.CancelAttachmentForce();
+            _player.swingingForceController.ApplyDetatchmentForce();
         }
 
         protected override void SubscribeToTransitionEvents()

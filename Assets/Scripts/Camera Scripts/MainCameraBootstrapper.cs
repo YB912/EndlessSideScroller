@@ -17,6 +17,10 @@ public class MainCameraBootstrapper : MonoBehaviour, ISceneBootstrappable
         ServiceLocator.instance.Get<LoadingEventBus>().Subscribe<PlayerInitializedEvent>(OnPlayerInitialized);
         var mainCamera = Instantiate(_mainCameraPrefab);
         _cinemachineCamera = Instantiate(_cinemachineCameraPrefab);
+        foreach (var initializable in mainCamera.GetComponentsInChildren<IInitializeable>())
+        {
+            initializable.Initialize();
+        }
         yield break;
     }
 

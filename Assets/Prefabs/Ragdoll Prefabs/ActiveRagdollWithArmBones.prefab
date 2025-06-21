@@ -496,7 +496,7 @@ PrefabInstance:
       addedObject: {fileID: 4358812854491695356}
     - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8129899251550903248}
+      addedObject: {fileID: 3079174548989345452}
     - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3677589316379349262}
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   _ropeDependencies:
     ropeSegmentPrefab: {fileID: 1371022108987316997, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
     forearmRigidbody: {fileID: 8098792871055524773}
-    segmentCountLimit: 30
+    segmentCountLimit: 50
 --- !u!114 &4358812854491695356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1185,7 +1185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4150ace4cb6d64b8155541c20a53fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8129899251550903248
+--- !u!114 &3079174548989345452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1194,7 +1194,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2980145413510535865}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c2af249e7a71cf48bbb6c334f1a3775, type: 3}
+  m_Script: {fileID: 11500000, guid: 95cf6f33bb56efd4498468c76a75c052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3677589316379349262
@@ -2073,37 +2073,28 @@ MonoBehaviour:
   _maxForwardAttachmentForce: 10
   _maxOutwardAttachmentForce: 30
   _detachmentForce: 1000
-  _attachmentForceDuration: 2
+  _attachmentForceDuration: 3
   _attachmentForceCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.008333334
-      value: 0.009433962
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
+      time: 0
       value: 0
       inSlope: 0
       outSlope: 0
-      tangentMode: 136
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

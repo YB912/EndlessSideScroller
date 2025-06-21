@@ -67,8 +67,10 @@
     <Compile Include="Assets\Scripts\Player Scripts\PlayerSwingingForceController.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\Scripts\Camera Scripts\MainCameraBootstrapper.cs" />
+    <Compile Include="Assets\Scripts\Player Scripts\Grappling\RopeDespawner.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Grappling\RopeCreator.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\State Pattern\Player Statemachine Scripts\PlayerSwingingAimingState.cs" />
+    <Compile Include="Assets\Scripts\Player Scripts\Grappling\GrapplingRopesManager.cs" />
     <Compile Include="Assets\Scripts\IInitializeable.cs" />
     <Compile Include="Assets\Scripts\InputManagement Scripts\TouchInputManager.cs" />
     <Compile Include="Assets\Scripts\Utility Scripts\Utility.cs" />
@@ -97,7 +99,6 @@
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModulePhysics2D.cs" />
     <Compile Include="Assets\Input System\InputSystem_Actions.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Grappling\GrapplingManager.cs" />
-    <Compile Include="Assets\Scripts\Player Scripts\Grappling\GrapplingRopeController.cs" />
     <Compile Include="Assets\Scripts\Custom Events Scripts\GrapplingEvents.cs" />
     <Compile Include="Assets\Scripts\LoadingEventBusBootstrapper.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleSprite.cs" />

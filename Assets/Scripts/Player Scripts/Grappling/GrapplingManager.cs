@@ -5,7 +5,7 @@ using UnityEngine.U2D.IK;
 namespace Mechanics.Grappling
 {
     [RequireComponent(typeof(GrapplingAimController))]
-    [RequireComponent(typeof(GrapplingRopeController))]
+    [RequireComponent(typeof(GrapplingRopesManager))]
     [RequireComponent(typeof(RopeCreator))]
     public class GrapplingManager : MonoBehaviour, IInitializeable
     {
@@ -14,10 +14,10 @@ namespace Mechanics.Grappling
         [SerializeField] GrapplingRopeDependencies _ropeDependencies;
 
         GrapplingAimController _aimController;
-        GrapplingRopeController _ropeController;
+        GrapplingRopesManager _ropeController;
 
         public GrapplingAimController aimController => _aimController;
-        public GrapplingRopeController ropeController => _ropeController;
+        public GrapplingRopesManager ropeController => _ropeController;
 
         public void Initialize()
         {
@@ -29,7 +29,7 @@ namespace Mechanics.Grappling
         void FetchDependencies()
         {
             _aimController = GetComponent<GrapplingAimController>();
-            _ropeController = GetComponent<GrapplingRopeController>();
+            _ropeController = GetComponent<GrapplingRopesManager>();
         }
     }
 

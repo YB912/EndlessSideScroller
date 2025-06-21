@@ -5,9 +5,8 @@ using UnityEngine;
 
 namespace Mechanics.Grappling
 {
-    public class GrapplingRopeController : MonoBehaviour
+    public class GrapplingRopesManager : MonoBehaviour
     {
-        List<List<RopeSegmentController>> _ropes = new();
         List<RopeSegmentController> _currentRope;
 
         RopeCreator _ropeCreator;
@@ -21,7 +20,6 @@ namespace Mechanics.Grappling
             var newRope = _ropeCreator.CreateRope();
             _currentRope = newRope;
             AttachRopeEndToHand();
-            _ropes.Add(newRope);
         }
 
         public void EndGrappling()

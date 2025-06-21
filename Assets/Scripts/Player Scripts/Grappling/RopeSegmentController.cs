@@ -21,13 +21,15 @@ namespace Mechanics.Grappling
             FetchDependencies();
         }
 
-        private void OnEnable()
+        void OnEnable()
         {
             SEGMENT_COUNT++;
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
+            _hingeJoint.connectedBody = null;
+            _distanceJoint.connectedBody = null;
             SEGMENT_COUNT--;
         }
 
@@ -42,7 +44,6 @@ namespace Mechanics.Grappling
         public void SetAsAttachmentSegment()
         {
             _rigidBody.bodyType = RigidbodyType2D.Static;
-            _collider.enabled = false;
         }
     }
 }

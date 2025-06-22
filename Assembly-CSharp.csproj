@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Player Scripts\PlayerSwingingForceController.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\Scripts\Camera Scripts\MainCameraBootstrapper.cs" />
+    <Compile Include="Assets\Scripts\Player Scripts\Grappling\RopeCreationAnimationController.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Grappling\RopeDespawner.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Grappling\RopeCreator.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts\State Pattern\Player Statemachine Scripts\PlayerSwingingAimingState.cs" />

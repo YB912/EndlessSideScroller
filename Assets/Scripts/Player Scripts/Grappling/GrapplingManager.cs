@@ -7,11 +7,13 @@ namespace Mechanics.Grappling
     [RequireComponent(typeof(GrapplingAimController))]
     [RequireComponent(typeof(GrapplingRopesManager))]
     [RequireComponent(typeof(RopeCreator))]
+    [RequireComponent(typeof(RopeCreationAnimationController))]
     public class GrapplingManager : MonoBehaviour, IInitializeable
     {
         [SerializeField] CommonGrapplingDependencies _commonDependencies;
         [SerializeField] GrapplingAimDependencies _aimDependencies;
         [SerializeField] GrapplingRopeDependencies _ropeDependencies;
+        [SerializeField] RopeAnimationDependencies _ropeAnimationDependencies;
 
         GrapplingAimController _aimController;
         GrapplingRopesManager _ropeController;
@@ -23,7 +25,7 @@ namespace Mechanics.Grappling
         {
             FetchDependencies();
             _aimController.Initialize(_aimDependencies, _commonDependencies);
-            _ropeController.Initialize(_ropeDependencies, _commonDependencies);
+            _ropeController.Initialize(_ropeDependencies, _ropeAnimationDependencies, _commonDependencies);
         }
 
         void FetchDependencies()
@@ -54,5 +56,12 @@ namespace Mechanics.Grappling
         public GameObject ropeSegmentPrefab;
         public Rigidbody2D forearmRigidbody;
         public int segmentCountLimit;
+    }
+
+    [System.Serializable]
+    internal class RopeAnimationDependencies
+    {
+        public AnimationCurve animationCurve;
+        public float totalAnimationDuration;
     }
 }

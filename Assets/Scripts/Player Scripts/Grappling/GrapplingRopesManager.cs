@@ -10,6 +10,7 @@ namespace Mechanics.Grappling
         List<RopeSegmentController> _currentRope;
 
         RopeCreator _ropeCreator;
+        RopeCreationAnimationController _animationController;
 
         GameObject _foreArm;
         HingeJoint2D _hingeJointToRope;
@@ -20,6 +21,7 @@ namespace Mechanics.Grappling
             var newRope = _ropeCreator.CreateRope();
             _currentRope = newRope;
             AttachRopeEndToHand();
+            _animationController.AnimateRopeCreation(_currentRope);
         }
 
         public void EndGrappling()
@@ -27,15 +29,19 @@ namespace Mechanics.Grappling
             DetatchRopeEndFromHand();
         }
 
-        internal void Initialize(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
+        internal void Initialize(GrapplingRopeDependencies ropeDependencies, 
+            RopeAnimationDependencies ropeAnimationDependencies, 
+            CommonGrapplingDependencies commonDependencies)
         {
             FetchDependencies(ropeDependencies, commonDependencies);
             _ropeCreator.Initialize(ropeDependencies, commonDependencies);
+            _animationController.Initialize(ropeAnimationDependencies);
         }
 
         void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
         {
             _ropeCreator = GetComponent<RopeCreator>();
+            _animationController = GetComponent<RopeCreationAnimationController>();
             _foreArm = ropeDependencies.forearmRigidbody.gameObject;
             _hingeJointToRope = _foreArm.GetComponents<HingeJoint2D>()[1];
             _distanceJointToRope = _foreArm.GetComponents<DistanceJoint2D>()[1];

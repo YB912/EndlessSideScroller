@@ -502,6 +502,9 @@ PrefabInstance:
       addedObject: {fileID: 3677589316379349262}
     - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 7540587089087892890}
+    - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3297983055413508233}
     - targetCorrespondingSourceObject: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       insertIndex: -1
@@ -1172,7 +1175,33 @@ MonoBehaviour:
   _ropeDependencies:
     ropeSegmentPrefab: {fileID: 1371022108987316997, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
     forearmRigidbody: {fileID: 8098792871055524773}
-    segmentCountLimit: 50
+    segmentCountLimit: 60
+  _ropeAnimationDependencies:
+    animationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0.04216991
+        outSlope: 0.04216991
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.111856826
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -0.46030438
+        outSlope: -0.46030438
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.15883666
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    totalAnimationDuration: 0.25
 --- !u!114 &4358812854491695356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1207,6 +1236,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 617fe5dc973daaf4593685bfbff21bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7540587089087892890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980145413510535865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b0ef85d2673d14c9366ec678f3c012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &3297983055413508233

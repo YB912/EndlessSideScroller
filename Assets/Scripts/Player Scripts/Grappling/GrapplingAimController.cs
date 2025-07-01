@@ -9,6 +9,10 @@ using UnityEngine.U2D.IK;
 
 namespace Mechanics.Grappling
 {
+    /// <summary>
+    /// Controls the aiming mechanics for grappling,
+    /// managing IK targets, tweening aim movement, and event notifications.
+    /// </summary>
     public class GrapplingAimController : MonoBehaviour
     {
         IKManager2D _IKManager;
@@ -63,7 +67,7 @@ namespace Mechanics.Grappling
 
         IEnumerator WaitForTouchPositionAndAimCoroutine()
         {
-            yield return null;
+            yield return null; // Wait one frame to ensure input updates
             Aim();
         }
 

@@ -1,4 +1,3 @@
-
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 
@@ -7,13 +6,14 @@ namespace DesignPatterns.StatePattern
     public class PlayerSwingingAimingState : State
     {
         InputEventBus _inputEventBus;
-        GrapplingEventBus _grarapplingEventBus;
+        GrapplingEventBus _grapplingEventBus;
         PlayerController _player;
 
-        public PlayerSwingingAimingState(IStateMachine statemachine, InputEventBus inputEventBus, GrapplingEventBus grapplingEventBus, PlayerController player) : base(statemachine)
+        public PlayerSwingingAimingState(IStateMachine statemachine, InputEventBus inputEventBus, GrapplingEventBus grapplingEventBus, PlayerController player)
+            : base(statemachine)
         {
             _inputEventBus = inputEventBus;
-            _grarapplingEventBus = grapplingEventBus;
+            _grapplingEventBus = grapplingEventBus;
             _player = player;
         }
 
@@ -32,16 +32,16 @@ namespace DesignPatterns.StatePattern
         protected override void SubscribeToTransitionEvents()
         {
             _inputEventBus.Subscribe<TouchEndedEvent>(TransitionToIdleState);
-            _grarapplingEventBus.Subscribe<GrapplerAimedEvent>(TransitionToGrappledState);
+            _grapplingEventBus.Subscribe<GrapplerAimedEvent>(TransitionToGrappledState);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
             _inputEventBus.Unsubscribe<TouchEndedEvent>(TransitionToIdleState);
-            _grarapplingEventBus.Unsubscribe<GrapplerAimedEvent>(TransitionToGrappledState);
+            _grapplingEventBus.Unsubscribe<GrapplerAimedEvent>(TransitionToGrappledState);
         }
 
-        private void TransitionToIdleState()
+        void TransitionToIdleState()
         {
             _statemachine.TransitionTo(typeof(PlayerSwingingIdleState));
         }

@@ -4,11 +4,15 @@ using DesignPatterns.EventBusPattern;
 
 namespace DesignPatterns.StatePattern
 {
+    /// <summary>
+    /// State when the player is idle (not grappling or aiming).
+    /// Listens for input to transition to aiming state.
+    /// </summary>
     public class PlayerSwingingIdleState : State
     {
         InputEventBus _inputEventBus;
 
-        public PlayerSwingingIdleState(IStateMachine statemachine, InputEventBus inputEventBus) 
+        public PlayerSwingingIdleState(IStateMachine statemachine, InputEventBus inputEventBus)
             : base(statemachine)
         {
             _inputEventBus = inputEventBus;

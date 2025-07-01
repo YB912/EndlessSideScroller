@@ -1,8 +1,11 @@
-
 using DesignPatterns.ServiceLocatorPattern;
 using DG.Tweening;
 using UnityEngine;
 
+/// <summary>
+/// Controls forces applied to the player's body parts during swinging mechanics.
+/// Applies attachment and detachment forces based on animation curves and directions.
+/// </summary>
 public class PlayerSwingingForceController : MonoBehaviour, IInitializeable
 {
     [SerializeField] float _maxForwardAttachmentForce;
@@ -27,13 +30,10 @@ public class PlayerSwingingForceController : MonoBehaviour, IInitializeable
     void FixedUpdate()
     {
         if (_currentForwardForce != Vector2.zero)
-        {
             AddForwardForces();
-        }
+
         if (_currentOutwardForce != Vector2.zero)
-        {
             AddOutwardForces();
-        }
     }
 
     public void Initialize()
@@ -45,6 +45,10 @@ public class PlayerSwingingForceController : MonoBehaviour, IInitializeable
         _frontUpperLegRigidbody = bodyParts.frontUpperLeg.GetComponent<Rigidbody2D>();
     }
 
+    /// <summary>
+    /// Begins applying forces that simulate the player swinging,
+    /// animating force magnitude over time using a tween and animation curve.
+    /// </summary>
     public void ApplyAttachmentForce()
     {
         CancelAttachmentForce();
@@ -54,6 +58,9 @@ public class PlayerSwingingForceController : MonoBehaviour, IInitializeable
             .OnUpdate(() => UpdateForceVectors(curveTime));
     }
 
+    /// <summary>
+    /// Stops applying attachment forces and kills any ongoing force tween.
+    /// </summary>
     public void CancelAttachmentForce()
     {
         _currentForwardForce = Vector2.zero;
@@ -61,6 +68,9 @@ public class PlayerSwingingForceController : MonoBehaviour, IInitializeable
         _attachmentForceTween?.Kill();
     }
 
+    /// <summary>
+    /// Applies an instantaneous detachment impulse force forward to the player's abdomen.
+    /// </summary>
     public void ApplyDetatchmentForce()
     {
         UpdateDirectionVectors();
@@ -77,8 +87,9 @@ public class PlayerSwingingForceController : MonoBehaviour, IInitializeable
     void UpdateForceVectors(float curveTime)
     {
         UpdateDirectionVectors();
-        _currentForwardForce = _forwardDirection * _maxForwardAttachmentForce * _attachmentForceCurve.Evaluate(curveTime);
-        _currentOutwardForce = _outwardDirection * _maxOutwardAttachmentForce * _attachmentForceCurve.Evaluate(curveTime);
+        float curveValue = _attachmentForceCurve.Evaluate(curveTime);
+        _currentForwardForce = _forwardDirection * _maxForwardAttachmentForce * curveValue;
+        _currentOutwardForce = _outwardDirection * _maxOutwardAttachmentForce * curveValue;
     }
 
     void AddForwardForces()

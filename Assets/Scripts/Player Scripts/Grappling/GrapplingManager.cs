@@ -1,9 +1,12 @@
-
 using UnityEngine;
 using UnityEngine.U2D.IK;
 
 namespace Mechanics.Grappling
 {
+    /// <summary>
+    /// Main controller for the grappling system. Manages aiming, rope creation, and coordinates
+    /// between different grappling components.
+    /// </summary>
     [RequireComponent(typeof(GrapplingAimController))]
     [RequireComponent(typeof(GrapplingRopesManager))]
     [RequireComponent(typeof(RopeCreator))]
@@ -35,12 +38,18 @@ namespace Mechanics.Grappling
         }
     }
 
+    /// <summary>
+    /// Shared dependencies used across multiple grappling components.
+    /// </summary>
     [System.Serializable]
     internal class CommonGrapplingDependencies
     {
         public Transform effectorTransform;
     }
 
+    /// <summary>
+    /// Configuration for grappling aim system including IK and movement parameters.
+    /// </summary>
     [System.Serializable]
     internal class GrapplingAimDependencies
     {
@@ -50,6 +59,9 @@ namespace Mechanics.Grappling
         public float minimumAimDistance;
     }
 
+    /// <summary>
+    /// Configuration for rope physics and rendering including segments and constraints.
+    /// </summary>
     [System.Serializable]
     internal class GrapplingRopeDependencies
     {
@@ -58,6 +70,9 @@ namespace Mechanics.Grappling
         public int segmentCountLimit;
     }
 
+    /// <summary>
+    /// Animation settings for rope creation and movement effects.
+    /// </summary>
     [System.Serializable]
     internal class RopeAnimationDependencies
     {

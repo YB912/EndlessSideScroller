@@ -1,4 +1,3 @@
-
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ObjectPool;
 using DesignPatterns.ServiceLocatorPattern;
@@ -8,6 +7,9 @@ using UnityEngine;
 
 namespace Mechanics.Grappling
 {
+    /// <summary>
+    /// Creates rope segments between the character and a wall using raycasting and pooling.
+    /// </summary>
     public class RopeCreator : MonoBehaviour
     {
         List<RopeSegmentController> _currentRope = new();
@@ -48,20 +50,27 @@ namespace Mechanics.Grappling
             _objectPool = ServiceLocator.instance.Get<ObjectPoolManager>();
         }
 
+        /// <summary>
+        /// Creates a rope by raycasting toward a wall and placing segments accordingly.
+        /// </summary>
         internal List<RopeSegmentController> CreateRope()
         {
             _currentRope.Clear();
             CalculateTargetRopeLength();
             CalculateTargetSegmentsCount();
+
             for (var i = 0; i < _targetSegementsCount; i++)
             {
                 CreateRopeSegment();
+
                 if (i != 0)
                 {
                     SetupNonFirstSegmentJoints();
                 }
+
                 _currentRope.Add(_currentSegment);
             }
+
             _grapplingEventBus.Publish<GrapplerAttachedToSurfaceEvent>();
             _currentSegment.SetAsAttachmentSegment();
             return _currentRope;
@@ -69,7 +78,12 @@ namespace Mechanics.Grappling
 
         void CalculateTargetRopeLength()
         {
-            _targetRopeLength = Physics2D.Raycast(_handTransform.position, _forearmRigidbody.transform.right, _raycastDistance, _wallLayerInBitMap).distance;
+            _targetRopeLength = Physics2D.Raycast(
+                _handTransform.position,
+                _forearmRigidbody.transform.right,
+                _raycastDistance,
+                _wallLayerInBitMap
+            ).distance;
         }
 
         void CalculateTargetSegmentsCount()
@@ -83,19 +97,20 @@ namespace Mechanics.Grappling
             var position = GetSegmentPosition();
             var rotation = GetSegmentRotation();
             var mass = GetSegmentMass();
-            var segment = _objectPool.TakeFromPool(_ropeSegmentPrefab, position, rotation, _ropeSegmentsHolder).
-                GetComponent<RopeSegmentController>();
+
+            var segment = _objectPool
+                .TakeFromPool(_ropeSegmentPrefab, position, rotation, _ropeSegmentsHolder)
+                .GetComponent<RopeSegmentController>();
+
             segment.rigidBody.mass = mass;
             _currentSegment = segment;
         }
 
         Vector2 GetSegmentPosition()
         {
-            if (_currentRope.Any())
-            {
-                return _currentRope.Last().hingeJoint.connectedAnchor;
-            }
-            return _handTransform.position;
+            return _currentRope.Any()
+                ? _currentRope.Last().hingeJoint.connectedAnchor
+                : _handTransform.position;
         }
 
         Quaternion GetSegmentRotation()
@@ -105,7 +120,7 @@ namespace Mechanics.Grappling
 
         float GetSegmentMass()
         {
-            return 5; // To be cleaned further
+            return 5; // Currently hardcoded, can be parameterized if needed
         }
 
         void SetupNonFirstSegmentJoints()

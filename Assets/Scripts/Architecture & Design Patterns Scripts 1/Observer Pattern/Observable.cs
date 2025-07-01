@@ -4,6 +4,9 @@ using UnityEngine.Events;
 
 namespace DesignPatterns.ObserverPattern
 {
+    /// <summary>
+    /// Generic observable wrapper using UnityEvent to notify listeners on value changes.
+    /// </summary>
     [System.Serializable]
     public class Observable<T>
     {

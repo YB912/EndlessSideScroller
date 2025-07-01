@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -6,10 +5,18 @@ using DesignPatterns.Singleton;
 
 namespace DesignPatterns.ServiceLocatorPattern
 {
+    /// <summary>
+    /// A globally accessible service locator based on the Singleton pattern.
+    /// Allows registration and retrieval of services by type.
+    /// </summary>
     public class ServiceLocator : Singleton<ServiceLocator>
     {
+        // Stores registered services by their type
         static readonly Dictionary<Type, object> _services = new();
 
+        /// <summary>
+        /// Attempts to retrieve a registered service of type T.
+        /// </summary>
         public bool TryGet<T>(out T outputService) where T : class
         {
             Type type = typeof(T);
@@ -22,6 +29,9 @@ namespace DesignPatterns.ServiceLocatorPattern
             return false;
         }
 
+        /// <summary>
+        /// Retrieves a registered service of type T or throws if not found.
+        /// </summary>
         public T Get<T>() where T : class
         {
             Type type = typeof(T);
@@ -32,12 +42,18 @@ namespace DesignPatterns.ServiceLocatorPattern
             throw new ArgumentException($"Service of type {type.FullName} has not been registered.");
         }
 
+        /// <summary>
+        /// Registers a service instance using its type as the key.
+        /// </summary>
         public void Register<T>(T service) where T : class
         {
             var type = typeof(T);
             RegisterInternal(type, service);
         }
 
+        /// <summary>
+        /// Registers a service instance using a specific type.
+        /// </summary>
         public void Register(Type type, object service)
         {
             if (type.IsInstanceOfType(service) == false)
@@ -48,6 +64,9 @@ namespace DesignPatterns.ServiceLocatorPattern
             RegisterInternal(type, service);
         }
 
+        /// <summary>
+        /// Internal helper for safely registering services with type checks.
+        /// </summary>
         void RegisterInternal(Type type, object service)
         {
             if (_services.TryAdd(type, service) == false)

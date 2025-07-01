@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Mechanics.Grappling
 {
+    /// <summary>
+    /// Handles rope creation, animation, and attachment/detachment to the character's hand.
+    /// </summary>
     public class GrapplingRopesManager : MonoBehaviour
     {
         List<RopeSegmentController> _currentRope;
@@ -29,8 +32,9 @@ namespace Mechanics.Grappling
             DetatchRopeEndFromHand();
         }
 
-        internal void Initialize(GrapplingRopeDependencies ropeDependencies, 
-            RopeAnimationDependencies ropeAnimationDependencies, 
+        internal void Initialize(
+            GrapplingRopeDependencies ropeDependencies,
+            RopeAnimationDependencies ropeAnimationDependencies,
             CommonGrapplingDependencies commonDependencies)
         {
             FetchDependencies(ropeDependencies, commonDependencies);
@@ -43,6 +47,8 @@ namespace Mechanics.Grappling
             _ropeCreator = GetComponent<RopeCreator>();
             _animationController = GetComponent<RopeCreationAnimationController>();
             _foreArm = ropeDependencies.forearmRigidbody.gameObject;
+
+            // Assumes second joint of each type is for rope (index 1)
             _hingeJointToRope = _foreArm.GetComponents<HingeJoint2D>()[1];
             _distanceJointToRope = _foreArm.GetComponents<DistanceJoint2D>()[1];
         }

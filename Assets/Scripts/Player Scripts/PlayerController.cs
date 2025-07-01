@@ -6,15 +6,16 @@ using Mechanics.Grappling;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Root player controller that coordinates player parts, grappling system, and swinging state machine.
+/// </summary>
 [RequireComponent(typeof(PlayerSwingingForceController))]
 public class PlayerController : MonoBehaviour, IInitializeable
 {
     [SerializeField] PlayerBodyParts _bodyParts;
 
     GrapplingManager _grapplingManager;
-
     PlayerSwingingStateMachine _swingingStatemachine;
-
     PlayerSwingingForceController _swingingForceController;
 
     public PlayerBodyParts bodyParts => _bodyParts;
@@ -24,13 +25,17 @@ public class PlayerController : MonoBehaviour, IInitializeable
     public void Initialize()
     {
         FetchDependencies();
+
+        // Initialize all child components except self
         var initializeables = GetComponentsInChildren<IInitializeable>();
-        IInitializeable self = this;
-        foreach (var initializeable in initializeables.Where(i => i != self))
+        foreach (var initializeable in initializeables.Where(i => i != (IInitializeable)this))
         {
             initializeable.Initialize();
         }
+
         _swingingStatemachine.Resume();
+
+        // Notify that player has been initialized
         ServiceLocator.instance.Get<LoadingEventBus>().Publish<PlayerInitializedEvent>();
     }
 
@@ -41,6 +46,9 @@ public class PlayerController : MonoBehaviour, IInitializeable
         _swingingForceController = GetComponent<PlayerSwingingForceController>();
     }
 
+    /// <summary>
+    /// Structurally defines the key rigid body parts of the player used in physics and animation.
+    /// </summary>
     [System.Serializable]
     public class PlayerBodyParts
     {
@@ -49,6 +57,7 @@ public class PlayerController : MonoBehaviour, IInitializeable
         [SerializeField] GameObject _backUpperLeg;
         [SerializeField] GameObject _frontUpperLeg;
         [SerializeField] GameObject _backForearm;
+
         public GameObject head => _head;
         public GameObject abdomen => _abdomen;
         public GameObject backUpperLeg => _backUpperLeg;

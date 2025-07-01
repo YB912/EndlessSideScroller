@@ -3,6 +3,10 @@ using DesignPatterns.EventBusPattern;
 
 namespace DesignPatterns.StatePattern
 {
+    /// <summary>
+    /// State when the player is attached to a grapple point.
+    /// Handles rope behavior and forces during grappling.
+    /// </summary>
     public class PlayerSwingingGrappledState : State
     {
         InputEventBus _inputEventBus;
@@ -14,6 +18,9 @@ namespace DesignPatterns.StatePattern
             _player = player;
         }
 
+        /// <summary>
+        /// Starts rope grappling and applies attachment force.
+        /// </summary>
         public override void OnEnter()
         {
             base.OnEnter();
@@ -21,6 +28,9 @@ namespace DesignPatterns.StatePattern
             _player.swingingForceController.ApplyAttachmentForce();
         }
 
+        /// <summary>
+        /// Ends grappling, cancels attachment force, and applies detachment force.
+        /// </summary>
         public override void OnExit()
         {
             base.OnExit();

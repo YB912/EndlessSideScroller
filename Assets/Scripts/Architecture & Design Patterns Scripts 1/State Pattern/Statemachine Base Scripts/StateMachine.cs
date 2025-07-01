@@ -4,25 +4,31 @@ using System.Collections.Generic;
 
 namespace DesignPatterns.StatePattern
 {
+    /// <summary>
+    /// Interface defining the core functionality of a state machine.
+    /// </summary>
     public interface IStateMachine
     {
-        public bool isPaused { get; }
-        public void Pause();
-        public void Resume();
-        public void Update();
-        public void TransitionTo(Type type);
+        bool isPaused { get; }
+        void Pause();
+        void Resume();
+        void Update();
+        void TransitionTo(Type type);
     }
 
+    /// <summary>
+    /// Base abstract class implementing a generic state machine pattern.
+    /// Manages state transitions, pausing, and update forwarding.
+    /// </summary>
     public abstract class StateMachine : IStateMachine
     {
         protected Dictionary<Type, IState> _states = new();
         protected IState _currentState;
 
         protected bool _isPaused;
-
         public bool isPaused => _isPaused;
 
-        public StateMachine()
+        protected StateMachine()
         {
             Pause();
         }
@@ -51,6 +57,7 @@ namespace DesignPatterns.StatePattern
             _currentState?.OnEnter();
         }
 
+        // Must be overridden to initialize the state dictionary.
         protected abstract void SetupStates();
 
         IState GetStateOfType(Type type)

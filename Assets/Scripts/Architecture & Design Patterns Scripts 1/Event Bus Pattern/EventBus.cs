@@ -1,14 +1,18 @@
+
+
 using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
 namespace DesignPatterns.EventBusPattern
 {
+    /// <summary>
+    /// Provides a simple type-based event bus system with parameterless UnityEvents.
+    /// Allows publishing, subscribing, and unsubscribing to events identified by type.
+    /// </summary>
     public abstract class EventBus
     {
-        protected Dictionary<Type, UnityEvent> _events;
-
-        public EventBus()
+        protected Dictionary<Type, UnityEvent> _events; public EventBus()
         {
             _events = new Dictionary<Type, UnityEvent>();
         }
@@ -43,9 +47,8 @@ namespace DesignPatterns.EventBusPattern
         }
     }
 
+    // Event bus implementations for different game domains  
     public class InputEventBus : EventBus { }
-
     public class GrapplingEventBus : EventBus { }
-
     public class LoadingEventBus : EventBus { }
 }

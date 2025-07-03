@@ -57,7 +57,9 @@ namespace DesignPatterns.StatePattern
             _currentState?.OnEnter();
         }
 
-        // Must be overridden to initialize the state dictionary.
+        /// <summary>
+        /// Must be overridden to initialize the state dictionary.
+        /// </summary>
         protected abstract void SetupStates();
 
         IState GetStateOfType(Type type)

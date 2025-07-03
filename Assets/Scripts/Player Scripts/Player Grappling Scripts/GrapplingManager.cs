@@ -8,7 +8,7 @@ namespace Mechanics.Grappling
     /// between different grappling components.
     /// </summary>
     [RequireComponent(typeof(GrapplingAimController))]
-    [RequireComponent(typeof(GrapplingRopesManager))]
+    [RequireComponent(typeof(GrapplingRopeController))]
     [RequireComponent(typeof(RopeCreator))]
     [RequireComponent(typeof(RopeCreationAnimationController))]
     public class GrapplingManager : MonoBehaviour, IInitializeable
@@ -19,10 +19,10 @@ namespace Mechanics.Grappling
         [SerializeField] RopeAnimationDependencies _ropeAnimationDependencies;
 
         GrapplingAimController _aimController;
-        GrapplingRopesManager _ropeController;
+        GrapplingRopeController _ropeController;
 
         public GrapplingAimController aimController => _aimController;
-        public GrapplingRopesManager ropeController => _ropeController;
+        public GrapplingRopeController ropeController => _ropeController;
 
         public void Initialize()
         {
@@ -34,7 +34,7 @@ namespace Mechanics.Grappling
         void FetchDependencies()
         {
             _aimController = GetComponent<GrapplingAimController>();
-            _ropeController = GetComponent<GrapplingRopesManager>();
+            _ropeController = GetComponent<GrapplingRopeController>();
         }
     }
 

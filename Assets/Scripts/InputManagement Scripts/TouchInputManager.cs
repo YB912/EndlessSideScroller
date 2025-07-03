@@ -9,15 +9,14 @@ using UnityEngine.InputSystem;
 namespace InputManagement
 {
     /// <summary>
-    /// Manages touch input by subscribing to the input system and converting touch positions to world space.
-    /// Publishes touch start and end events via an event bus and exposes the current touch position as an observable.
+    /// Manages touch input by subscribing to the input system via InputManager.
     /// </summary>
     public class TouchInputManager
     {
         public readonly Observable<Vector3> currentTouchPositionInWorldObservable;
 
         InputManager _inputManager;  
-    InputEventBus _inputEventBus;
+        InputEventBus _inputEventBus;
         Camera _mainCamera;
         float _cameraZ;
 

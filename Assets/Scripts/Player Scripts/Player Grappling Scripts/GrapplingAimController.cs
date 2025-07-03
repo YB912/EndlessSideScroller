@@ -30,6 +30,14 @@ namespace Mechanics.Grappling
         Tween _currentTween;
         float _forearmJointLimitRange;
 
+        internal void Initialize(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
+        {
+            FetchDependencies(aimDependencies, commonDependencies);
+            SetupEventHandlers();
+            _forearmJointLimitRange = _forearmJoint.limits.max - _forearmJoint.limits.min;
+            DisableIK();
+        }
+
         public void StartAiming()
         {
             StartCoroutine(WaitForTouchPositionAndAimCoroutine());
@@ -37,14 +45,6 @@ namespace Mechanics.Grappling
 
         public void EndAiming()
         {
-            DisableIK();
-        }
-
-        internal void Initialize(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
-        {
-            FetchDependencies(aimDependencies, commonDependencies);
-            SetupEventHandlers();
-            _forearmJointLimitRange = _forearmJoint.limits.max - _forearmJoint.limits.min;
             DisableIK();
         }
 

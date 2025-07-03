@@ -23,35 +23,20 @@ namespace DesignPatterns.StatePattern
             _statemachine = statemachine;
         }
 
-        /// <summary>
-        /// Called when entering this state. Subscribes to transition events.
-        /// </summary>
         public virtual void OnEnter()
         {
             SubscribeToTransitionEvents();
         }
 
-        /// <summary>
-        /// Called when exiting this state. Unsubscribes from transition events.
-        /// </summary>
         public virtual void OnExit()
         {
             UnsubscribeFromTransitionEvents();
         }
 
-        /// <summary>
-        /// Called every update cycle while this state is active.
-        /// </summary>
         public virtual void Update() { }
 
-        /// <summary>
-        /// Subclasses implement to subscribe to relevant transition events.
-        /// </summary>
         protected abstract void SubscribeToTransitionEvents();
 
-        /// <summary>
-        /// Subclasses implement to unsubscribe from transition events.
-        /// </summary>
         protected abstract void UnsubscribeFromTransitionEvents();
     }
 }

@@ -8,7 +8,7 @@ namespace Mechanics.Grappling
     /// <summary>
     /// Handles rope creation, animation, and attachment/detachment to the character's hand.
     /// </summary>
-    public class GrapplingRopesManager : MonoBehaviour
+    public class GrapplingRopeController : MonoBehaviour
     {
         List<RopeSegmentController> _currentRope;
 
@@ -18,6 +18,16 @@ namespace Mechanics.Grappling
         GameObject _foreArm;
         HingeJoint2D _hingeJointToRope;
         DistanceJoint2D _distanceJointToRope;
+
+        internal void Initialize(
+            GrapplingRopeDependencies ropeDependencies,
+            RopeAnimationDependencies ropeAnimationDependencies,
+            CommonGrapplingDependencies commonDependencies)
+        {
+            FetchDependencies(ropeDependencies, commonDependencies);
+            _ropeCreator.Initialize(ropeDependencies, commonDependencies);
+            _animationController.Initialize(ropeAnimationDependencies);
+        }
 
         public void StartGrappling()
         {
@@ -30,16 +40,6 @@ namespace Mechanics.Grappling
         public void EndGrappling()
         {
             DetatchRopeEndFromHand();
-        }
-
-        internal void Initialize(
-            GrapplingRopeDependencies ropeDependencies,
-            RopeAnimationDependencies ropeAnimationDependencies,
-            CommonGrapplingDependencies commonDependencies)
-        {
-            FetchDependencies(ropeDependencies, commonDependencies);
-            _ropeCreator.Initialize(ropeDependencies, commonDependencies);
-            _animationController.Initialize(ropeAnimationDependencies);
         }
 
         void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)

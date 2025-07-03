@@ -29,7 +29,10 @@ namespace DesignPatterns.EventBusPattern
 
         public void Unsubscribe<T>(UnityAction handler)
         {
-            GetOrCreateEvent<T>().RemoveListener(handler);
+            if (GetEvent<T>(out UnityEvent unityEvent))
+            {
+                unityEvent.RemoveListener(handler);
+            }
         }
 
         UnityEvent GetOrCreateEvent<T>()
@@ -44,6 +47,12 @@ namespace DesignPatterns.EventBusPattern
             var newEvent = new UnityEvent();
             _events.Add(eventType, newEvent);
             return newEvent;
+        }
+
+        bool GetEvent<T>(out UnityEvent unityEvent)
+        {
+            var eventType = typeof(T);
+            return _events.TryGetValue(eventType, out unityEvent);
         }
     }
 

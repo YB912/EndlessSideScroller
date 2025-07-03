@@ -18,9 +18,6 @@ namespace DesignPatterns.StatePattern
             _player = player;
         }
 
-        /// <summary>
-        /// Starts rope grappling and applies attachment force.
-        /// </summary>
         public override void OnEnter()
         {
             base.OnEnter();
@@ -28,9 +25,6 @@ namespace DesignPatterns.StatePattern
             _player.swingingForceController.ApplyAttachmentForce();
         }
 
-        /// <summary>
-        /// Ends grappling, cancels attachment force, and applies detachment force.
-        /// </summary>
         public override void OnExit()
         {
             base.OnExit();

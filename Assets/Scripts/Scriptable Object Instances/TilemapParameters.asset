@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c2802a9b1e5ad47a30f8fe0536bd96, type: 3}
+  m_Name: TilemapParameters
+  m_EditorClassIdentifier: 
+  _gridCellSize: {x: 10, y: 10, z: 10}
+  _tilemapPrefab: {fileID: 8002287956253979410, guid: bcca8ab96867eb94e8224d126ebafd2c, type: 3}
+  _numberOfTilemaps: 3
+  _tilemapWidth: 80
+  _tilemapHeight: 20
+  _revolvingTriggerOffsetPercentage: 150

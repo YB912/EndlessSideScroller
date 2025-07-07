@@ -14,7 +14,7 @@ public class MainSceneBootstrapper : MonoBehaviour
         foreach (Transform module in transform)
         {
             if (module.gameObject.activeInHierarchy == false) { continue; }
-            var bootstrappableComponents = module.GetComponents<ISceneBootstrappable>();
+            var bootstrappableComponents = module.GetComponents<IBootstrapper>();
             if (bootstrappableComponents.Length == 0)
             {
                 Debug.LogError($"MainSceneBootstrapper.BootstrapModulesAsync: There are no ISceneBootstrappable components on {module.name}");
@@ -27,7 +27,7 @@ public class MainSceneBootstrapper : MonoBehaviour
     }
 }
 
-public interface ISceneBootstrappable
+public interface IBootstrapper
 {
     public IEnumerator BootstrapCoroutine();
 }

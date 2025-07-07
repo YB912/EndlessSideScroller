@@ -1,7 +1,5 @@
-
 using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace Mechanics.Grappling
 {
@@ -13,6 +11,13 @@ namespace Mechanics.Grappling
         float _totalFadeInDuration;
         AnimationCurve _fadeInRateCurve;
 
+        bool _shouldFade = false;
+        float _fadeTimer = 0f;
+        int _currentSegmentIndex = 0;
+
+        List<RopeSegmentController> _rope;
+        List<float> _fadeIntervals;
+
         internal void Initialize(RopeAnimationDependencies fadeInDependencies)
         {
             _totalFadeInDuration = fadeInDependencies.totalAnimationDuration;
@@ -20,20 +25,19 @@ namespace Mechanics.Grappling
         }
 
         /// <summary>
-        /// Triggers coroutine to animate rope segments one-by-one.
+        /// Prepares rope fade-in data and activates animation sequence.
         /// </summary>
         public void AnimateRopeCreation(List<RopeSegmentController> rope)
         {
-            StartCoroutine(AnimationCoroutine(rope));
-        }
+            _rope = rope;
+            _fadeIntervals = new List<float>();
+            _fadeTimer = 0f;
+            _currentSegmentIndex = 0;
 
-        IEnumerator AnimationCoroutine(List<RopeSegmentController> rope)
-        {
             int segmentCount = rope.Count;
-            var weights = new List<float>();
             float weightSum = 0f;
+            List<float> weights = new List<float>();
 
-            // Evaluate normalized weights from curve based on position in rope
             for (int i = 0; i < segmentCount; i++)
             {
                 float t = segmentCount == 1 ? 0.5f : (float)i / (segmentCount - 1);
@@ -42,12 +46,34 @@ namespace Mechanics.Grappling
                 weightSum += weight;
             }
 
-            // Fade in each segment using weighted delay
             for (int i = 0; i < segmentCount; i++)
             {
                 float normalizedInterval = (weights[i] / weightSum) * _totalFadeInDuration;
-                rope[i].FadeIn(normalizedInterval);
-                yield return new WaitForSeconds(normalizedInterval);
+                _fadeIntervals.Add(normalizedInterval);
+            }
+
+            _shouldFade = true;
+        }
+
+        void FixedUpdate()
+        {
+            if (_shouldFade == false || _rope == null || _currentSegmentIndex >= _rope.Count)
+                return;
+
+            _fadeTimer += Time.fixedDeltaTime;
+
+            while (_currentSegmentIndex < _rope.Count && _fadeTimer >= _fadeIntervals[_currentSegmentIndex])
+            {
+                _rope[_currentSegmentIndex].FadeIn(_fadeIntervals[_currentSegmentIndex]);
+                _fadeTimer -= _fadeIntervals[_currentSegmentIndex];
+                _currentSegmentIndex++;
+            }
+
+            if (_currentSegmentIndex >= _rope.Count)
+            {
+                _shouldFade = false;
+                _rope = null;
+                _fadeIntervals = null;
             }
         }
     }

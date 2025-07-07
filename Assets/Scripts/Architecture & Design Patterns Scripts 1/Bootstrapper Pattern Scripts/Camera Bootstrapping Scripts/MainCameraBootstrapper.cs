@@ -5,23 +5,32 @@ using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class MainCameraBootstrapper : MonoBehaviour, ISceneBootstrappable
+public class MainCameraBootstrapper : MonoBehaviour, IBootstrapper
 {
     [SerializeField] private GameObject _mainCameraPrefab;
     [SerializeField] private GameObject _cinemachineCameraPrefab;
 
     GameObject _cinemachineCamera;
 
+    LoadingEventBus _loadingEventBus;
+
     public IEnumerator BootstrapCoroutine()
     {
-        ServiceLocator.instance.Get<LoadingEventBus>().Subscribe<PlayerInitializedEvent>(OnPlayerInitialized);
+        FetchDependencies();
+        _loadingEventBus.Subscribe<PlayerInitializedEvent>(OnPlayerInitialized);
+
         var mainCamera = Instantiate(_mainCameraPrefab);
-        _cinemachineCamera = Instantiate(_cinemachineCameraPrefab);
-        foreach (var initializable in mainCamera.GetComponentsInChildren<IInitializeable>())
-        {
-            initializable.Initialize();
-        }
+        mainCamera.GetComponent<IInitializeable>().Initialize();
+
+        _cinemachineCamera = Instantiate(_cinemachineCameraPrefab, mainCamera.transform);
+        _cinemachineCamera.GetComponent<IInitializeable>().Initialize();
+
         yield break;
+    }
+
+    void FetchDependencies()
+    {
+        _loadingEventBus = ServiceLocator.instance.Get<LoadingEventBus>();
     }
 
     void OnPlayerInitialized()

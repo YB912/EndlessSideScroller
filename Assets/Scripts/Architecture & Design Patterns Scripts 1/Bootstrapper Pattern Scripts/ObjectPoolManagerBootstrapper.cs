@@ -7,7 +7,7 @@ namespace DesignPatterns.ObjectPool
 {
     [RequireComponent(typeof(ObjectPoolManager))]
     [DisallowMultipleComponent]
-    public class ObjectPoolManagerBootstrapper : MonoBehaviour, ISceneBootstrappable
+    public class ObjectPoolManagerBootstrapper : MonoBehaviour, IBootstrapper
     {
         public IEnumerator BootstrapCoroutine()
         {

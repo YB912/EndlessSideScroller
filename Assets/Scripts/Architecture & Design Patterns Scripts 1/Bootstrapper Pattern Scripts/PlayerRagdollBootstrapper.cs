@@ -2,7 +2,7 @@ using DesignPatterns.ServiceLocatorPattern;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerRagdollBootstrapper : MonoBehaviour, ISceneBootstrappable
+public class PlayerRagdollBootstrapper : MonoBehaviour, IBootstrapper
 {
     [SerializeField] GameObject _ragdollPrefab;
 

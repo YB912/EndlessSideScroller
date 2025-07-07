@@ -4,9 +4,9 @@ namespace Mechanics.CourseGeneration
 {
     /// <summary>
     /// Holds configuration parameters for procedural course generation,
-    /// including element counts, size ranges, and spacing constraints.
     /// </summary>
     [System.Serializable]
+    [CreateAssetMenu(fileName = "CourseGenerationParameters", menuName = "Course Generation/Course Generation Parameters")]
     public class CourseGenerationParameters : ScriptableObject
     {
         [Header("Number Of Elements Per Tilemap")]

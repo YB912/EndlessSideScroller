@@ -10,19 +10,19 @@ using UnityEngine;
 public class RopeDespawner : MonoBehaviour, IInitializeable
 {
     const string SEGMENT_LAYER_NAME = "RopeSegments";
-    int _segmentsLayerBitMap;
+    int _segmentsLayerIndex;
     ObjectPoolManager _objectPool;
 
     public void Initialize()
     {
-        _segmentsLayerBitMap = LayerMask.NameToLayer(SEGMENT_LAYER_NAME);
+        _segmentsLayerIndex = LayerMask.NameToLayer(SEGMENT_LAYER_NAME);
         _objectPool = ServiceLocator.instance.Get<ObjectPoolManager>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Despawn only if the colliding object belongs to the rope segment layer
-        if (collision.gameObject.layer == _segmentsLayerBitMap)
+        if (collision.gameObject.layer == _segmentsLayerIndex)
         {
             _objectPool.ReturnToPool(collision.gameObject);
         }

@@ -3,7 +3,7 @@ using InputManagement;
 using System.Collections;
 using UnityEngine;
 
-public class InputManagementBootstrapper : MonoBehaviour, ISceneBootstrappable
+public class InputManagementBootstrapper : MonoBehaviour, IBootstrapper
 {
     public IEnumerator BootstrapCoroutine()
     {

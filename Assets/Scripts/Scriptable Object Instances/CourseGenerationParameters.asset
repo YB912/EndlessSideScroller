@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11763e1054ee5b6449daf512a24f32d3, type: 3}
+  m_Name: CourseGenerationParameters
+  m_EditorClassIdentifier: 
+  _minCeilingGapNumberPerMap: 0
+  _maxCeilingGapNumberPerMap: 0
+  _minPlatformNumberPerMap: 0
+  _maxPlatformNumberPerMap: 0
+  _minWallNumberPerMap: 0
+  _maxWallNumberPerMap: 0
+  _minCeilingGapLength: 0
+  _maxCeilingGapLength: 0
+  _minPlatformLength: 0
+  _maxPlatformLength: 0
+  _minPlatformHeight: 0
+  _maxPlatformHeight: 0
+  _minWallLength: 0
+  _maxWallLength: 0
+  _minWallHeight: 0
+  _maxWallHeight: 0
+  _minVerticalDistance: 0
+  _minHorizontalDistance: 0

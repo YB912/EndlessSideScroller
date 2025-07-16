@@ -2,6 +2,7 @@
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using DesignPatterns.StatePattern;
+using Mechanics.CourseGeneration;
 using Mechanics.Grappling;
 using System.Linq;
 using UnityEngine;

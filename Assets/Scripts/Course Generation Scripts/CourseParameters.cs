@@ -6,8 +6,8 @@ namespace Mechanics.CourseGeneration
     /// Holds configuration parameters for procedural course generation,
     /// </summary>
     [System.Serializable]
-    [CreateAssetMenu(fileName = "CourseGenerationParameters", menuName = "Course Generation/Course Generation Parameters")]
-    public class CourseGenerationParameters : ScriptableObject
+    [CreateAssetMenu(fileName = "CourseParameters", menuName = "Course Generation/Course Parameters")]
+    public class CourseParameters : ScriptableObject
     {
         [Header("Number Of Elements Per Tilemap")]
         [SerializeField] int _minCeilingGapNumberPerMap;

@@ -1,28 +1,54 @@
 
+using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using Mechanics.CourseGeneration;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class CinemachineCameraController : MonoBehaviour, IInitializeable
+namespace Mechanics.Camera
 {
-    CinemachineCamera _virtualCamera;
-    TilemapParameters _tilemapParameters;
-
-    public void Initialize()
+    public class CinemachineCameraController : MonoBehaviour
     {
-        FetchDependencies();
-        AdjustCameraLens();
-    }
+        CinemachineCamera _virtualCamera;
+        CameraFollowTargetController _followTarget;
+        TilemapParameters _tilemapParameters;
 
-    void FetchDependencies()
-    {
-        _virtualCamera = GetComponent<CinemachineCamera>();
-        _tilemapParameters = ServiceLocator.instance.Get<TilemapManager>().tilemapParameters;
-    }
+        LoadingEventBus _loadingEventBus;
 
-    void AdjustCameraLens()
-    {
-        _virtualCamera.Lens.OrthographicSize = _tilemapParameters.tilemapHeight * _tilemapParameters.GridCellSize.y / 2;
+        public void Initialize(CameraFollowTargetController followTarget)
+        {
+            _followTarget = followTarget;
+            FetchDependencies();
+            AdjustCameraLens();
+            _loadingEventBus.Subscribe<CameraFollowTargetInitializedEvent>(OnFollowTargetInitialized);
+        }
+
+        void FetchDependencies()
+        {
+            _virtualCamera = GetComponent<CinemachineCamera>();
+            _loadingEventBus = ServiceLocator.instance.Get<LoadingEventBus>();
+            _tilemapParameters = ServiceLocator.instance.Get<CourseGenerationManager>().parameters.tilemapParameters;
+        }
+
+        void OnFollowTargetInitialized()
+        {
+            SetCameraPosition();
+            SetupCameraFollow();
+        }
+
+        void AdjustCameraLens()
+        {
+            _virtualCamera.Lens.OrthographicSize = _tilemapParameters.tilemapHeight * _tilemapParameters.GridCellSize.y / 2;
+        }
+
+        void SetupCameraFollow()
+        {
+            _virtualCamera.Follow = _followTarget.transform;
+        }
+
+        void SetCameraPosition()
+        {
+            _virtualCamera.ForceCameraPosition(_followTarget.transform.position, Quaternion.identity);
+        }
     }
 }

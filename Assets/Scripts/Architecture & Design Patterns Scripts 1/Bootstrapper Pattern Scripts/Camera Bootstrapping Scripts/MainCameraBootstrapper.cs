@@ -1,40 +1,48 @@
 
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
+using Mechanics.CourseGeneration;
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class MainCameraBootstrapper : MonoBehaviour, IBootstrapper
+namespace Mechanics.Camera
 {
-    [SerializeField] private GameObject _mainCameraPrefab;
-    [SerializeField] private GameObject _cinemachineCameraPrefab;
-
-    GameObject _cinemachineCamera;
-
-    LoadingEventBus _loadingEventBus;
-
-    public IEnumerator BootstrapCoroutine()
+    public class MainCameraBootstrapper : MonoBehaviour, IBootstrapper
     {
-        FetchDependencies();
-        _loadingEventBus.Subscribe<PlayerInitializedEvent>(OnPlayerInitialized);
+        [SerializeField] private GameObject _mainCameraPrefab;
+        [SerializeField] private GameObject _cinemachineCameraPrefab;
+        [SerializeField] private GameObject _cameraFollowTargetPrefab;
 
-        var mainCamera = Instantiate(_mainCameraPrefab);
-        mainCamera.GetComponent<IInitializeable>().Initialize();
+        CinemachineCamera _cinemachineCamera;
 
-        _cinemachineCamera = Instantiate(_cinemachineCameraPrefab, mainCamera.transform);
-        _cinemachineCamera.GetComponent<IInitializeable>().Initialize();
+        CameraFollowTargetController _cameraFollowTarget;
 
-        yield break;
-    }
 
-    void FetchDependencies()
-    {
-        _loadingEventBus = ServiceLocator.instance.Get<LoadingEventBus>();
-    }
+        public IEnumerator BootstrapCoroutine()
+        {
+            CreateCameraFollowTarget();
+            CreateCamera();
+            yield break;
+        }
 
-    void OnPlayerInitialized()
-    {
-        _cinemachineCamera.GetComponent<CinemachineCamera>().Follow = ServiceLocator.instance.Get<PlayerController>().bodyParts.head.transform;
+        void CreateCamera()
+        {
+            var mainCamera = Instantiate(_mainCameraPrefab);
+            mainCamera.name = "MainCamera";
+            mainCamera.GetComponent<IInitializeable>().Initialize();
+
+            _cinemachineCamera = Instantiate(_cinemachineCameraPrefab, mainCamera.transform).GetComponent<CinemachineCamera>();
+            _cinemachineCamera.name = "CinemachineVirtualCamera";
+            _cinemachineCamera.GetComponent<CinemachineCameraController>().Initialize(_cameraFollowTarget);
+        }
+
+        void CreateCameraFollowTarget()
+        {
+            var courseGenerationManager = ServiceLocator.instance.Get<CourseGenerationManager>();
+            _cameraFollowTarget = Instantiate(_cameraFollowTargetPrefab).GetComponent<CameraFollowTargetController>();
+            _cameraFollowTarget.name = "CameraFollowTarget";
+            _cameraFollowTarget.Initialize(courseGenerationManager.cameraHeight);
+        }
     }
 }

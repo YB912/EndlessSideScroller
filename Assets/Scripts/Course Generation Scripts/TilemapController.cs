@@ -1,6 +1,7 @@
 
 using DesignPatterns.EventBusPattern;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Mechanics.CourseGeneration
 {
@@ -9,52 +10,41 @@ namespace Mechanics.CourseGeneration
     /// </summary>
     public class TilemapController : MonoBehaviour
     {
-        BoxCollider2D _revolvingTrigger;
+        [SerializeField] GameObject _revolvingTriggerPrefab;
 
-        TilemapParameters _parameters;
+        Tilemap _tilemap;
+        TileSetter _tileSetter;
 
-        GameplayEventBus _gameplayEventBus;
+        GenerationParameters _parameters;
+        TilemapParameters _tilemapParameters;
 
-        const string PLAYER_ABDOMEN_TAG = "PlayerAbdomen";
+        internal Tilemap tilemap => _tilemap;
 
-        void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.CompareTag(PLAYER_ABDOMEN_TAG))
-            {
-                _gameplayEventBus.Publish<PlayerPassedATilemapEvent>();
-            }
-        }
-
-        public void Initialize(TilemapParameters parameters, GameplayEventBus gameplayEventBus)
+        public void Initialize(GenerationParameters parameters, GameplayEventBus gameplayEventBus)
         {
             _parameters = parameters;
-            _gameplayEventBus = gameplayEventBus;
+            _tilemapParameters = _parameters.tilemapParameters;
             FetchDependencies();
-            SetupRevolvingTrigger();
+            SetupRevolvingTrigger(gameplayEventBus);
+            Generate();
             VisualizeTilemapArea();
-        }
-
-        public void Generate()
-        {
-
         }
 
         void FetchDependencies()
         {
-            _revolvingTrigger = GetComponent<BoxCollider2D>();
+            _tilemap = GetComponent<Tilemap>();
+            _tileSetter = new TileSetter(_tilemap, _parameters);
         }
 
-        void SetupRevolvingTrigger()
+        public void Generate()
         {
-            _revolvingTrigger.size = new Vector2(
-                _parameters.GridCellSize.x,
-                _parameters.GridCellSize.y * _parameters.tilemapHeight * 2
-            );
+            _tileSetter.SetTiles();
+        }
 
-            _revolvingTrigger.offset = new Vector2(
-                _parameters.tilemapWidth * _parameters.GridCellSize.x * _parameters.revolvingTriggerOffsetPercentage / 100,
-                0
-            );
+        void SetupRevolvingTrigger(GameplayEventBus gameplayEventBus)
+        {
+            var trigger = Instantiate(_revolvingTriggerPrefab, transform);
+            trigger.GetComponent<RevolvingTriggerController>().Initialize(gameplayEventBus, _tilemapParameters);
         }
 
         void VisualizeTilemapArea()
@@ -68,8 +58,8 @@ namespace Mechanics.CourseGeneration
             renderer.drawMode = SpriteDrawMode.Sliced;
             renderer.color = new Color(Random.value, Random.value, Random.value, 0.2f); 
 
-            var width = _parameters.GridCellSize.x * _parameters.tilemapWidth;
-            var height = _parameters.GridCellSize.y * _parameters.tilemapHeight;
+            var width = _tilemapParameters.GridCellSize.x * _tilemapParameters.tilemapWidth;
+            var height = _tilemapParameters.GridCellSize.y * _tilemapParameters.tilemapHeight;
 
             renderer.size = new Vector2(width, height);
             renderer.sortingOrder = -1000; 
@@ -86,5 +76,47 @@ namespace Mechanics.CourseGeneration
             return Sprite.Create(tex, rect, pivot, 100f);
         }
 
+        private class TileSetter
+        {
+            TilemapParameters _tilemapParameters;
+            TilePaletteReferences _paletteReferences;
+            CourseParameters _courseParameters;
+            Tilemap _attachedTilemap;
+            public TileSetter(Tilemap attachedTilemap, GenerationParameters parameters)
+            {
+                _attachedTilemap = attachedTilemap;
+                _tilemapParameters = parameters.tilemapParameters;
+                _paletteReferences = parameters.tilePaletteReferences;
+                _courseParameters = parameters.courseParameters;
+            }
+
+            public void SetTiles()
+            {
+                ClearAllTiles();
+                GenerateCeiling();
+            }
+
+            public void ClearAllTiles()
+            {
+                _attachedTilemap.ClearAllTiles();
+            }
+
+            void GenerateCeiling()
+            {
+                var origin = new Vector2Int(0, _tilemapParameters.tilemapHeight - 1);
+                FillBox(origin, _tilemapParameters.tilemapWidth, 1, _paletteReferences.whiteTile);
+            }
+
+            void FillBox(Vector2Int origin, int width, int height, TileBase fillTile)
+            {
+                var area = new BoundsInt(origin.x, origin.y, 0, width, height, 1);
+
+                TileBase[] tileArray = new TileBase[width * height];
+                for (int i = 0; i < tileArray.Length; i++)
+                    tileArray[i] = fillTile;
+
+                _attachedTilemap.SetTilesBlock(area, tileArray);
+            }
+        }
     }
 }

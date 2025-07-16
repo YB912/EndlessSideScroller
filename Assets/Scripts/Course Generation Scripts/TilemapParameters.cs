@@ -19,12 +19,16 @@ namespace Mechanics.CourseGeneration
         [Tooltip("Depends on the tilemap width. Can also be < 0 && 100 < and put it outside of the tilemap.")]
         [SerializeField] float _revolvingTriggerOffsetPercentage;
 
+        [SerializeField] Vector2Int _playerSpawnTile;
+
         public Vector3 GridCellSize { get => _gridCellSize; }
 
-        public GameObject TilemapPrefab { get => _tilemapPrefab; set => _tilemapPrefab = value; }
-        public int numberOfTilemaps { get => _numberOfTilemaps; }
-        public int tilemapWidth { get => _tilemapWidth; }
-        public int tilemapHeight { get => _tilemapHeight; }
-        public float revolvingTriggerOffsetPercentage { get => _revolvingTriggerOffsetPercentage; }
+        public GameObject TilemapPrefab => _tilemapPrefab;
+        public int numberOfTilemaps => _numberOfTilemaps;
+        public int tilemapWidth => _tilemapWidth;
+        public int tilemapHeight => _tilemapHeight;
+        public float revolvingTriggerOffsetPercentage => _revolvingTriggerOffsetPercentage;
+
+        public Vector2Int playerSpawnTile => _playerSpawnTile;
     }
 }

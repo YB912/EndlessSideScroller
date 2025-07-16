@@ -1,3 +1,4 @@
+
 using System.Collections;
 using UnityEngine;
 
@@ -7,8 +8,9 @@ public class CourseGeneratorBootstrapper : MonoBehaviour, IBootstrapper
 
     public IEnumerator BootstrapCoroutine()
     {
-        var initializeable = Instantiate(_courseGeneratorPrefab).GetComponent<IInitializeable>();
-        initializeable.Initialize();
+        var courseGenerator = Instantiate(_courseGeneratorPrefab);
+        courseGenerator.name = "CourseGenerator";
+        courseGenerator.GetComponent<IInitializeable>().Initialize();
         yield break;
     }
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11763e1054ee5b6449daf512a24f32d3, type: 3}
-  m_Name: CourseGenerationParameters
+  m_Name: CourseParameters
   m_EditorClassIdentifier: 
   _minCeilingGapNumberPerMap: 0
   _maxCeilingGapNumberPerMap: 0

@@ -67,6 +67,7 @@ namespace Mechanics.Grappling
     {
         public GameObject ropeSegmentPrefab;
         public Rigidbody2D forearmRigidbody;
+        public Rigidbody2D abdomenRigidbody;
         public int segmentCountLimit;
     }
 

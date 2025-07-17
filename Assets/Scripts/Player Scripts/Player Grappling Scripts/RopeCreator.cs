@@ -20,6 +20,7 @@ namespace Mechanics.Grappling
         Transform _ropeSegmentsHolder;
         Transform _handTransform;
         Rigidbody2D _forearmRigidbody;
+        Rigidbody2D _abdomenRigidbody;
         int _segmentCountLimit;
         float _targetRopeLength;
         float _segmentLength;
@@ -43,6 +44,7 @@ namespace Mechanics.Grappling
         {
             _ropeSegmentPrefab = ropeDependencies.ropeSegmentPrefab;
             _forearmRigidbody = ropeDependencies.forearmRigidbody;
+            _abdomenRigidbody = ropeDependencies.abdomenRigidbody;
             _segmentCountLimit = ropeDependencies.segmentCountLimit;
             _handTransform = commonDependencies.effectorTransform;
             _ropeSegmentsHolder = new GameObject("RopeSegmentsHolder").transform;
@@ -103,6 +105,8 @@ namespace Mechanics.Grappling
                 .GetComponent<RopeSegmentController>();
 
             segment.rigidBody.mass = mass;
+            var velocityScale = 1f - ((float)_currentRope.Count / _targetSegementsCount);
+            segment.rigidBody.linearVelocity = _abdomenRigidbody.linearVelocity * velocityScale;
             _currentSegment = segment;
         }
 

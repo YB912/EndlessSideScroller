@@ -1179,6 +1179,7 @@ MonoBehaviour:
   _ropeDependencies:
     ropeSegmentPrefab: {fileID: 1371022108987316997, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
     forearmRigidbody: {fileID: 8098792871055524773}
+    abdomenRigidbody: {fileID: 6198970915973357601}
     segmentCountLimit: 60
   _ropeAnimationDependencies:
     animationCurve:
@@ -2115,10 +2116,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5080a9ae390db445833c1c040f622ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxForwardAttachmentForce: 10
-  _maxOutwardAttachmentForce: 30
-  _detachmentForce: 1000
-  _attachmentForceDuration: 3
+  _maxForwardAttachmentForce: 5
+  _maxOutwardAttachmentForce: 40
+  _detachmentForce: 500
+  _attachmentForceDuration: 2
   _attachmentForceCurve:
     serializedVersion: 2
     m_Curve:

@@ -1,7 +1,8 @@
-using DesignPatterns.EventBusPattern;
-using DesignPatterns.ServiceLocatorPattern;
 
-namespace DesignPatterns.StatePattern
+using DesignPatterns.EventBusPattern;
+using DesignPatterns.StatePattern;
+
+namespace Mechanics.Grappling
 {
     public class PlayerSwingingAimingState : State
     {

@@ -1,4 +1,6 @@
 
+using DesignPatterns.EventBusPattern;
+using DesignPatterns.ServiceLocatorPattern;
 using System.Collections;
 using UnityEngine;
 
@@ -24,6 +26,7 @@ public class MainSceneBootstrapper : MonoBehaviour
                 yield return bootstrappableComponent.BootstrapCoroutine();
             }
         }
+        ServiceLocator.instance.Get<LoadingEventBus>().Publish<MainSceneBootstrappedEvent>();
     }
 }
 

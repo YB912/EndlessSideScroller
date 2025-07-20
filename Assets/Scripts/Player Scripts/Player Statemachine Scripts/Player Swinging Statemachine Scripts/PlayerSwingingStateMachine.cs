@@ -1,9 +1,9 @@
 
-
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
+using DesignPatterns.StatePattern;
 
-namespace DesignPatterns.StatePattern
+namespace Mechanics.Grappling
 {
     /// <summary>
     /// Manages the player's swinging states and transitions.
@@ -39,27 +39,6 @@ namespace DesignPatterns.StatePattern
         {
             _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
-        }
-
-        /// <summary>
-        /// Encapsulates dependencies used by swinging states.
-        /// </summary>
-        public class SwingingStateDependencies
-        {
-            InputEventBus _inputEventBus;
-            GrapplingEventBus _grapplingEventBus;
-            PlayerController _player;
-
-            public InputEventBus inputEventBus => _inputEventBus;
-            public GrapplingEventBus grapplingEventBus => _grapplingEventBus;
-            public PlayerController player => _player;
-
-            internal SwingingStateDependencies(PlayerController player)
-            {
-                _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
-                _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
-                _player = player;
-            }
         }
     }
 }

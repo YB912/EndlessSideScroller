@@ -1,3 +1,4 @@
+
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using System.Collections;
@@ -11,6 +12,8 @@ public class EventBusesBootstrapper : MonoBehaviour, IBootstrapper
         ServiceLocator.instance.Register(new InputEventBus());
         ServiceLocator.instance.Register(new LoadingEventBus());
         ServiceLocator.instance.Register(new GameplayEventBus());
+        ServiceLocator.instance.Register(new UIEventBus());
+        ServiceLocator.instance.Register(new GameCycleEventBus());
         yield break;
     }
 }

@@ -61,4 +61,6 @@ namespace DesignPatterns.EventBusPattern
     public class GrapplingEventBus : EventBus { }
     public class LoadingEventBus : EventBus { }
     public class GameplayEventBus : EventBus { }
+    public class UIEventBus : EventBus { }
+    public class GameCycleEventBus : EventBus { }
 }

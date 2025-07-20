@@ -1,7 +1,8 @@
 
 using DesignPatterns.EventBusPattern;
+using DesignPatterns.StatePattern;
 
-namespace DesignPatterns.StatePattern
+namespace Mechanics.Grappling
 {
     /// <summary>
     /// State when the player is attached to a grapple point.

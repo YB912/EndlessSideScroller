@@ -50,8 +50,11 @@ namespace UI
             var tweenDestination = GetAnchoredPosition(_slidingWindowSettings.offScreenNormalizedPosition);
             _currentTween = _rootPanelRectTransform.DOAnchorPos(tweenDestination, _slidingWindowSettings.slidingDuration)
                 .SetEase(_slidingWindowSettings.slidingEase)
-                .OnComplete(() => DeactivateRootPanel())
-                .OnComplete(() => SetPositionOnScreen());
+                .OnComplete(() =>
+                {
+                    DeactivateRootPanel();
+                    SetPositionOnScreen();
+                });
             return _currentTween;
         }
 

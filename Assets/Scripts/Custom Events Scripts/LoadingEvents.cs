@@ -3,5 +3,6 @@ public class PlayerInitializedEvent { }
 
 public class CameraFollowTargetInitializedEvent { }
 
-public class MainSceneBootstrappedEvent { }
+public class CinemachineCameraInitializedEvent { }
 
+public class MainSceneBootstrappedEvent { }

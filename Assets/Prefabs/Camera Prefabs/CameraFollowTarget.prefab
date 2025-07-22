@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 494b587a81553cb47ba7d653da26de69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerNormalizedScreenXOutsidePlayState: 0.3

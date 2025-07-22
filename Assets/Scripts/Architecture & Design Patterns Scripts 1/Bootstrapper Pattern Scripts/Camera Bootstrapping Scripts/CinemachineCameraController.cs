@@ -21,6 +21,7 @@ namespace Mechanics.Camera
             FetchDependencies();
             AdjustCameraLens();
             _loadingEventBus.Subscribe<CameraFollowTargetInitializedEvent>(OnFollowTargetInitialized);
+            _loadingEventBus.Publish<CinemachineCameraInitializedEvent>();
         }
 
         void FetchDependencies()

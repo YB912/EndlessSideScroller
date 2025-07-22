@@ -8,6 +8,7 @@ public class GameManagerBootstrapper : MonoBehaviour, IBootstrapper
     public IEnumerator BootstrapCoroutine()
     {
         var gameManager = Instantiate(_gameManagerPrefab);
+        gameManager.name = "GameManager";
         gameManager.GetComponent<IInitializeable>().Initialize();
         yield break;
     }

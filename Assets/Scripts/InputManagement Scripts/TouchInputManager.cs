@@ -20,7 +20,7 @@ namespace InputManagement
         Camera _mainCamera;
         float _cameraZ;
 
-        internal TouchInputManager()
+        public TouchInputManager()
         {
             currentTouchPositionInWorldObservable = new Observable<Vector3>(Vector3.zero);
             FetchDependencies();

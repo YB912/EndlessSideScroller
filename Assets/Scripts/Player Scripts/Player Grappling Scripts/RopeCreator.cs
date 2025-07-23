@@ -33,7 +33,7 @@ namespace Mechanics.Grappling
         const string WALL_LAYER_NAME = "Wall";
         float _raycastDistance = 500;
 
-        internal void Initialize(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
+        public void Initialize(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
         {
             FetchDependencies(ropeDependencies, commonDependencies);
             _wallLayerInBitMap = Utility.LayerNameToBitMap(WALL_LAYER_NAME);
@@ -55,7 +55,7 @@ namespace Mechanics.Grappling
         /// <summary>
         /// Creates a rope by raycasting toward a wall and placing segments accordingly.
         /// </summary>
-        internal List<RopeSegmentController> CreateRope()
+        public List<RopeSegmentController> CreateRope()
         {
             _currentRope.Clear();
             CalculateTargetRopeLength();

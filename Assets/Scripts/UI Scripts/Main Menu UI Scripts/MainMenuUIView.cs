@@ -1,55 +1,42 @@
 
-using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.MainMenu
 {
-    internal class MainMenuUIView : UIView, IInitializeable
+    public class MainMenuUIView : UIViewWithButtons, IInitializeable
     {
         [SerializeField] TextMeshProUGUI _mainMenuTitleText;
         [SerializeField] Button _mainMenuPlayButton;
         [SerializeField] Button _mainMenuSettingsButton;
 
-        MainMenuUIPresenter _presenter;
+        IMainMenuUIPresenter _presenter;
 
-        public void Initialize()
+        public override void Initialize()
         {
-            _presenter = new MainMenuUIPresenter(this);
+            _presenter = IMainMenuUIPresenter.Create(this);
         }
 
-        public override Tween SlidePanelIn()
-        {
-            AddButtonListeners();
-            return base.SlidePanelIn();
-        }
-
-        public override Tween SlidePanelOut()
-        {
-            RemoveButtonListeners();
-            return base.SlidePanelOut();
-        }
-
-        internal void EnableButtons()
+        public override void EnableButtonsInteractability()
         {
             _mainMenuPlayButton.interactable = true;
             _mainMenuSettingsButton.interactable = true;
         }
 
-        internal void DisableButtons()
+        public override void DisableButtonsInteractability()
         {
             _mainMenuPlayButton.interactable = false;
             _mainMenuSettingsButton.interactable = false;
         }
 
-        void AddButtonListeners()
+        protected override void AddButtonListeners()
         {
             _mainMenuPlayButton.onClick.AddListener(_presenter.PlayButtonClicked);
             _mainMenuSettingsButton.onClick.AddListener(_presenter.SettingsButtonClicked);
         }
 
-        void RemoveButtonListeners()
+        protected override void RemoveButtonListeners()
         {
             _mainMenuPlayButton.onClick.RemoveAllListeners();
             _mainMenuSettingsButton.onClick.RemoveAllListeners();

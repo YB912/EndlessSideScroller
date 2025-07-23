@@ -14,6 +14,12 @@ public class GameCycleUpgradeShopState : State
         _gameCycleEventBus = gameCycleEventBus;
     }
 
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        _gameCycleEventBus.Publish<EnteredUpgradeShopStateGameCycleEvent>();
+    }
+
     protected override void SubscribeToTransitionEvents()
     {
         _UIEventBus.Subscribe<PlayStateButtonClickedUIEvent>(TransitionToPlayState);

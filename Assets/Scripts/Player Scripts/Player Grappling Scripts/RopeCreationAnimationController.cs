@@ -18,7 +18,7 @@ namespace Mechanics.Grappling
         List<RopeSegmentController> _rope;
         List<float> _fadeIntervals;
 
-        internal void Initialize(RopeAnimationDependencies fadeInDependencies)
+        public void Initialize(RopeAnimationDependencies fadeInDependencies)
         {
             _totalFadeInDuration = fadeInDependencies.totalAnimationDuration;
             _fadeInRateCurve = fadeInDependencies.animationCurve;

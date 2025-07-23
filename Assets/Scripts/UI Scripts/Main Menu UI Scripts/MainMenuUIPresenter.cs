@@ -5,13 +5,23 @@ using DG.Tweening;
 
 namespace UI.MainMenu
 {
-    internal class MainMenuUIPresenter
+    public interface IMainMenuUIPresenter
     {
-        MainMenuUIView _view;
+        public void PlayButtonClicked();
+        public void SettingsButtonClicked();
+        public static IMainMenuUIPresenter Create(IUIViewWithButtons view)
+        {
+            return new MainMenuUIPresenter(view);
+        }
+    }
+
+    public class MainMenuUIPresenter : IMainMenuUIPresenter
+    {
+        IUIViewWithButtons _view;
         UIEventBus _UIEventBus;
         GameCycleEventBus _gameCycleEventBus;
 
-        internal MainMenuUIPresenter(MainMenuUIView view)
+        public MainMenuUIPresenter(IUIViewWithButtons view)
         {
             _UIEventBus = ServiceLocator.instance.Get<UIEventBus>();
             _gameCycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
@@ -19,13 +29,13 @@ namespace UI.MainMenu
             _view = view;
         }
 
-        internal void PlayButtonClicked()
+        public void PlayButtonClicked()
         {
-            _view.DisableButtons();
+            _view.DisableButtonsInteractability();
             _view.SlidePanelOut().OnComplete(() => _UIEventBus.Publish<UpgradeShopStateButtonClickedUIEvent>());
         }
 
-        internal void SettingsButtonClicked()
+        public void SettingsButtonClicked()
         {
             // _view.DisableButtons();
             // Hide this menu here
@@ -33,7 +43,7 @@ namespace UI.MainMenu
 
         void OnEnteredMainMenuState()
         {
-            _view.SlidePanelIn().OnComplete(() => _view.EnableButtons());
+            _view.SlidePanelIn().OnComplete(() => _view.EnableButtonsInteractability());
         }
     }
 }

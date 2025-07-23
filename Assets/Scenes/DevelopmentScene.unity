@@ -301,6 +301,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainSceneBootstrapper
       objectReference: {fileID: 0}
+    - target: {fileID: 3525114056553202152, guid: eb77b64207ae5ae4d98e4bf4f2055de0, type: 3}
+      propertyPath: _upgradeShopMenuPrefab
+      value: 
+      objectReference: {fileID: 4098245201888535385, guid: 14f0ee6e915060d46b9c49978a4c82fb, type: 3}
     - target: {fileID: 4786759228865644056, guid: eb77b64207ae5ae4d98e4bf4f2055de0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

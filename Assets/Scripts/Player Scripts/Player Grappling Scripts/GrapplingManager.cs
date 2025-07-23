@@ -42,7 +42,7 @@ namespace Mechanics.Grappling
     /// Shared dependencies used across multiple grappling components.
     /// </summary>
     [System.Serializable]
-    internal class CommonGrapplingDependencies
+    public class CommonGrapplingDependencies
     {
         public Transform effectorTransform;
     }
@@ -51,7 +51,7 @@ namespace Mechanics.Grappling
     /// Configuration for grappling aim system including IK and movement parameters.
     /// </summary>
     [System.Serializable]
-    internal class GrapplingAimDependencies
+    public class GrapplingAimDependencies
     {
         public IKManager2D IKManager;
         public Transform IKTargetTransform;
@@ -63,7 +63,7 @@ namespace Mechanics.Grappling
     /// Configuration for rope physics and rendering including segments and constraints.
     /// </summary>
     [System.Serializable]
-    internal class GrapplingRopeDependencies
+    public class GrapplingRopeDependencies
     {
         public GameObject ropeSegmentPrefab;
         public Rigidbody2D forearmRigidbody;
@@ -75,7 +75,7 @@ namespace Mechanics.Grappling
     /// Animation settings for rope creation and movement effects.
     /// </summary>
     [System.Serializable]
-    internal class RopeAnimationDependencies
+    public class RopeAnimationDependencies
     {
         public AnimationCurve animationCurve;
         public float totalAnimationDuration;

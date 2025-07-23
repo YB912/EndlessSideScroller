@@ -18,7 +18,7 @@ namespace Mechanics.CourseGeneration
         GenerationParameters _parameters;
         TilemapParameters _tilemapParameters;
 
-        internal Tilemap tilemap => _tilemap;
+        public Tilemap tilemap => _tilemap;
 
         public void Initialize(GenerationParameters parameters, GameplayEventBus gameplayEventBus)
         {

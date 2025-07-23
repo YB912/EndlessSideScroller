@@ -11,7 +11,7 @@ namespace Mechanics.GameManagement
         UIEventBus _UIEventBus;
         GameCycleEventBus _gameCycleEventbus;
 
-        internal GameCycleStateMachine() : base()
+        public GameCycleStateMachine() : base()
         {
             _loadingEventBus = ServiceLocator.instance.Get<LoadingEventBus>();
             _UIEventBus = ServiceLocator.instance.Get<UIEventBus>();

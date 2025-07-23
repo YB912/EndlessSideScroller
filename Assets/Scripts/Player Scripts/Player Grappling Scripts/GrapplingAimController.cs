@@ -30,7 +30,7 @@ namespace Mechanics.Grappling
         Tween _currentTween;
         float _forearmJointLimitRange;
 
-        internal void Initialize(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
+        public void Initialize(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
         {
             FetchDependencies(aimDependencies, commonDependencies);
             SetupEventHandlers();

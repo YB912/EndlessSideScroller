@@ -4,7 +4,16 @@ using DG.Tweening;
 
 namespace UI
 {
-    public abstract class UIView : MonoBehaviour
+    public interface IUIView
+    {
+        public void Initialize();
+        public Tween SlidePanelIn();
+        public Tween SlidePanelOut();
+        public void SetPositionOnScreen();
+        public void SetPositionOffScreen();
+    }
+
+    public abstract class UIView : MonoBehaviour, IUIView
     {
         [SerializeField] protected GameObject _rootPanel;
         [SerializeField] SlidingWindowSettings _slidingWindowSettings;
@@ -21,6 +30,8 @@ namespace UI
             SetPositionOffScreen();
         }
 
+        public abstract void Initialize();
+
         protected virtual void FetchDependencies()
         {
             _rootPanelRectTransform = _rootPanel.GetComponent<RectTransform>();
@@ -29,7 +40,6 @@ namespace UI
                 _parentCanvasRect = _parentCanvas.GetComponent<RectTransform>().rect;
             else
                 _parentCanvasRect = default;
-
         }
 
         public virtual Tween SlidePanelIn()
@@ -85,19 +95,5 @@ namespace UI
 
             return new Vector2(x, y);
         }
-    }
-
-    [CreateAssetMenu(fileName = "SlidingWindowSettings", menuName = "UI/Sliding Window Settings")]
-    public class SlidingWindowSettings : ScriptableObject
-    {
-        [SerializeField] float _slidingDuration;
-        [SerializeField] protected Vector2 _onScreenNormalizedPosition;
-        [SerializeField] protected Vector2 _offScreenNormalizedPosition;
-        [SerializeField] Ease _slidingEase;
-
-        public float slidingDuration => _slidingDuration;
-        public Vector2 onScreenNormalizedPosition => _onScreenNormalizedPosition;
-        public Vector2 offScreenNormalizedPosition => _offScreenNormalizedPosition;
-        public Ease slidingEase => _slidingEase;
     }
 }

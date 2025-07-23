@@ -11,7 +11,7 @@ namespace DesignPatterns.ObjectPool
     {
         private List<ObjectPool> _objectPools;
 
-        internal void Bootstrap()
+        public void Bootstrap()
         {
             _objectPools = new List<ObjectPool>();
         }

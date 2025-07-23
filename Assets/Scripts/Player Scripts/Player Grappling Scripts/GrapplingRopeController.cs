@@ -19,7 +19,7 @@ namespace Mechanics.Grappling
         HingeJoint2D _hingeJointToRope;
         DistanceJoint2D _distanceJointToRope;
 
-        internal void Initialize(
+        public void Initialize(
             GrapplingRopeDependencies ropeDependencies,
             RopeAnimationDependencies ropeAnimationDependencies,
             CommonGrapplingDependencies commonDependencies)

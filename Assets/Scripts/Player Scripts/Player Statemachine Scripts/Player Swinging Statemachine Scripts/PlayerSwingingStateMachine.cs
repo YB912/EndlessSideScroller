@@ -16,7 +16,7 @@ namespace Mechanics.Grappling
         InputEventBus _inputEventBus;
         GrapplingEventBus _grapplingEventBus;
 
-        internal PlayerSwingingStateMachine(PlayerController player) : base()
+        public PlayerSwingingStateMachine(PlayerController player) : base()
         {
             _player = player;
             FetchDependencies();

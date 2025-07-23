@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\State Pattern\State.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\GenerationParameters.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\Event Bus Bootstrapping Scripts\EventBusesBootstrapper.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\Upgrade Shop Menu UI Scripts\UpgradeShopMenuUIView.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\ObjectPoolManagerBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Event Bus Pattern\EventBus.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\Camera Bootstrapping Scripts\CinemachineCameraController.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Assets\Scripts\Player Scripts\Player Statemachine Scripts\Player Swinging Statemachine Scripts\PlayerSwingingStateMachine.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\CourseParameters.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Singleton Pattern\Singleton.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\SlidingWindowSettings.cs" />
     <Compile Include="Assets\Scripts\Game Manager Scripts\Game Manager State Machine Scripts\GameCycleMainMenuState.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\RevolvingTriggerController.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\UIBootstrapper.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="Assets\Scripts\Course Generation Scripts\TilemapParameters.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\TileSetter.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Grappling Scripts\RopeSegmentController.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\UIViewWithButtons.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\MainSceneBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\CourseGeneratorBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Grappling Scripts\GrapplingRopeController.cs" />
@@ -119,6 +122,7 @@
     <Compile Include="Assets\Scripts\UI Scripts\UIView.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\Camera Bootstrapping Scripts\MainCameraBootstrapper.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\Upgrade Shop Menu UI Scripts\UpgradeShopMenuUIPresenter.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModulePhysics2D.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\TilemapController.cs" />
     <Compile Include="Assets\Input System\InputSystem_Actions.cs" />

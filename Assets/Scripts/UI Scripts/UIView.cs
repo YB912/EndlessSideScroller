@@ -27,6 +27,7 @@ namespace UI
         protected virtual void Awake()
         {
             FetchDependencies();
+            SetAnchorPivot();
             SetPositionOffScreen();
         }
 
@@ -94,6 +95,11 @@ namespace UI
             float y = (normalized.y - 0.5f) * _parentCanvasRect.height;
 
             return new Vector2(x, y);
+        }
+
+        void SetAnchorPivot()
+        {
+            _rootPanelRectTransform.pivot = _slidingWindowSettings.anchorPivot;
         }
     }
 }

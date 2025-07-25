@@ -33,7 +33,7 @@ namespace Mechanics.Grappling
         public void Initialize(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
         {
             FetchDependencies(aimDependencies, commonDependencies);
-            SetupEventHandlers();
+            SubscribeToInput();
             _forearmJointLimitRange = _forearmJoint.limits.max - _forearmJoint.limits.min;
             DisableIK();
         }
@@ -60,7 +60,7 @@ namespace Mechanics.Grappling
             _forearmJoint = transform.GetChild(0).GetComponent<HingeJoint2D>();
         }
 
-        void SetupEventHandlers()
+        void SubscribeToInput()
         {
             _touchInputManager.currentTouchPositionInWorldObservable.AddListener(OnTouchPositionChanged);
         }

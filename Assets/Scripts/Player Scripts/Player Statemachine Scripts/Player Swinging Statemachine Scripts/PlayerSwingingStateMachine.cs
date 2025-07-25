@@ -15,13 +15,14 @@ namespace Mechanics.Grappling
 
         InputEventBus _inputEventBus;
         GrapplingEventBus _grapplingEventBus;
+        GameCycleEventBus _gameCycleEventBus;
 
         public PlayerSwingingStateMachine(PlayerController player) : base()
         {
             _player = player;
             FetchDependencies();
             SetupStates();
-            TransitionTo(typeof(PlayerSwingingIdleState));
+            _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(() => TransitionTo(typeof(PlayerSwingingIdleState)));
         }
 
         protected override void SetupStates()
@@ -39,6 +40,7 @@ namespace Mechanics.Grappling
         {
             _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
+            _gameCycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
         }
     }
 }

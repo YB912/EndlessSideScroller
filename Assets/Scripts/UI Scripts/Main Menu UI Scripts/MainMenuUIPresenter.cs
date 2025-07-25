@@ -43,7 +43,7 @@ namespace UI.MainMenu
 
         void OnEnteredMainMenuState()
         {
-            _view.SlidePanelIn().OnComplete(() => _view.EnableButtonsInteractability());
+            _view.SlidePanelIn();
         }
     }
 }

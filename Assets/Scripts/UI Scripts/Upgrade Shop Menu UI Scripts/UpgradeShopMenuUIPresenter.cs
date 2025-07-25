@@ -36,7 +36,7 @@ namespace UI.UpgradeShop
 
         void OnEnteredUpgradeShopState()
         {
-            _view.SlidePanelIn().OnComplete(() => _view.EnableButtonsInteractability());
+            _view.SlidePanelIn();
         }
     }
 }

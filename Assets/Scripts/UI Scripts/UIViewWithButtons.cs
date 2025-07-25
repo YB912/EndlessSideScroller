@@ -12,13 +12,18 @@ namespace UI
     {
         public override Tween SlidePanelIn()
         {
-            AddButtonListeners();
-            return base.SlidePanelIn();
+            return base.SlidePanelIn()
+                .OnComplete(() =>
+                {
+                    AddButtonListeners();
+                    EnableButtonsInteractability();
+                });
         }
 
         public override Tween SlidePanelOut()
         {
             RemoveButtonListeners();
+            DisableButtonsInteractability();
             return base.SlidePanelOut();
         }
 

@@ -15,6 +15,12 @@ namespace Mechanics.GameManagement
             _gameCycleEventBus = gameCycleEventBus;
         }
 
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            _gameCycleEventBus.Publish<EnteredPlayStateGameCycleEvent>();
+        }
+
         protected override void SubscribeToTransitionEvents()
         {
             _UIEventBus.Subscribe<UpgradeShopStateButtonClickedUIEvent>(TransitionToUpgradeShopState);

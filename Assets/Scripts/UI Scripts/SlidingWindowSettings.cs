@@ -7,16 +7,14 @@ namespace UI
     [CreateAssetMenu(fileName = "SlidingWindowSettings", menuName = "UI/Sliding Window Settings")]
     public class SlidingWindowSettings : ScriptableObject
     {
-        [SerializeField] Vector2 _anchorPivot;
+        [SerializeField] Vector2 _offScreenAnchorOffsetMin;
+        [SerializeField] Vector2 _offScreenAnchorOffsetMax;
         [SerializeField] float _slidingDuration;
-        [SerializeField] protected Vector2 _onScreenNormalizedPosition;
-        [SerializeField] protected Vector2 _offScreenNormalizedPosition;
         [SerializeField] Ease _slidingEase;
 
-        public Vector2 anchorPivot => _anchorPivot;
+        public Vector2 offScreenAnchorOffsetMin => _offScreenAnchorOffsetMin;
+        public Vector2 offScreenAnchorOffsetMax => _offScreenAnchorOffsetMax;
         public float slidingDuration => _slidingDuration;
-        public Vector2 onScreenNormalizedPosition => _onScreenNormalizedPosition;
-        public Vector2 offScreenNormalizedPosition => _offScreenNormalizedPosition;
         public Ease slidingEase => _slidingEase;
     }
 }

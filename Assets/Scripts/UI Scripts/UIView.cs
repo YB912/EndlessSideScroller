@@ -18,16 +18,19 @@ namespace UI
         [SerializeField] protected GameObject _rootPanel;
         [SerializeField] SlidingWindowSettings _slidingWindowSettings;
 
+        Vector2 _onScreenAnchorMin;
+        Vector2 _onScreenAnchorMax;
+
+        Vector2 _offScreenAnchorMin;
+        Vector2 _offScreenAnchorMax;
+
         protected RectTransform _rootPanelRectTransform;
-        protected Canvas _parentCanvas;
-        protected Rect _parentCanvasRect;
 
         Tween _currentTween;
 
         protected virtual void Awake()
         {
             FetchDependencies();
-            SetAnchorPivot();
             SetPositionOffScreen();
         }
 
@@ -36,47 +39,36 @@ namespace UI
         protected virtual void FetchDependencies()
         {
             _rootPanelRectTransform = _rootPanel.GetComponent<RectTransform>();
-            _parentCanvas = GetComponentInChildren<Canvas>();
-            if (_parentCanvas != null)
-                _parentCanvasRect = _parentCanvas.GetComponent<RectTransform>().rect;
-            else
-                _parentCanvasRect = default;
+
+            _onScreenAnchorMin = _rootPanelRectTransform.anchorMin;
+            _onScreenAnchorMax = _rootPanelRectTransform.anchorMax;
+            CalculateOffscreenAnchors();
         }
 
         public virtual Tween SlidePanelIn()
         {
-            _currentTween?.Kill();
             ActivateRootPanel();
-            SetPositionOffScreen();
-            var tweenDestination = GetAnchoredPosition(_slidingWindowSettings.onScreenNormalizedPosition);
-            _currentTween = _rootPanelRectTransform.DOAnchorPos(tweenDestination, _slidingWindowSettings.slidingDuration).
-                SetEase(_slidingWindowSettings.slidingEase).
-                OnComplete(() => SetPositionOnScreen());
-            return _currentTween;
+            return SlidePanel(_onScreenAnchorMin, _onScreenAnchorMax);
         }
 
         public virtual Tween SlidePanelOut()
         {
-            _currentTween?.Kill();
-            var tweenDestination = GetAnchoredPosition(_slidingWindowSettings.offScreenNormalizedPosition);
-            _currentTween = _rootPanelRectTransform.DOAnchorPos(tweenDestination, _slidingWindowSettings.slidingDuration)
-                .SetEase(_slidingWindowSettings.slidingEase)
-                .OnComplete(() =>
-                {
-                    DeactivateRootPanel();
-                    SetPositionOnScreen();
-                });
-            return _currentTween;
+            return SlidePanel(_offScreenAnchorMin, _offScreenAnchorMax)
+                .OnComplete(DeactivateRootPanel);
         }
 
         public virtual void SetPositionOnScreen()
         {
-            _rootPanelRectTransform.anchoredPosition = GetAnchoredPosition(_slidingWindowSettings.onScreenNormalizedPosition);
+            _rootPanelRectTransform.anchorMin = _onScreenAnchorMin;
+            _rootPanelRectTransform.anchorMax = _onScreenAnchorMax;
+            SetPanelRectOffsets();
         }
 
         public virtual void SetPositionOffScreen()
         {
-            _rootPanelRectTransform.anchoredPosition = GetAnchoredPosition(_slidingWindowSettings.offScreenNormalizedPosition);
+            _rootPanelRectTransform.anchorMin = _offScreenAnchorMin;
+            _rootPanelRectTransform.anchorMax = _offScreenAnchorMax;
+            SetPanelRectOffsets();
         }
 
         protected void ActivateRootPanel()
@@ -89,17 +81,32 @@ namespace UI
             _rootPanel.SetActive(false);
         }
 
-        Vector2 GetAnchoredPosition(Vector2 normalized)
+        private void CalculateOffscreenAnchors()
         {
-            float x = (normalized.x - 0.5f) * _parentCanvasRect.width;
-            float y = (normalized.y - 0.5f) * _parentCanvasRect.height;
-
-            return new Vector2(x, y);
+            _offScreenAnchorMin = new Vector2(_onScreenAnchorMin.x + _slidingWindowSettings.offScreenAnchorOffsetMin.x,
+                _onScreenAnchorMin.y + _slidingWindowSettings.offScreenAnchorOffsetMin.y);
+            _offScreenAnchorMax = new Vector2(_onScreenAnchorMax.x + _slidingWindowSettings.offScreenAnchorOffsetMax.x,
+                _onScreenAnchorMax.y + _slidingWindowSettings.offScreenAnchorOffsetMax.y);
         }
 
-        void SetAnchorPivot()
+        void SetPanelRectOffsets()
         {
-            _rootPanelRectTransform.pivot = _slidingWindowSettings.anchorPivot;
+            _rootPanelRectTransform.offsetMin = Vector2.zero;
+            _rootPanelRectTransform.offsetMax = Vector2.zero;
+        }
+
+        Tween SlidePanel(Vector2 targetAnchorMin, Vector2 targetAnchorMax)
+        {
+            _currentTween?.Kill();
+
+            var anchorMinTween = _rootPanelRectTransform.DOAnchorMin(targetAnchorMin, _slidingWindowSettings.slidingDuration);
+            var anchorMaxTween = _rootPanelRectTransform.DOAnchorMax(targetAnchorMax, _slidingWindowSettings.slidingDuration);
+
+            _currentTween = DOTween.Sequence().Join(anchorMinTween).Join(anchorMaxTween)
+                .SetEase(_slidingWindowSettings.slidingEase);
+            _currentTween.Play();
+
+            return _currentTween;
         }
     }
 }

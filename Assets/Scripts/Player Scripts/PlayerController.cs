@@ -3,64 +3,70 @@ using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using Mechanics.Grappling;
 using System.Linq;
+using Player.StateMachines;
 using UnityEngine;
 
-/// <summary>
-/// Root player controller that coordinates player parts, grappling system, and swinging state machine.
-/// </summary>
-[RequireComponent(typeof(PlayerSwingingForceController))]
-public class PlayerController : MonoBehaviour, IInitializeable
+namespace Player
 {
-    [SerializeField] PlayerBodyParts _bodyParts;
-
-    GrapplingManager _grapplingManager;
-    PlayerSwingingStateMachine _swingingStatemachine;
-    PlayerSwingingForceController _swingingForceController;
-
-    public PlayerBodyParts bodyParts => _bodyParts;
-    public GrapplingManager grapplingManager => _grapplingManager;
-    public PlayerSwingingForceController swingingForceController => _swingingForceController;
-
-    public void Initialize()
+    /// <summary>
+    /// Root player controller that coordinates player parts, grappling system, and swinging state machine.
+    /// </summary>
+    [RequireComponent(typeof(PlayerSwingingForceController))]
+    public class PlayerController : MonoBehaviour, IInitializeable
     {
-        FetchDependencies();
+        [SerializeField] PlayerBodyParts _bodyParts;
+        [SerializeField] MainMenuGrapplingOverrideSettings _mainMenuGrapplingOverrideSettings;
+ 
+        GrapplingManager _grapplingManager;
+        PlayerSwingingStateMachine _swingingStatemachine;
+        PlayerSwingingForceController _swingingForceController;
 
-        // Initialize all child components except self
-        var initializeables = GetComponentsInChildren<IInitializeable>();
-        foreach (var initializeable in initializeables.Where(i => i != (IInitializeable)this))
+        public PlayerBodyParts bodyParts => _bodyParts;
+        public MainMenuGrapplingOverrideSettings mainMenuGrapplingOverrideSettings => _mainMenuGrapplingOverrideSettings;
+        public GrapplingManager grapplingManager => _grapplingManager;
+        public PlayerSwingingForceController swingingForceController => _swingingForceController;
+
+        public void Initialize()
         {
-            initializeable.Initialize();
+            FetchDependencies();
+
+            // Initialize all child components except self
+            var initializeables = GetComponentsInChildren<IInitializeable>();
+            foreach (var initializeable in initializeables.Where(i => i != (IInitializeable)this))
+            {
+                initializeable.Initialize();
+            }
+
+            _swingingStatemachine = new PlayerSwingingStateMachine(this);
+            _swingingStatemachine.Resume();
+
+            // Notify that player has been initialized
+            ServiceLocator.instance.Get<LoadingEventBus>().Publish<PlayerInitializedEvent>();
         }
 
-        _swingingStatemachine.Resume();
+        void FetchDependencies()
+        {
+            _grapplingManager = GetComponentInChildren<GrapplingManager>();
+            _swingingForceController = GetComponent<PlayerSwingingForceController>();
+        }
 
-        // Notify that player has been initialized
-        ServiceLocator.instance.Get<LoadingEventBus>().Publish<PlayerInitializedEvent>();
-    }
+        /// <summary>
+        /// Structurally defines the key rigid body parts of the player used in physics and animation.
+        /// </summary>
+        [System.Serializable]
+        public class PlayerBodyParts
+        {
+            [SerializeField] GameObject _head;
+            [SerializeField] GameObject _abdomen;
+            [SerializeField] GameObject _backUpperLeg;
+            [SerializeField] GameObject _frontUpperLeg;
+            [SerializeField] GameObject _backForearm;
 
-    void FetchDependencies()
-    {
-        _grapplingManager = GetComponentInChildren<GrapplingManager>();
-        _swingingStatemachine = new PlayerSwingingStateMachine(this);
-        _swingingForceController = GetComponent<PlayerSwingingForceController>();
-    }
-
-    /// <summary>
-    /// Structurally defines the key rigid body parts of the player used in physics and animation.
-    /// </summary>
-    [System.Serializable]
-    public class PlayerBodyParts
-    {
-        [SerializeField] GameObject _head;
-        [SerializeField] GameObject _abdomen;
-        [SerializeField] GameObject _backUpperLeg;
-        [SerializeField] GameObject _frontUpperLeg;
-        [SerializeField] GameObject _backForearm;
-
-        public GameObject head => _head;
-        public GameObject abdomen => _abdomen;
-        public GameObject backUpperLeg => _backUpperLeg;
-        public GameObject frontUpperLeg => _frontUpperLeg;
-        public GameObject backForearm => _backForearm;
+            public GameObject head => _head;
+            public GameObject abdomen => _abdomen;
+            public GameObject backUpperLeg => _backUpperLeg;
+            public GameObject frontUpperLeg => _frontUpperLeg;
+            public GameObject backForearm => _backForearm;
+        }
     }
 }

@@ -43,9 +43,15 @@ namespace Mechanics.Grappling
             StartCoroutine(WaitForTouchPositionAndAimCoroutine());
         }
 
-        public void EndAiming()
+        public void AimTowards(Vector3 position)
         {
-            DisableIK();
+            EnableIK();
+            _currentTween = _IKTargetTransform.DOMove(position, _aimMovementDuration).OnComplete(OnAimingFinished);
+        }
+
+        public void AimTowardsWithDelay(Vector3 position, float delay)
+        {
+            StartCoroutine(AimTowardsWithDelayCoroutine(position, delay));
         }
 
         void FetchDependencies(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
@@ -71,6 +77,12 @@ namespace Mechanics.Grappling
             Aim();
         }
 
+        IEnumerator AimTowardsWithDelayCoroutine(Vector3 position, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            AimTowards(position);
+        }
+
         void OnTouchPositionChanged(Vector3 newPosition)
         {
             _currentAimPosition = newPosition;
@@ -85,9 +97,15 @@ namespace Mechanics.Grappling
             }
         }
 
+        void EndAiming()
+        {
+            DisableIK();
+        }
+
         void OnAimingFinished()
         {
             _grapplingEventBus.Publish<GrapplerAimedEvent>();
+            EndAiming();
         }
 
         void EnableIK()

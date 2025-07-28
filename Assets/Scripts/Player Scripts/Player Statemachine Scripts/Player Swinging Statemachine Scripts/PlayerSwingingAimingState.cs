@@ -2,7 +2,7 @@
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.StatePattern;
 
-namespace Mechanics.Grappling
+namespace Player.StateMachines
 {
     public class PlayerSwingingAimingState : State
     {
@@ -22,12 +22,6 @@ namespace Mechanics.Grappling
         {
             base.OnEnter();
             _player.grapplingManager.aimController.StartAiming();
-        }
-
-        public override void OnExit()
-        {
-            base.OnExit();
-            _player.grapplingManager.aimController.EndAiming();
         }
 
         protected override void SubscribeToTransitionEvents()

@@ -3,7 +3,7 @@
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.StatePattern;
 
-namespace Mechanics.Grappling
+namespace Player.StateMachines
 {
     /// <summary>
     /// State when the player is idle (not grappling or aiming).

@@ -105,7 +105,7 @@ namespace Mechanics.Grappling
                 .GetComponent<RopeSegmentController>();
 
             segment.rigidBody.mass = mass;
-            var velocityScale = 1f - ((float)_currentRope.Count / _targetSegementsCount);
+            var velocityScale = 1f - ((float)(_currentRope.Count + 1) / _targetSegementsCount);
             segment.rigidBody.linearVelocity = _abdomenRigidbody.linearVelocity * velocityScale;
             _currentSegment = segment;
         }

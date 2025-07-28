@@ -1,4 +1,6 @@
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +13,7 @@ namespace Mechanics.Grappling
     public class GrapplingRopeController : MonoBehaviour
     {
         List<RopeSegmentController> _currentRope;
+        Coroutine _currentCoroutine;
 
         RopeCreator _ropeCreator;
         RopeCreationAnimationController _animationController;
@@ -31,6 +34,7 @@ namespace Mechanics.Grappling
 
         public void StartGrappling()
         {
+            if (_currentCoroutine != null) { StopCoroutine(_currentCoroutine); }
             var newRope = _ropeCreator.CreateRope();
             _currentRope = newRope;
             AttachRopeEndToHand();
@@ -39,7 +43,32 @@ namespace Mechanics.Grappling
 
         public void EndGrappling()
         {
+            if (_currentCoroutine != null) { StopCoroutine(_currentCoroutine); }
             DetatchRopeEndFromHand();
+        }
+
+        public void StartGrapplingWithDelay(float delay)
+        {
+            if (_currentCoroutine != null) { StopCoroutine(_currentCoroutine); }
+            StartCoroutine(GrappleAfterDelayCoroutine(delay));
+        }
+
+        public void StartGrapplingWithDelay(float delay, Action onComplete)
+        {
+            StartGrapplingWithDelay(delay);
+            onComplete();
+        }
+
+        public void EndGrapplingWithDelay(float delay)
+        {
+            if (_currentCoroutine != null) { StopCoroutine(_currentCoroutine); }
+            StartCoroutine(EndGrapplingAfterDelayCoroutine(delay));
+        }
+
+        public void EndGrapplingAfterDelay(float delay, Action onComplete)
+        {
+            EndGrapplingWithDelay(delay);
+            onComplete();
         }
 
         void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
@@ -78,6 +107,18 @@ namespace Mechanics.Grappling
         {
             _hingeJointToRope.enabled = false;
             _distanceJointToRope.enabled = false;
+        }
+
+        IEnumerator GrappleAfterDelayCoroutine(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            StartGrappling();
+        }
+
+        IEnumerator EndGrapplingAfterDelayCoroutine(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            EndGrappling();
         }
     }
 }

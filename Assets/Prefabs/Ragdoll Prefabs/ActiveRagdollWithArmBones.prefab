@@ -2104,6 +2104,7 @@ MonoBehaviour:
     _backUpperLeg: {fileID: 3708326960690097136}
     _frontUpperLeg: {fileID: 5583214110442024642}
     _backForearm: {fileID: 840933486576901519}
+  _mainMenuGrapplingOverrideSettings: {fileID: 11400000, guid: b2c663749be49e74f90c96aec43f3b38, type: 2}
 --- !u!114 &4963878393000747996
 MonoBehaviour:
   m_ObjectHideFlags: 0

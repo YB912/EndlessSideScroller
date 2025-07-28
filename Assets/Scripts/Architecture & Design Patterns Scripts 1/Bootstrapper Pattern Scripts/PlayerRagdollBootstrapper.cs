@@ -15,7 +15,7 @@ public class PlayerRagdollBootstrapper : MonoBehaviour, IBootstrapper
     public IEnumerator BootstrapCoroutine()
     {
         CreatePlayer();
-        var playerController = _player.GetComponent<PlayerController>();
+        var playerController = _player.GetComponent<Player.PlayerController>();
         ServiceLocator.instance.Register(playerController);
         playerController.Initialize();
         yield break;

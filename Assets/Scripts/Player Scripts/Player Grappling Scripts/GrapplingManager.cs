@@ -1,3 +1,5 @@
+
+using DesignPatterns.ServiceLocatorPattern;
 using UnityEngine;
 using UnityEngine.U2D.IK;
 
@@ -29,6 +31,7 @@ namespace Mechanics.Grappling
             FetchDependencies();
             _aimController.Initialize(_aimDependencies, _commonDependencies);
             _ropeController.Initialize(_ropeDependencies, _ropeAnimationDependencies, _commonDependencies);
+            ServiceLocator.instance.Register(this);
         }
 
         void FetchDependencies()

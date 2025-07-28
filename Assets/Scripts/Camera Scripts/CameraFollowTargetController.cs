@@ -1,6 +1,7 @@
 
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
+using DG.Tweening;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Mechanics.Camera
     /// </summary>
     public class CameraFollowTargetController : MonoBehaviour
     {
-        [SerializeField, Range(0, 1)] float _playerNormalizedScreenXOutsidePlayState;
+        [SerializeField] CameraFollowTargetSettings _settings;
 
         Transform _playerAbdomenTransform;
         float _fixedY;
@@ -22,6 +23,7 @@ namespace Mechanics.Camera
 
         LoadingEventBus _loadingEventBus;
         GameCycleEventBus _gameCycleEventBus;
+        GameplayEventBus _gamePlayEventBus;
 
         public void Initialize(float fixedY)
         {
@@ -42,14 +44,16 @@ namespace Mechanics.Camera
         {
             _loadingEventBus = ServiceLocator.instance.Get<LoadingEventBus>();
             _gameCycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
+            _gamePlayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
         }
 
         void SubscribeToEvents()
         {
             _loadingEventBus.Subscribe<PlayerInitializedEvent>(SetPlayerTransform);
             _loadingEventBus.Subscribe<CinemachineCameraInitializedEvent>(OnCinemachineCameraInitialized);
-            _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(BeginFollowingThePlayer);
-            _gameCycleEventBus.Subscribe<EnteredMainMenuStateGameCycleEvent>(StopFollowingThePlayer);
+            _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(LookAheadOfPlayer);
+            _gameCycleEventBus.Subscribe<LaunchSequenceCompletedEvent>(BeginFollowingPlayer);
+            _gameCycleEventBus.Subscribe<EnteredMainMenuStateGameCycleEvent>(StopFollowingPlayer);
         }
 
         void OnCinemachineCameraInitialized()
@@ -59,15 +63,21 @@ namespace Mechanics.Camera
             _loadingEventBus.Unsubscribe<CinemachineCameraInitializedEvent>(OnCinemachineCameraInitialized);
         }
 
-        void BeginFollowingThePlayer()
+        void LookAheadOfPlayer()
+        {
+            _isFollowingThePlyer = false;
+            TweenPositionToDistance(_settings.playerNormalizedLaunchLookAheadScreenX);
+        }
+
+        void BeginFollowingPlayer()
         {
             _isFollowingThePlyer = true;
         }
 
-        void StopFollowingThePlayer()
+        void StopFollowingPlayer()
         {
             _isFollowingThePlyer = false;
-            SetPositionToDistance();
+            SetPositionToDistance(_settings.playerNormalizedScreenXOutsidePlayState);
         }
 
         void SetPositionToPlayer()
@@ -76,7 +86,19 @@ namespace Mechanics.Camera
             transform.position = new Vector3(_playerAbdomenTransform.position.x, _fixedY, 0);
         }
 
-        void SetPositionToDistance()
+        void SetPositionToDistance(float playerNormalizedX)
+        {
+            transform.position = PositionWhenPlayerIsVisibleAt(_settings.playerNormalizedScreenXOutsidePlayState);
+        }
+
+        void TweenPositionToDistance(float playerNormalizedX)
+        {
+            var destination = PositionWhenPlayerIsVisibleAt(playerNormalizedX);
+            transform.DOMove(destination, _settings.positionTweenDuration)
+                .OnComplete(_gamePlayEventBus.Publish<CameraTargetReachedTweenPositionEvent>);
+        }
+
+        Vector3 PositionWhenPlayerIsVisibleAt(float playerNormalizedX)
         {
             if (_playerAbdomenTransform != null)
             {
@@ -86,15 +108,17 @@ namespace Mechanics.Camera
                 float playerX = _playerAbdomenTransform.position.x;
 
                 float desiredPlayerWorldX = playerX;
-                float cameraX = desiredPlayerWorldX - (-halfWidth + screenWidth * _playerNormalizedScreenXOutsidePlayState);
+                float cameraX = desiredPlayerWorldX - (-halfWidth + screenWidth * playerNormalizedX);
 
-                transform.position = new Vector3(cameraX, _fixedY, transform.position.z);
+                return new Vector3(cameraX, _fixedY, transform.position.z);
             }
+            Debug.LogError("CameraFollowTargetController.PositionWhenPlayerIsVisibleAt(): _playerAbdomenTransform is null.");
+            return Vector3.zero;
         }
 
         void SetPlayerTransform()
         {
-            _playerAbdomenTransform = ServiceLocator.instance.Get<PlayerController>().bodyParts.abdomen.transform;
+            _playerAbdomenTransform = ServiceLocator.instance.Get<Player.PlayerController>().bodyParts.abdomen.transform;
             _loadingEventBus.Unsubscribe<PlayerInitializedEvent>(SetPlayerTransform);
             SetPositionToPlayer();
             _loadingEventBus.Publish<CameraFollowTargetInitializedEvent>();

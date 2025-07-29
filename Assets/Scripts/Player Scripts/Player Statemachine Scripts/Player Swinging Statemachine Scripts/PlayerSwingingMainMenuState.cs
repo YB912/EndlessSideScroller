@@ -52,9 +52,9 @@ namespace Player.StateMachines
         {
             _player.grapplingManager.ropeController.StartGrappling();
             var releaseDelay = _player.mainMenuGrapplingOverrideSettings.forwardRopeReleaseDelay;
-            _player.grapplingManager.ropeController.EndGrapplingAfterDelay(releaseDelay, 
+            _player.grapplingManager.ropeController.EndGrapplingWithDelay(releaseDelay, 
                 () => _gameplayEventBus.Publish<LaunchSequenceCompletedEvent>());
-            _grapplingEventBus.Unsubscribe<GrapplerAimedEvent>(MainMenuGrapplingOverride);
+            _grapplingEventBus.Unsubscribe<GrapplerAimedEvent>(LaunchGrapplingOverride);
         }
 
         protected override void SubscribeToTransitionEvents()

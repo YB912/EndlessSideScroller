@@ -50,7 +50,7 @@ namespace Mechanics.Grappling
         public void StartGrapplingWithDelay(float delay)
         {
             if (_currentCoroutine != null) { StopCoroutine(_currentCoroutine); }
-            StartCoroutine(GrappleAfterDelayCoroutine(delay));
+            StartCoroutine(GrappleWithDelayCoroutine(delay));
         }
 
         public void StartGrapplingWithDelay(float delay, Action onComplete)
@@ -62,13 +62,13 @@ namespace Mechanics.Grappling
         public void EndGrapplingWithDelay(float delay)
         {
             if (_currentCoroutine != null) { StopCoroutine(_currentCoroutine); }
-            StartCoroutine(EndGrapplingAfterDelayCoroutine(delay));
+            _currentCoroutine = StartCoroutine(EndGrapplingWithDelayCoroutine(delay));
         }
 
-        public void EndGrapplingAfterDelay(float delay, Action onComplete)
+        public void EndGrapplingWithDelay(float delay, Action onComplete)
         {
-            EndGrapplingWithDelay(delay);
-            onComplete();
+            if (_currentCoroutine != null) { StopCoroutine(_currentCoroutine); }
+            _currentCoroutine = StartCoroutine(EndGrapplingWithDelayCoroutine(delay, onComplete));
         }
 
         void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
@@ -109,16 +109,23 @@ namespace Mechanics.Grappling
             _distanceJointToRope.enabled = false;
         }
 
-        IEnumerator GrappleAfterDelayCoroutine(float delay)
+        IEnumerator GrappleWithDelayCoroutine(float delay)
         {
             yield return new WaitForSeconds(delay);
             StartGrappling();
         }
 
-        IEnumerator EndGrapplingAfterDelayCoroutine(float delay)
+        IEnumerator EndGrapplingWithDelayCoroutine(float delay)
         {
             yield return new WaitForSeconds(delay);
             EndGrappling();
+        }
+
+        IEnumerator EndGrapplingWithDelayCoroutine(float delay, Action onComplete)
+        {
+            yield return new WaitForSeconds(delay);
+            EndGrappling();
+            onComplete?.Invoke();
         }
     }
 }

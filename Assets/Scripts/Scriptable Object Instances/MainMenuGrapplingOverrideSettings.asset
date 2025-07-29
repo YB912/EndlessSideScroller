@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hangingRopeAimDelay: 1.2
   _hangingRopeAimOffsetFromHead: {x: 0, y: 100, z: 0}
-  _forwardRopeAimOffsetFromHead: {x: 75, y: 100, z: 0}
+  _forwardRopeAimOffsetFromHead: {x: 125, y: 100, z: 0}
   _forwardRopeReleaseDelay: 3

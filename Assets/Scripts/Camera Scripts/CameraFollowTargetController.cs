@@ -51,8 +51,9 @@ namespace Mechanics.Camera
         {
             _loadingEventBus.Subscribe<PlayerInitializedEvent>(SetPlayerTransform);
             _loadingEventBus.Subscribe<CinemachineCameraInitializedEvent>(OnCinemachineCameraInitialized);
+
             _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(LookAheadOfPlayer);
-            _gameCycleEventBus.Subscribe<LaunchSequenceCompletedEvent>(BeginFollowingPlayer);
+            _gamePlayEventBus.Subscribe<LaunchSequenceCompletedEvent>(BeginFollowingPlayer);
             _gameCycleEventBus.Subscribe<EnteredMainMenuStateGameCycleEvent>(StopFollowingPlayer);
         }
 

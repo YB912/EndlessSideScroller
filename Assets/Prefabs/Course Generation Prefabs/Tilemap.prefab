@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _revolvingTriggerPrefab: {fileID: 911610896497174477, guid: 378971cddcaa6874e8a852565c15651d, type: 3}
+  _deathTriggerPrefab: {fileID: 8976931240075049548, guid: 65f77aebba323a742bc0beedca5d0332, type: 3}
 --- !u!1839735485 &6863821761415863366
 Tilemap:
   m_ObjectHideFlags: 0

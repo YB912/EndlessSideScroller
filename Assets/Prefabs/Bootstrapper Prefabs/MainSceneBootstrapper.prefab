@@ -484,6 +484,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIBootstrapper
       objectReference: {fileID: 0}
+    - target: {fileID: 8770725657112849115, guid: 9eb3c343dba7367459817a8ca700ec0b, type: 3}
+      propertyPath: _gameOverMenuPrefab
+      value: 
+      objectReference: {fileID: 8878941451365191633, guid: 5054656fe6386364bb2a37ce4066e4d3, type: 3}
+    - target: {fileID: 8770725657112849115, guid: 9eb3c343dba7367459817a8ca700ec0b, type: 3}
+      propertyPath: _upgradeShopMenuPrefab
+      value: 
+      objectReference: {fileID: 4098245201888535385, guid: 14f0ee6e915060d46b9c49978a4c82fb, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

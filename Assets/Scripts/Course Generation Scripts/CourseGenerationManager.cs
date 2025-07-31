@@ -88,7 +88,7 @@ namespace Mechanics.CourseGeneration
             if (tilemapController == null)
             {
                 throw new NullReferenceException
-                    ("CourseGenerationManager.CameraHeightRelativeToCourse(): Tried getting height while _tilemapControllers is empty");
+                    ("CourseGenerationManager.CameraHeightRelativeToCourse(): Tried getting camera height while _tilemapControllers is empty");
             }
             var originWorldHeight = tilemapController.tilemap.CellToWorld(Vector3Int.zero).y;
             var highestCellWorldHeight = tilemapController.tilemap.CellToWorld(new Vector3Int(0, _tilemapParameters.tilemapHeight - 1, 0)).y;

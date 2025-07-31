@@ -5,6 +5,7 @@ using Mechanics.Grappling;
 using System.Linq;
 using Player.StateMachines;
 using UnityEngine;
+using DesignPatterns.StatePattern;
 
 namespace Player
 {
@@ -18,8 +19,10 @@ namespace Player
         [SerializeField] MainMenuGrapplingOverrideSettings _mainMenuGrapplingOverrideSettings;
  
         GrapplingManager _grapplingManager;
-        PlayerSwingingStateMachine _swingingStatemachine;
+        IStateMachine _lifeCycleStatemachine;
+        IStateMachine _swingingStatemachine;
         PlayerSwingingForceController _swingingForceController;
+        GameplayEventBus _gameplayEventBus;
 
         public PlayerBodyParts bodyParts => _bodyParts;
         public MainMenuGrapplingOverrideSettings mainMenuGrapplingOverrideSettings => _mainMenuGrapplingOverrideSettings;
@@ -37,7 +40,10 @@ namespace Player
                 initializeable.Initialize();
             }
 
-            _swingingStatemachine = new PlayerSwingingStateMachine(this);
+            _swingingStatemachine = new PlayerSwingingStatemachine(this);
+            _lifeCycleStatemachine = new PlayerLifeCycleStatemachine();
+
+            _lifeCycleStatemachine.Resume();
             _swingingStatemachine.Resume();
 
             // Notify that player has been initialized
@@ -48,6 +54,13 @@ namespace Player
         {
             _grapplingManager = GetComponentInChildren<GrapplingManager>();
             _swingingForceController = GetComponent<PlayerSwingingForceController>();
+        }
+
+        void OnGameRestarted()
+        {
+            _lifeCycleStatemachine.Resume();
+            _swingingStatemachine.Resume();
+            _gameplayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
         }
 
         /// <summary>

@@ -1,5 +1,4 @@
 
-using DesignPatterns.EventBusPattern;
 using UnityEngine;
 
 namespace Mechanics.CourseGeneration
@@ -7,32 +6,16 @@ namespace Mechanics.CourseGeneration
     /// <summary>
     /// Controls the triggering of the tilemaps revolving via an event
     /// </summary>
-    public class RevolvingTriggerController : MonoBehaviour
+    public class RevolvingTriggerController : TilemapTrigger
     {
-        GameplayEventBus _gameplayEventBus;
-        TilemapParameters _tilemapParameters;
+        protected override string nameInHierarchy => "RevolvingTrigger";
 
-        BoxCollider2D _trigger;
-
-        const string PLAYER_ABDOMEN_TAG = "PlayerAbdomen";
-
-        public void Initialize(GameplayEventBus gameplayEventBus, TilemapParameters tilemapParameters)
+        protected override void OnPlayerEnteredTrigger()
         {
-            _gameplayEventBus = gameplayEventBus;
-            _tilemapParameters = tilemapParameters;
-            _trigger = GetComponent<BoxCollider2D>();
-            SetupTrigger();
+            _gamePlayEventBus.Publish<PlayerPassedATilemapEvent>();
         }
 
-        void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.CompareTag(PLAYER_ABDOMEN_TAG))
-            {
-                _gameplayEventBus.Publish<PlayerPassedATilemapEvent>();
-            }
-        }
-
-        void SetupTrigger()
+        protected override void SetupTrigger()
         {
             transform.localPosition = new Vector3(
                 _tilemapParameters.tilemapWidth * _tilemapParameters.GridCellSize.x * _tilemapParameters.revolvingTriggerOffsetPercentage / 100,

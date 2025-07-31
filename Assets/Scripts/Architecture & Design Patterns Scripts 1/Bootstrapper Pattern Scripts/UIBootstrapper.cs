@@ -8,15 +8,18 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
 {
     [SerializeField] GameObject _mainMenuPrefab;
     [SerializeField] GameObject _upgradeShopMenuPrefab;
+    [SerializeField] GameObject _gameOverMenuPrefab;
+
     public IEnumerator BootstrapCoroutine()
     {
-        BootstrapEventSystem();
+        BootstrapUnityUIEventSystem();
         BootstrapMainMenu();
         BootstrapUpgradeShopMenu();
+        BootstrapGameOverMenu();
         yield break;
     }
 
-    void BootstrapEventSystem()
+    void BootstrapUnityUIEventSystem()
     {
         var eventSystem = new GameObject("EventSystem");
         eventSystem.AddComponent<EventSystem>();
@@ -33,7 +36,14 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
     void BootstrapUpgradeShopMenu()
     {
         var upgradeMenu = Instantiate(_upgradeShopMenuPrefab);
-        upgradeMenu.name = "UpgradeMenu";
+        upgradeMenu.name = "UpgradeShopMenu";
         upgradeMenu.GetComponent<IInitializeable>().Initialize();
+    }
+
+    void BootstrapGameOverMenu()
+    {
+        var gameOverMenu = Instantiate(_gameOverMenuPrefab);
+        gameOverMenu.name = "GameOverMenu";
+        gameOverMenu.GetComponent<IInitializeable>().Initialize();
     }
 }

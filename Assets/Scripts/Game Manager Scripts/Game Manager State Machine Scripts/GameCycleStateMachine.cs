@@ -5,19 +5,24 @@ using DesignPatterns.StatePattern;
 
 namespace Mechanics.GameManagement
 {
-    public class GameCycleStateMachine : StateMachine
+    public class GameCycleStatemachine : Statemachine
     {
         LoadingEventBus _loadingEventBus;
         UIEventBus _UIEventBus;
         GameCycleEventBus _gameCycleEventbus;
 
-        public GameCycleStateMachine() : base()
+        public GameCycleStatemachine() : base()
         {
             _loadingEventBus = ServiceLocator.instance.Get<LoadingEventBus>();
             _UIEventBus = ServiceLocator.instance.Get<UIEventBus>();
             _gameCycleEventbus = ServiceLocator.instance.Get<GameCycleEventBus>();
             SetupStates();
             _loadingEventBus.Subscribe<MainSceneBootstrappedEvent>(OnMainSceneBootstrapped);
+        }
+
+        public override void Reset()
+        {
+            TransitionTo(typeof(GameCycleMainMenuState));
         }
 
         protected override void SetupStates()

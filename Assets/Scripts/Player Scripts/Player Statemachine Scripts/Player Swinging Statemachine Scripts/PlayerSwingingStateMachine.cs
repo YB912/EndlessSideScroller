@@ -9,7 +9,7 @@ namespace Player.StateMachines
     /// Manages the player's swinging states and transitions.
     /// Initializes states and sets the starting state.
     /// </summary>
-    public class PlayerSwingingStateMachine : StateMachine
+    public class PlayerSwingingStatemachine : Statemachine
     {
         PlayerController _player;
 
@@ -17,13 +17,13 @@ namespace Player.StateMachines
         GrapplingEventBus _grapplingEventBus;
         GameplayEventBus _gameplayEventBus;
 
-        public PlayerSwingingStateMachine(PlayerController player) : base()
+        public PlayerSwingingStatemachine(PlayerController player) : base()
         {
             _player = player;
             FetchDependencies();
             SetupStates();
             TransitionTo(typeof(PlayerSwingingMainMenuState));
-            //TransitionTo(typeof(PlayerSwingingIdleState));
+            _gameplayEventBus.Subscribe<PlayerDiedEvent>(OnPlayerDied);
         }
 
         protected override void SetupStates()
@@ -33,13 +33,19 @@ namespace Player.StateMachines
             var aimingState = new PlayerSwingingAimingState(this, _inputEventBus, _grapplingEventBus, _player);
             var grappledState = new PlayerSwingingGrappledState(this, _inputEventBus, _player);
 
-            _states.Add(typeof(PlayerSwingingMainMenuState), mainMenuState);
-            _states.Add(typeof(PlayerSwingingIdleState), idleState);
-            _states.Add(typeof(PlayerSwingingAimingState), aimingState);
-            _states.Add(typeof(PlayerSwingingGrappledState), grappledState);
+            _states.TryAdd(typeof(PlayerSwingingMainMenuState), mainMenuState);
+            _states.TryAdd(typeof(PlayerSwingingIdleState), idleState);
+            _states.TryAdd(typeof(PlayerSwingingAimingState), aimingState);
+            _states.TryAdd(typeof(PlayerSwingingGrappledState), grappledState);
         }
 
-        private void FetchDependencies()
+        void OnPlayerDied()
+        {
+            Pause();
+            TransitionTo(typeof(PlayerSwingingIdleState));
+        }
+
+        void FetchDependencies()
         {
             _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();

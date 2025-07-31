@@ -14,21 +14,23 @@ namespace DesignPatterns.StatePattern
         void Resume();
         void Update();
         void TransitionTo(Type type);
+        void Reset();
     }
 
     /// <summary>
     /// Base abstract class implementing a generic state machine pattern.
     /// Manages state transitions, pausing, and update forwarding.
     /// </summary>
-    public abstract class StateMachine : IStateMachine
+    public abstract class Statemachine : IStateMachine
     {
         protected Dictionary<Type, IState> _states = new();
         protected IState _currentState;
 
         protected bool _isPaused;
+        protected Action _postponedOnEnterAction;
         public bool isPaused => _isPaused;
 
-        protected StateMachine()
+        protected Statemachine()
         {
             Pause();
         }
@@ -41,6 +43,8 @@ namespace DesignPatterns.StatePattern
         public virtual void Resume()
         {
             _isPaused = false;
+            _postponedOnEnterAction?.Invoke();
+            _postponedOnEnterAction = null;
         }
 
         public virtual void Update()
@@ -54,11 +58,21 @@ namespace DesignPatterns.StatePattern
             var state = GetStateOfType(type);
             _currentState?.OnExit();
             _currentState = state;
+            if (_isPaused)
+            {
+                _postponedOnEnterAction = _currentState.OnEnter;
+                return;
+            }
             _currentState?.OnEnter();
         }
 
+        public virtual void Reset()
+        {
+            Pause();
+        }
+
         /// <summary>
-        /// Must be overridden to initialize the state dictionary.
+        /// Must be overridden to initialize the state dictionary. Recommended to define this but call TrySetupStates() instead.
         /// </summary>
         protected abstract void SetupStates();
 

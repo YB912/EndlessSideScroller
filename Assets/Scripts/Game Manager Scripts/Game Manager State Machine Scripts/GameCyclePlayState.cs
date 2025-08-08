@@ -21,12 +21,16 @@ namespace Mechanics.GameManagement
             _gameCycleEventBus.Publish<EnteredPlayStateGameCycleEvent>();
         }
 
+        public override void OnExit()
+        {
+            base.OnExit();
+            _gameCycleEventBus.Publish<ExitedPlayStateGameCycleEvent>();
+        }
+
         protected override void SubscribeToTransitionEvents()
         {
             _UIEventBus.Subscribe<UpgradeShopStateButtonClickedUIEvent>(TransitionToUpgradeShopState);
             _UIEventBus.Subscribe<MainMenuStateButtonClickedUIEvent>(TransitionToMainMenuState);
-
-            // Player's death state transition
         }
 
         protected override void UnsubscribeFromTransitionEvents()

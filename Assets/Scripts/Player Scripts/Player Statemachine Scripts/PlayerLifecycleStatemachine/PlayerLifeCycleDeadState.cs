@@ -1,36 +1,42 @@
 
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.StatePattern;
-using UnityEngine;
 
 namespace Player.StateMachines
 {
     public class PlayerLifeCycleDeadState : State
     {
         GameplayEventBus _gameplayEventBus;
-        public PlayerLifeCycleDeadState(IStateMachine statemachine, GameplayEventBus gameplayEventBus) : base(statemachine)
+        GameCycleEventBus _gameCycleEventBus;
+
+        public PlayerLifeCycleDeadState(IStateMachine statemachine, GameplayEventBus gameplayEventBus, GameCycleEventBus gameCycleEventBus) : 
+            base(statemachine)
         {
             _gameplayEventBus = gameplayEventBus;
+            _gameCycleEventBus = gameCycleEventBus;
         }
 
         public override void OnEnter()
         {
-            _gameplayEventBus.Publish<PlayerDiedEvent>();
+            base.OnEnter();
+            _gameplayEventBus.Publish<PlayerDiedGameplayEvent>();
         }
 
         protected override void SubscribeToTransitionEvents()
         {
-            // Game Restart
+            _gameCycleEventBus.Subscribe<EnteredUpgradeShopStateGameCycleEvent>(TransitionToAliveState);
+            _gameCycleEventBus.Subscribe<EnteredMainMenuStateGameCycleEvent>(TransitionToAliveState);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
-            // Game Restart
+            _gameCycleEventBus.Unsubscribe<EnteredUpgradeShopStateGameCycleEvent>(TransitionToAliveState);
+            _gameCycleEventBus.Unsubscribe<EnteredMainMenuStateGameCycleEvent>(TransitionToAliveState);
         }
 
         void TransitionToAliveState()
         {
-            // Game Restart
+            _statemachine.TransitionTo(typeof(PlayerLifeCycleAliveState));
         }
     }
 }

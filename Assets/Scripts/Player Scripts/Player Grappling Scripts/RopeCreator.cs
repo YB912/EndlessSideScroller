@@ -1,3 +1,4 @@
+
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ObjectPool;
 using DesignPatterns.ServiceLocatorPattern;
@@ -17,10 +18,10 @@ namespace Mechanics.Grappling
 
         GameObject _ropeSegmentPrefab;
 
-        Transform _ropeSegmentsHolder;
         Transform _handTransform;
         Rigidbody2D _forearmRigidbody;
         Rigidbody2D _abdomenRigidbody;
+        Transform _ropeSegmentHolder;
         int _segmentCountLimit;
         float _targetRopeLength;
         float _segmentLength;
@@ -33,21 +34,21 @@ namespace Mechanics.Grappling
         const string WALL_LAYER_NAME = "Wall";
         float _raycastDistance = 500;
 
-        public void Initialize(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
+        public void Initialize(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies, Transform segmentHolder)
         {
             FetchDependencies(ropeDependencies, commonDependencies);
             _wallLayerInBitMap = Utility.LayerNameToBitMap(WALL_LAYER_NAME);
             _segmentLength = _ropeSegmentPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+            _ropeSegmentHolder = segmentHolder;
         }
 
         void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
         {
             _ropeSegmentPrefab = ropeDependencies.ropeSegmentPrefab;
-            _forearmRigidbody = ropeDependencies.forearmRigidbody;
-            _abdomenRigidbody = ropeDependencies.abdomenRigidbody;
+            _forearmRigidbody = ropeDependencies.player.bodyParts.backForearm.GetComponent<Rigidbody2D>();
+            _abdomenRigidbody = ropeDependencies.player.bodyParts.abdomen.GetComponent<Rigidbody2D>();
             _segmentCountLimit = ropeDependencies.segmentCountLimit;
             _handTransform = commonDependencies.effectorTransform;
-            _ropeSegmentsHolder = new GameObject("RopeSegmentsHolder").transform;
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
             _objectPool = ServiceLocator.instance.Get<ObjectPoolManager>();
         }
@@ -101,7 +102,7 @@ namespace Mechanics.Grappling
             var mass = GetSegmentMass();
 
             var segment = _objectPool
-                .TakeFromPool(_ropeSegmentPrefab, position, rotation, _ropeSegmentsHolder)
+                .TakeFromPool(_ropeSegmentPrefab, position, rotation, _ropeSegmentHolder)
                 .GetComponent<RopeSegmentController>();
 
             segment.rigidBody.mass = mass;

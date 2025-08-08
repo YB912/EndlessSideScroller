@@ -34,6 +34,10 @@ namespace Mechanics.Grappling
         {
             _hingeJoint.connectedBody = null;
             _distanceJoint.connectedBody = null;
+            if (_rigidBody.bodyType != RigidbodyType2D.Dynamic)
+            {
+                SetAsNonAttachmentSegment();
+            }
         }
 
         void FetchDependencies()
@@ -50,6 +54,11 @@ namespace Mechanics.Grappling
         public void SetAsAttachmentSegment()
         {
             _rigidBody.bodyType = RigidbodyType2D.Kinematic;
+        }
+
+        void SetAsNonAttachmentSegment()
+        {
+            _rigidBody.bodyType = RigidbodyType2D.Dynamic;
         }
 
         /// <summary>

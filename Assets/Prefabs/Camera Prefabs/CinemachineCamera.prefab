@@ -92,20 +92,20 @@ MonoBehaviour:
   CameraDistance: 10
   DeadZoneDepth: 0
   Composition:
-    ScreenPosition: {x: -0.25, y: 0}
+    ScreenPosition: {x: 0, y: 0}
     DeadZone:
       Enabled: 1
-      Size: {x: 0.5, y: 1}
+      Size: {x: 0, y: 1}
     HardLimits:
       Enabled: 1
-      Size: {x: 0.6, y: 2}
-      Offset: {x: -0.25, y: 0}
+      Size: {x: 0.1, y: 2}
+      Offset: {x: 0, y: 0}
   CenterOnActivate: 0
   TargetOffset: {x: 0, y: 0, z: 0}
-  Damping: {x: 1, y: 0, z: 0}
+  Damping: {x: 10, y: 0, z: 0}
   Lookahead:
     Enabled: 0
-    Time: 0.1
+    Time: 0.5
     Smoothing: 10.1
     IgnoreY: 1
 --- !u!114 &1408764139696886717

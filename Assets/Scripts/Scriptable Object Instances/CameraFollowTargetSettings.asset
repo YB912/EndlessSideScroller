@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: CameraFollowTargetSettings
   m_EditorClassIdentifier: 
   _playerNormalizedScreenXOutsidePlayState: 0.3
+  _normalizedPlayStateLookaheadAmount: 0.25
   _playerNormalizedLaunchLookAheadScreenX: -0.2
   _positionTweenDuration: 0.75

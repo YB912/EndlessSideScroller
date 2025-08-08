@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Mechanics.CourseGeneration
 {
-    public abstract class TilemapTrigger : MonoBehaviour
+    public abstract class TilemapTriggerController : MonoBehaviour
     {
         protected GameplayEventBus _gamePlayEventBus;
         protected TilemapParameters _tilemapParameters;

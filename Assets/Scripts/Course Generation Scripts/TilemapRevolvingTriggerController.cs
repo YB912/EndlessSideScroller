@@ -6,13 +6,13 @@ namespace Mechanics.CourseGeneration
     /// <summary>
     /// Controls the triggering of the tilemaps revolving via an event
     /// </summary>
-    public class RevolvingTriggerController : TilemapTrigger
+    public class TilemapRevolvingTriggerController : TilemapTriggerController
     {
         protected override string nameInHierarchy => "RevolvingTrigger";
 
         protected override void OnPlayerEnteredTrigger()
         {
-            _gamePlayEventBus.Publish<PlayerPassedATilemapEvent>();
+            _gamePlayEventBus.Publish<PlayerPassedATilemapRevolvingTriggerGameplayEvent>();
         }
 
         protected override void SetupTrigger()

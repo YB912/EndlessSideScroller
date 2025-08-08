@@ -22,6 +22,7 @@ namespace Mechanics.Camera
             AdjustCameraLens();
             _loadingEventBus.Subscribe<CameraFollowTargetInitializedEvent>(OnFollowTargetInitialized);
             _loadingEventBus.Publish<CinemachineCameraInitializedEvent>();
+            // Need to enable the wider dead zone only when play state begins and disable it otherwise
         }
 
         void FetchDependencies()

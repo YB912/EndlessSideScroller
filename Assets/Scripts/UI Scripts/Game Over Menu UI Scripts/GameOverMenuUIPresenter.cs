@@ -26,7 +26,7 @@ namespace UI.GameOverMenu
             _UIEventBus = ServiceLocator.instance.Get<UIEventBus>();
             _gameplayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
             _view = view;
-            _gameplayEventBus.Subscribe<PlayerDiedEvent>(OnPlayerDied);
+            _gameplayEventBus.Subscribe<PlayerDiedGameplayEvent>(OnPlayerDied);
         }
 
         public void RestartButtonClicked()

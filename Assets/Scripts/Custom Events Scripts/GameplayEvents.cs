@@ -1,10 +1,12 @@
 
-public class PlayerPassedATilemapEvent { }
+public class PlayerPassedATilemapRevolvingTriggerGameplayEvent { }
 
-public class PlayerHitADeathTrigger { }
+public class PlayerEnteredATilemapGameplayEvent { }
 
-public class CameraTargetReachedTweenPositionEvent { }
+public class PlayerHitADeathTriggerGameplayEvent { }
 
-public class LaunchSequenceCompletedEvent { }
+public class CameraTargetReachedTweenPositionGameplayEvent { }
 
-public class PlayerDiedEvent { }
+public class LaunchSequenceCompletedGameplayEvent { }
+
+public class PlayerDiedGameplayEvent { }

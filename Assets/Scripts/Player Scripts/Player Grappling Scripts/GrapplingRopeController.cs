@@ -1,8 +1,11 @@
 
+using DesignPatterns.EventBusPattern;
+using DesignPatterns.ServiceLocatorPattern;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Mechanics.Grappling
@@ -16,6 +19,7 @@ namespace Mechanics.Grappling
         Coroutine _currentCoroutine;
 
         RopeCreator _ropeCreator;
+        Transform _segmentHolder;
         RopeCreationAnimationController _animationController;
 
         GameObject _foreArm;
@@ -28,8 +32,16 @@ namespace Mechanics.Grappling
             CommonGrapplingDependencies commonDependencies)
         {
             FetchDependencies(ropeDependencies, commonDependencies);
-            _ropeCreator.Initialize(ropeDependencies, commonDependencies);
+            SetupSegmentHolder(ropeDependencies.ropeSegmentHolderPrefab);
+            _ropeCreator.Initialize(ropeDependencies, commonDependencies, _segmentHolder);
             _animationController.Initialize(ropeAnimationDependencies);
+        }
+
+        void SetupSegmentHolder(GameObject prefab)
+        {
+            _segmentHolder = Instantiate(prefab).transform;
+            _segmentHolder.name = "RopeSegmentHolder";
+            _segmentHolder.GetComponent<RopeSegmentHolderController>().Initilaize();
         }
 
         public void StartGrappling()
@@ -75,7 +87,7 @@ namespace Mechanics.Grappling
         {
             _ropeCreator = GetComponent<RopeCreator>();
             _animationController = GetComponent<RopeCreationAnimationController>();
-            _foreArm = ropeDependencies.forearmRigidbody.gameObject;
+            _foreArm = ropeDependencies.player.bodyParts.backForearm;
 
             // Assumes second joint of each type is for rope (index 1)
             _hingeJointToRope = _foreArm.GetComponents<HingeJoint2D>()[1];

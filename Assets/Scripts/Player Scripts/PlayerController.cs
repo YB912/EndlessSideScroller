@@ -13,7 +13,7 @@ namespace Player
     /// Root player controller that coordinates player parts, grappling system, and swinging state machine.
     /// </summary>
     [RequireComponent(typeof(PlayerSwingingForceController))]
-    public class PlayerController : MonoBehaviour, IInitializeable
+    public partial class PlayerController : MonoBehaviour, IInitializeable
     {
         [SerializeField] PlayerBodyParts _bodyParts;
         [SerializeField] MainMenuGrapplingOverrideSettings _mainMenuGrapplingOverrideSettings;
@@ -23,6 +23,7 @@ namespace Player
         IStateMachine _swingingStatemachine;
         PlayerSwingingForceController _swingingForceController;
         GameplayEventBus _gameplayEventBus;
+        GameCycleEventBus _gamecycleEventBus;
 
         public PlayerBodyParts bodyParts => _bodyParts;
         public MainMenuGrapplingOverrideSettings mainMenuGrapplingOverrideSettings => _mainMenuGrapplingOverrideSettings;
@@ -40,46 +41,64 @@ namespace Player
                 initializeable.Initialize();
             }
 
-            _swingingStatemachine = new PlayerSwingingStatemachine(this);
-            _lifeCycleStatemachine = new PlayerLifeCycleStatemachine();
-
-            _lifeCycleStatemachine.Resume();
-            _swingingStatemachine.Resume();
+            InitializeStatemachines();
 
             // Notify that player has been initialized
             ServiceLocator.instance.Get<LoadingEventBus>().Publish<PlayerInitializedEvent>();
+            _gamecycleEventBus.Subscribe<ExitedPlayStateGameCycleEvent>(OnExitedGameCyclePlayState);
         }
 
         void FetchDependencies()
         {
             _grapplingManager = GetComponentInChildren<GrapplingManager>();
             _swingingForceController = GetComponent<PlayerSwingingForceController>();
+            _gamecycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
         }
 
-        void OnGameRestarted()
+        void Update()
         {
+            _swingingStatemachine.Update();
+        }
+
+        void InitializeStatemachines()
+        {
+            _lifeCycleStatemachine = new PlayerLifeCycleStatemachine();
+            _swingingStatemachine = new PlayerSwingingStatemachine(this);
+
             _lifeCycleStatemachine.Resume();
             _swingingStatemachine.Resume();
-            _gameplayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
         }
 
-        /// <summary>
-        /// Structurally defines the key rigid body parts of the player used in physics and animation.
-        /// </summary>
-        [System.Serializable]
-        public class PlayerBodyParts
+        void OnExitedGameCyclePlayState()
         {
-            [SerializeField] GameObject _head;
-            [SerializeField] GameObject _abdomen;
-            [SerializeField] GameObject _backUpperLeg;
-            [SerializeField] GameObject _frontUpperLeg;
-            [SerializeField] GameObject _backForearm;
+            ResetRagdoll();
+            _lifeCycleStatemachine.Resume();
+            _swingingStatemachine.Resume();
+        }
 
-            public GameObject head => _head;
-            public GameObject abdomen => _abdomen;
-            public GameObject backUpperLeg => _backUpperLeg;
-            public GameObject frontUpperLeg => _frontUpperLeg;
-            public GameObject backForearm => _backForearm;
+        void ResetRagdoll()
+        {
+            ResetRagdollPosition();
+            ResetRagdollVelocity();
+            _gamecycleEventBus.Publish<RagdollResetGameCycleEvent>();
+        }
+
+        void ResetRagdollPosition()
+        {
+            foreach (var part in _bodyParts.allParts)
+            {
+                part.transform.localPosition = Vector3.zero;
+            }
+        }
+
+        void ResetRagdollVelocity()
+        {
+            foreach (var part in _bodyParts.allParts)
+            {
+                var rigidbody = part.GetComponent<Rigidbody2D>();
+                rigidbody.linearVelocity = Vector3.zero;
+                rigidbody.angularVelocity = 0;
+            }
         }
     }
 }

@@ -12,14 +12,20 @@ namespace Player.StateMachines
             _gamePlayEventBus = gameplayEventBus;
         }
 
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            // Reset the player
+        }
+
         protected override void SubscribeToTransitionEvents()
         {
-            _gamePlayEventBus.Subscribe<PlayerHitADeathTrigger>(TransitionToDeadState);
+            _gamePlayEventBus.Subscribe<PlayerHitADeathTriggerGameplayEvent>(TransitionToDeadState);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
-            _gamePlayEventBus.Unsubscribe<PlayerHitADeathTrigger>(TransitionToDeadState);
+            _gamePlayEventBus.Unsubscribe<PlayerHitADeathTriggerGameplayEvent>(TransitionToDeadState);
         }
 
         void TransitionToDeadState()

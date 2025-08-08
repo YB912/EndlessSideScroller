@@ -2,6 +2,7 @@
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using DesignPatterns.StatePattern;
+using Mechanics.CourseGeneration;
 
 namespace Player.StateMachines
 {
@@ -16,6 +17,7 @@ namespace Player.StateMachines
         InputEventBus _inputEventBus;
         GrapplingEventBus _grapplingEventBus;
         GameplayEventBus _gameplayEventBus;
+        TilemapParameters _tilemapParameters; 
 
         public PlayerSwingingStatemachine(PlayerController player) : base()
         {
@@ -23,12 +25,12 @@ namespace Player.StateMachines
             FetchDependencies();
             SetupStates();
             TransitionTo(typeof(PlayerSwingingMainMenuState));
-            _gameplayEventBus.Subscribe<PlayerDiedEvent>(OnPlayerDied);
+            _gameplayEventBus.Subscribe<PlayerDiedGameplayEvent>(OnPlayerDied);
         }
 
         protected override void SetupStates()
         {
-            var mainMenuState = new PlayerSwingingMainMenuState(this, _player, _grapplingEventBus, _gameplayEventBus);
+            var mainMenuState = new PlayerSwingingMainMenuState(this, _player, _grapplingEventBus, _gameplayEventBus, _tilemapParameters);
             var idleState = new PlayerSwingingIdleState(this, _inputEventBus);
             var aimingState = new PlayerSwingingAimingState(this, _inputEventBus, _grapplingEventBus, _player);
             var grappledState = new PlayerSwingingGrappledState(this, _inputEventBus, _player);
@@ -42,7 +44,7 @@ namespace Player.StateMachines
         void OnPlayerDied()
         {
             Pause();
-            TransitionTo(typeof(PlayerSwingingIdleState));
+            TransitionTo(typeof(PlayerSwingingMainMenuState));
         }
 
         void FetchDependencies()
@@ -50,6 +52,7 @@ namespace Player.StateMachines
             _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
             _gameplayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
+            _tilemapParameters = ServiceLocator.instance.Get<CourseGenerationManager>().parameters.tilemapParameters;
         }
     }
 }

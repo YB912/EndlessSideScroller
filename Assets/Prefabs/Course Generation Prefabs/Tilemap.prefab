@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73c63c95613ff0d4fae66801d84555a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entryTriggerPrefab: {fileID: 4405030627575393914, guid: e2dacc4a3a5c8c548b7e83c8b05abe9d, type: 3}
   _revolvingTriggerPrefab: {fileID: 911610896497174477, guid: 378971cddcaa6874e8a852565c15651d, type: 3}
   _deathTriggerPrefab: {fileID: 8976931240075049548, guid: 65f77aebba323a742bc0beedca5d0332, type: 3}
 --- !u!1839735485 &6863821761415863366

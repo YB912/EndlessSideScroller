@@ -3,6 +3,7 @@ using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using DG.Tweening;
 using Unity.Cinemachine;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 namespace Mechanics.Camera
@@ -20,10 +21,24 @@ namespace Mechanics.Camera
         bool _isFollowingThePlyer;
         float _cameraAspect;
         float _orthographicSize;
+        float _screenWidth;
+        float _lookahead;
 
         LoadingEventBus _loadingEventBus;
         GameCycleEventBus _gameCycleEventBus;
         GameplayEventBus _gamePlayEventBus;
+
+        bool isAheadOfPlayer
+        {
+            get
+            {
+                if (_playerAbdomenTransform != null)
+                {
+                    return transform.position.x > _playerAbdomenTransform.position.x + _lookahead;
+                }
+                return false;
+            }
+        }
 
         public void Initialize(float fixedY)
         {
@@ -34,7 +49,7 @@ namespace Mechanics.Camera
 
         private void LateUpdate()
         {
-            if (_isFollowingThePlyer)
+            if (_isFollowingThePlyer && isAheadOfPlayer == false)
             {
                 SetPositionToPlayer();
             }
@@ -52,10 +67,19 @@ namespace Mechanics.Camera
             _loadingEventBus.Subscribe<PlayerInitializedEvent>(SetPlayerTransform);
             _loadingEventBus.Subscribe<CinemachineCameraInitializedEvent>(OnCinemachineCameraInitialized);
 
-            _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(LookAheadOfPlayer);
-            _gamePlayEventBus.Subscribe<LaunchSequenceCompletedEvent>(BeginFollowingPlayer);
-            _gameCycleEventBus.Subscribe<EnteredMainMenuStateGameCycleEvent>(StopFollowingPlayer);
-            _gamePlayEventBus.Subscribe<PlayerDiedEvent>(StopFollowingPlayer);
+            _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(() =>
+            {
+                StopFollowingPlayer();
+                LookAheadOfPlayer();
+            });
+            _gamePlayEventBus.Subscribe<LaunchSequenceCompletedGameplayEvent>(BeginFollowingPlayer);
+            _gameCycleEventBus.Subscribe<EnteredMainMenuStateGameCycleEvent>(() =>
+            {
+                StopFollowingPlayer();
+                SetPositionToOutsidePlayState();
+            });
+            _gamePlayEventBus.Subscribe<PlayerDiedGameplayEvent>(StopFollowingPlayer);
+            _gameCycleEventBus.Subscribe<RagdollResetGameCycleEvent>(SetPositionToOutsidePlayState);
         }
 
         void OnCinemachineCameraInitialized()
@@ -63,12 +87,8 @@ namespace Mechanics.Camera
             _cameraAspect = UnityEngine.Camera.main.aspect;
             _orthographicSize = ServiceLocator.instance.Get<CinemachineCamera>().Lens.OrthographicSize;
             _loadingEventBus.Unsubscribe<CinemachineCameraInitializedEvent>(OnCinemachineCameraInitialized);
-        }
-
-        void LookAheadOfPlayer()
-        {
-            _isFollowingThePlyer = false;
-            TweenPositionToDistance(_settings.playerNormalizedLaunchLookAheadScreenX);
+            _screenWidth = 2f * _orthographicSize * _cameraAspect;
+            _lookahead = _screenWidth * _settings.normalizedPlayStateLookaheadAmount;
         }
 
         void BeginFollowingPlayer()
@@ -79,38 +99,45 @@ namespace Mechanics.Camera
         void StopFollowingPlayer()
         {
             _isFollowingThePlyer = false;
-            SetPositionToDistance(_settings.playerNormalizedScreenXOutsidePlayState);
         }
 
         void SetPositionToPlayer()
         {
             if (_playerAbdomenTransform == null) return;
-            transform.position = new Vector3(_playerAbdomenTransform.position.x, _fixedY, 0);
+            transform.position = new Vector3(_playerAbdomenTransform.position.x + _lookahead, _fixedY, 0);
+        }
+
+        void LookAheadOfPlayer()
+        {
+            TweenPositionToDistance(_settings.playerNormalizedLaunchLookAheadScreenX);
+        }
+
+        void SetPositionToOutsidePlayState()
+        {
+            SetPositionToDistance(_settings.playerNormalizedScreenXOutsidePlayState);
         }
 
         void SetPositionToDistance(float playerNormalizedX)
         {
-            transform.position = PositionWhenPlayerIsVisibleAt(_settings.playerNormalizedScreenXOutsidePlayState);
+            transform.position = PositionWhenPlayerIsVisibleAt(playerNormalizedX);
         }
 
         void TweenPositionToDistance(float playerNormalizedX)
         {
             var destination = PositionWhenPlayerIsVisibleAt(playerNormalizedX);
             transform.DOMove(destination, _settings.positionTweenDuration)
-                .OnComplete(_gamePlayEventBus.Publish<CameraTargetReachedTweenPositionEvent>);
+                .OnComplete(_gamePlayEventBus.Publish<CameraTargetReachedTweenPositionGameplayEvent>);
         }
 
         Vector3 PositionWhenPlayerIsVisibleAt(float playerNormalizedX)
         {
             if (_playerAbdomenTransform != null)
             {
-                float screenWidth = 2f * _orthographicSize * _cameraAspect;
-
-                float halfWidth = screenWidth / 2f;
+                float halfWidth = _screenWidth / 2f;
                 float playerX = _playerAbdomenTransform.position.x;
 
                 float desiredPlayerWorldX = playerX;
-                float cameraX = desiredPlayerWorldX - (-halfWidth + screenWidth * playerNormalizedX);
+                float cameraX = desiredPlayerWorldX - (-halfWidth + _screenWidth * playerNormalizedX);
 
                 return new Vector3(cameraX, _fixedY, transform.position.z);
             }

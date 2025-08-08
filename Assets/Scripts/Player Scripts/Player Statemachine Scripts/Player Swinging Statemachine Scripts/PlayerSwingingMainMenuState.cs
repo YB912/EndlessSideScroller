@@ -1,6 +1,7 @@
 
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.StatePattern;
+using Mechanics.CourseGeneration;
 using UnityEngine;
 
 namespace Player.StateMachines
@@ -10,28 +11,48 @@ namespace Player.StateMachines
         GrapplingEventBus _grapplingEventBus;
         GameplayEventBus _gameplayEventBus;
         PlayerController _player;
+        MainMenuGrapplingOverrideSettings _settings;
+        TilemapParameters _tilemapParameters;
 
-        public PlayerSwingingMainMenuState(IStateMachine statemachine, PlayerController player, GrapplingEventBus grapplingEventbus, GameplayEventBus gameplayEventBus) 
+        Vector3 _hangingAimPosition;
+        float _aimHeight;
+        bool _waitingToGrapple;
+
+        Vector3 _launchAimPosition;
+
+        public PlayerSwingingMainMenuState(IStateMachine statemachine, PlayerController player, GrapplingEventBus grapplingEventbus, 
+            GameplayEventBus gameplayEventBus, TilemapParameters tilemapParameters) 
             : base(statemachine)
         {
             _player = player;
             _grapplingEventBus = grapplingEventbus;
             _gameplayEventBus = gameplayEventBus;
+            _settings = _player.mainMenuGrapplingOverrideSettings;
+            _tilemapParameters = tilemapParameters;
         }
 
         public override void OnEnter()
         {
             base.OnEnter();
+            CalculateAimProperties();
             MainMenuAimOverride();
-            _gameplayEventBus.Subscribe<CameraTargetReachedTweenPositionEvent>(LaunchAimOverride);
+            _gameplayEventBus.Subscribe<CameraTargetReachedTweenPositionGameplayEvent>(LaunchAimOverride);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            if (_waitingToGrapple && _player.bodyParts.abdomen.transform.position.y <= _aimHeight)
+            {
+                _player.grapplingManager.aimController.AimTowards(_hangingAimPosition);
+                _waitingToGrapple = false;
+            }
         }
 
         void MainMenuAimOverride()
         {
             _grapplingEventBus.Subscribe<GrapplerAimedEvent>(MainMenuGrapplingOverride);
-            var aimPosition = _player.bodyParts.head.transform.position + _player.mainMenuGrapplingOverrideSettings.hangingRopeAimOffsetFromHead;
-            var aimDelay = _player.mainMenuGrapplingOverrideSettings.hangingRopeAimDelay;
-            _player.grapplingManager.aimController.AimTowardsWithDelay(aimPosition, aimDelay);
+            _waitingToGrapple = true;
         }
 
         void MainMenuGrapplingOverride()
@@ -44,32 +65,37 @@ namespace Player.StateMachines
         {
             _player.grapplingManager.ropeController.EndGrappling();
             _grapplingEventBus.Subscribe<GrapplerAimedEvent>(LaunchGrapplingOverride);
-            var aimPosition = _player.bodyParts.head.transform.position + _player.mainMenuGrapplingOverrideSettings.forwardRopeAimOffsetFromHead;
-            _player.grapplingManager.aimController.AimTowards(aimPosition);
+            _player.grapplingManager.aimController.AimTowards(_launchAimPosition);
         }
 
         void LaunchGrapplingOverride()
         {
             _player.grapplingManager.ropeController.StartGrappling();
-            var releaseDelay = _player.mainMenuGrapplingOverrideSettings.forwardRopeReleaseDelay;
-            _player.grapplingManager.ropeController.EndGrapplingWithDelay(releaseDelay, 
-                () => _gameplayEventBus.Publish<LaunchSequenceCompletedEvent>());
+            _player.grapplingManager.ropeController.EndGrapplingWithDelay(_settings.forwardRopeReleaseDelay, 
+                () => _gameplayEventBus.Publish<LaunchSequenceCompletedGameplayEvent>());
             _grapplingEventBus.Unsubscribe<GrapplerAimedEvent>(LaunchGrapplingOverride);
         }
 
         protected override void SubscribeToTransitionEvents()
         {
-            _gameplayEventBus.Subscribe<LaunchSequenceCompletedEvent>(TransitionToIdleState);
+            _gameplayEventBus.Subscribe<LaunchSequenceCompletedGameplayEvent>(TransitionToIdleState);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
-            _gameplayEventBus.Unsubscribe<LaunchSequenceCompletedEvent>(TransitionToIdleState);
+            _gameplayEventBus.Unsubscribe<LaunchSequenceCompletedGameplayEvent>(TransitionToIdleState);
         }
 
         void TransitionToIdleState()
         {
             _statemachine.TransitionTo(typeof(PlayerSwingingIdleState));
+        }
+
+        void CalculateAimProperties()
+        {
+            _hangingAimPosition = _player.bodyParts.head.transform.position + _settings.hangingRopeAimOffsetFromHead;
+            _aimHeight = _tilemapParameters.tilemapHeight * _tilemapParameters.GridCellSize.y * _settings.hangingRopeAimHeightNormalized;
+            _launchAimPosition = _player.bodyParts.head.transform.position + _settings.forwardRopeAimOffsetFromHead;
         }
     }
 }

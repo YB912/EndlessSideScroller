@@ -1,5 +1,7 @@
 
 using DesignPatterns.ServiceLocatorPattern;
+using Mechanics.CourseGeneration;
+using Player;
 using UnityEngine;
 using UnityEngine.U2D.IK;
 
@@ -47,7 +49,9 @@ namespace Mechanics.Grappling
     [System.Serializable]
     public class CommonGrapplingDependencies
     {
-        public Transform effectorTransform;
+        [SerializeField] Transform _effectorTransform;
+
+        public Transform effectorTransform => _effectorTransform;
     }
 
     /// <summary>
@@ -56,10 +60,15 @@ namespace Mechanics.Grappling
     [System.Serializable]
     public class GrapplingAimDependencies
     {
-        public IKManager2D IKManager;
-        public Transform IKTargetTransform;
-        public float aimMovementDuration;
-        public float minimumAimDistance;
+        [SerializeField] IKManager2D _IKManager;
+        [SerializeField] Transform _IKTargetTransform;
+        [SerializeField] float _aimMovementDuration;
+        [SerializeField] float _minimumAimDistance;
+
+        public IKManager2D IKManager => _IKManager;
+        public Transform IKTargetTransform => _IKTargetTransform;
+        public float aimMovementDuration => _aimMovementDuration;
+        public float minimumAimDistance => _minimumAimDistance;
     }
 
     /// <summary>
@@ -68,10 +77,31 @@ namespace Mechanics.Grappling
     [System.Serializable]
     public class GrapplingRopeDependencies
     {
-        public GameObject ropeSegmentPrefab;
-        public Rigidbody2D forearmRigidbody;
-        public Rigidbody2D abdomenRigidbody;
-        public int segmentCountLimit;
+        [SerializeField] GameObject _ropeSegmentPrefab;
+        [SerializeField] GameObject _ropeSegmentHolderPrefab;
+        [SerializeField] int _segmentCountLimit;
+
+        PlayerController _player;
+
+        public GameObject ropeSegmentPrefab => _ropeSegmentPrefab;
+        public GameObject ropeSegmentHolderPrefab => _ropeSegmentHolderPrefab;
+        public int segmentCountLimit => _segmentCountLimit;
+        public PlayerController player
+        {
+            get
+            {
+                if (_player == null)
+                {
+                    InitializePlayerField();
+                }
+                return _player;
+            }
+        }
+
+        void InitializePlayerField()
+        {
+            _player = ServiceLocator.instance.Get<PlayerController>();
+        }
     }
 
     /// <summary>
@@ -80,7 +110,10 @@ namespace Mechanics.Grappling
     [System.Serializable]
     public class RopeAnimationDependencies
     {
-        public AnimationCurve animationCurve;
-        public float totalAnimationDuration;
+        [SerializeField] AnimationCurve _animationCurve;
+        [SerializeField] float _totalAnimationDuration;
+
+        public AnimationCurve animationCurve => _animationCurve;
+        public float totalAnimationDuration => _totalAnimationDuration;
     }
 }

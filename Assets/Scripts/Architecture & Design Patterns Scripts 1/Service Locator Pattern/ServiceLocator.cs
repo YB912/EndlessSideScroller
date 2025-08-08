@@ -45,33 +45,44 @@ namespace DesignPatterns.ServiceLocatorPattern
         /// <summary>
         /// Registers a service instance using its type as the key.
         /// </summary>
-        public void Register<T>(T service) where T : class
+        public void Register<T>(T service, bool force = false) where T : class
         {
             var type = typeof(T);
-            RegisterInternal(type, service);
+            RegisterInternal(type, service, force);
         }
 
         /// <summary>
         /// Registers a service instance using a specific type.
         /// </summary>
-        public void Register(Type type, object service)
+        public void Register(Type type, object service, bool force = false)
         {
             if (type.IsInstanceOfType(service) == false)
             {
                 throw new ArgumentException($"Service {service} is not of type {type.FullName}");
             }
 
-            RegisterInternal(type, service);
+            RegisterInternal(type, service, force);
         }
 
         /// <summary>
         /// Internal helper for safely registering services with type checks.
         /// </summary>
-        void RegisterInternal(Type type, object service)
+        public void RegisterInternal<T>(Type type, T service, bool force = false) where T : class
         {
-            if (_services.TryAdd(type, service) == false)
+            if (_services.TryGetValue(type, out var existing))
             {
-                Debug.LogError($"Service of type {type.FullName} has already been registered.");
+                if (existing == null || force)
+                {
+                    _services[type] = service;
+                }
+                else
+                {
+                    Debug.LogError($"Service {type.FullName} is already registered.");
+                }
+            }
+            else
+            {
+                _services[type] = service;
             }
         }
     }

@@ -10,6 +10,7 @@ namespace Mechanics.CourseGeneration
     /// </summary>
     public class TilemapController : MonoBehaviour
     {
+        [SerializeField] GameObject _entryTriggerPrefab;
         [SerializeField] GameObject _revolvingTriggerPrefab;
         [SerializeField] GameObject _deathTriggerPrefab;
 
@@ -26,10 +27,9 @@ namespace Mechanics.CourseGeneration
             _parameters = parameters;
             _tilemapParameters = _parameters.tilemapParameters;
             FetchDependencies();
-            SetupRevolvingTrigger(gameplayEventBus);
-            SetupDeathTrigger(gameplayEventBus);
+            SetupTriggers(gameplayEventBus);
             Generate();
-            VisualizeTilemapArea();
+            // VisualizeTilemapArea();
         }
 
         void FetchDependencies()
@@ -43,10 +43,29 @@ namespace Mechanics.CourseGeneration
             _tileSetter.SetTiles();
         }
 
+        public void ResetTilemap()
+        {
+            _tileSetter.ClearAllTiles();
+            Generate();
+        }
+
+        void SetupTriggers(GameplayEventBus gameplayEventBus)
+        {
+            SetupEntryTrigger(gameplayEventBus);
+            SetupRevolvingTrigger(gameplayEventBus);
+            SetupDeathTrigger(gameplayEventBus);
+        }
+
+        void SetupEntryTrigger(GameplayEventBus gameplayEventBus)
+        {
+            var trigger = Instantiate(_entryTriggerPrefab, transform);
+            trigger.GetComponent<TilemapEntryTriggerController>().Initialize(gameplayEventBus, _tilemapParameters);
+        }
+
         void SetupRevolvingTrigger(GameplayEventBus gameplayEventBus)
         {
             var trigger = Instantiate(_revolvingTriggerPrefab, transform);
-            trigger.GetComponent<RevolvingTriggerController>().Initialize(gameplayEventBus, _tilemapParameters);
+            trigger.GetComponent<TilemapRevolvingTriggerController>().Initialize(gameplayEventBus, _tilemapParameters);
         }
 
         void SetupDeathTrigger(GameplayEventBus gameplayEventBus)

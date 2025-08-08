@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Mechanics.CourseGeneration
 {
-    public class DeathTriggerController : TilemapTrigger
+    public class DeathTriggerController : TilemapTriggerController
     {
         protected override string nameInHierarchy => "DeathTrigger";
 
         protected override void OnPlayerEnteredTrigger()
         {
-            _gamePlayEventBus.Publish<PlayerHitADeathTrigger>();
+            _gamePlayEventBus.Publish<PlayerHitADeathTriggerGameplayEvent>();
         }
 
         protected override void SetupTrigger()

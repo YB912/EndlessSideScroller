@@ -8,6 +8,7 @@ namespace Player.StateMachines
     public class PlayerLifeCycleStatemachine : Statemachine
     {
         GameplayEventBus _gameplayEventBus;
+        GameCycleEventBus _gamecycleEventBus;
 
         public PlayerLifeCycleStatemachine() : base()
         {
@@ -25,7 +26,7 @@ namespace Player.StateMachines
         protected override void SetupStates()
         {
             var aliveState = new PlayerLifeCycleAliveState(this, _gameplayEventBus);
-            var deadState = new PlayerLifeCycleDeadState(this, _gameplayEventBus);
+            var deadState = new PlayerLifeCycleDeadState(this, _gameplayEventBus, _gamecycleEventBus);
 
             _states.TryAdd(typeof(PlayerLifeCycleAliveState), aliveState);
             _states.TryAdd(typeof(PlayerLifeCycleDeadState), deadState);
@@ -34,6 +35,7 @@ namespace Player.StateMachines
         private void FetchDependencies()
         {
             _gameplayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
+            _gamecycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
         }
     }
 }

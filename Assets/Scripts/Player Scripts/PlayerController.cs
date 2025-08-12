@@ -13,7 +13,7 @@ namespace Player
     /// Root player controller that coordinates player parts, grappling system, and swinging state machine.
     /// </summary>
     [RequireComponent(typeof(PlayerSwingingForceController))]
-    public partial class PlayerController : MonoBehaviour, IInitializeable
+    public class PlayerController : MonoBehaviour, IInitializeable
     {
         [SerializeField] PlayerBodyParts _bodyParts;
         [SerializeField] MainMenuGrapplingOverrideSettings _mainMenuGrapplingOverrideSettings;
@@ -44,7 +44,7 @@ namespace Player
             InitializeStatemachines();
 
             // Notify that player has been initialized
-            ServiceLocator.instance.Get<LoadingEventBus>().Publish<PlayerInitializedEvent>();
+            ServiceLocator.instance.Get<LoadingEventBus>().Publish<PlayerInitializedLoadingEvent>();
             _gamecycleEventBus.Subscribe<ExitedPlayStateGameCycleEvent>(OnExitedGameCyclePlayState);
         }
 

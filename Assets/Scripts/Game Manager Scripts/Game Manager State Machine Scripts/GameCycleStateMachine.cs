@@ -17,7 +17,7 @@ namespace Mechanics.GameManagement
             _UIEventBus = ServiceLocator.instance.Get<UIEventBus>();
             _gameCycleEventbus = ServiceLocator.instance.Get<GameCycleEventBus>();
             SetupStates();
-            _loadingEventBus.Subscribe<MainSceneBootstrappedEvent>(OnMainSceneBootstrapped);
+            _loadingEventBus.Subscribe<MainSceneBootstrappedLoadingEvent>(OnMainSceneBootstrapped);
         }
 
         public override void Reset()

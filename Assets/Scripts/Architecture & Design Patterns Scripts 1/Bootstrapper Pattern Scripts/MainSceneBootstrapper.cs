@@ -26,7 +26,7 @@ public class MainSceneBootstrapper : MonoBehaviour
                 yield return bootstrappableComponent.BootstrapCoroutine();
             }
         }
-        ServiceLocator.instance.Get<LoadingEventBus>().Publish<MainSceneBootstrappedEvent>();
+        ServiceLocator.instance.Get<LoadingEventBus>().Publish<MainSceneBootstrappedLoadingEvent>();
     }
 }
 

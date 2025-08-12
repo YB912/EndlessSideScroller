@@ -64,8 +64,8 @@ namespace Mechanics.Camera
 
         void SubscribeToEvents()
         {
-            _loadingEventBus.Subscribe<PlayerInitializedEvent>(SetPlayerTransform);
-            _loadingEventBus.Subscribe<CinemachineCameraInitializedEvent>(OnCinemachineCameraInitialized);
+            _loadingEventBus.Subscribe<PlayerInitializedLoadingEvent>(SetPlayerTransform);
+            _loadingEventBus.Subscribe<CinemachineCameraInitializedLoadingEvent>(OnCinemachineCameraInitialized);
 
             _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(() =>
             {
@@ -86,7 +86,7 @@ namespace Mechanics.Camera
         {
             _cameraAspect = UnityEngine.Camera.main.aspect;
             _orthographicSize = ServiceLocator.instance.Get<CinemachineCamera>().Lens.OrthographicSize;
-            _loadingEventBus.Unsubscribe<CinemachineCameraInitializedEvent>(OnCinemachineCameraInitialized);
+            _loadingEventBus.Unsubscribe<CinemachineCameraInitializedLoadingEvent>(OnCinemachineCameraInitialized);
             _screenWidth = 2f * _orthographicSize * _cameraAspect;
             _lookahead = _screenWidth * _settings.normalizedPlayStateLookaheadAmount;
         }
@@ -148,9 +148,9 @@ namespace Mechanics.Camera
         void SetPlayerTransform()
         {
             _playerAbdomenTransform = ServiceLocator.instance.Get<Player.PlayerController>().bodyParts.abdomen.transform;
-            _loadingEventBus.Unsubscribe<PlayerInitializedEvent>(SetPlayerTransform);
+            _loadingEventBus.Unsubscribe<PlayerInitializedLoadingEvent>(SetPlayerTransform);
             SetPositionToPlayer();
-            _loadingEventBus.Publish<CameraFollowTargetInitializedEvent>();
+            _loadingEventBus.Publish<CameraFollowTargetInitializedLoadingEvent>();
         }
     }
 }

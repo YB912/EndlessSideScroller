@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 namespace UI.GameOverMenu
 {
-    public class GameOverMenuUIView : UIViewWithButtons, IInitializeable
+    public class GameOverMenuUIView : UIViewWithButtons, IInitializeable, IGameOverMenuUIView
     {
         [SerializeField] TextMeshProUGUI _gameOverTitleText;
+        [SerializeField] TextMeshProUGUI _scoreText;
         [SerializeField] Button _restartButton;
         [SerializeField] Button _quitButton;
 
@@ -28,6 +29,11 @@ namespace UI.GameOverMenu
         {
             _restartButton.interactable = false;
             _quitButton.interactable = false;
+        }
+
+        public void UpdateTotalScore(int totalScore)
+        {
+            _scoreText.text = "Total Score: " + totalScore.ToString();
         }
 
         protected override void AddButtonListeners()

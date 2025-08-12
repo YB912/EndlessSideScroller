@@ -562,7 +562,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Score: \n(Coming Soon)"
+  m_text: "Score: \n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.3
+  m_fontSize: 77.7
   m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1019,5 +1019,6 @@ MonoBehaviour:
   _rootPanel: {fileID: 7341546040771744622}
   _slidingWindowSettings: {fileID: 11400000, guid: df3ccbda41d89a744b667c011dc18187, type: 2}
   _gameOverTitleText: {fileID: 4875113891024998565}
+  _scoreText: {fileID: 1552328734811783199}
   _restartButton: {fileID: 3104101651994816369}
   _quitButton: {fileID: 3282966788927694253}

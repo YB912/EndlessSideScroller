@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\Course Generation Scripts\CourseParameters.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Singleton Pattern\Singleton.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\SlidingWindowSettings.cs" />
+    <Compile Include="Assets\Scripts\Score Scripts\ScoringSettings.cs" />
     <Compile Include="Assets\Scripts\Game Manager Scripts\Game Manager State Machine Scripts\GameCycleMainMenuState.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\UIBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\State Pattern\Statemachine.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\InputManagementBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\TilePaletteReferences.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\CourseGenerationManager.cs" />
+    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\ScoreManagerBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Statemachine Scripts\Player Swinging Statemachine Scripts\PlayerSwingingAimingState.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Grappling Scripts\RopeCreationAnimationController.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModulePhysics.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="Assets\Scripts\Player Scripts\Player Grappling Scripts\GrapplingRopeController.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Grappling Scripts\RopeCreator.cs" />
     <Compile Include="Assets\Scripts\Game Manager Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Score Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager Scripts\Game Manager State Machine Scripts\GameCyclePlayState.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\UIView.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\Camera Bootstrapping Scripts\MainCameraBootstrapper.cs" />

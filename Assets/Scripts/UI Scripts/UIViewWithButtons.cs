@@ -8,6 +8,12 @@ namespace UI
         public void EnableButtonsInteractability();
         public void DisableButtonsInteractability();
     }
+
+    public interface IGameOverMenuUIView : IUIViewWithButtons
+    {
+        public void UpdateTotalScore(int totalScore);
+    }
+
     public abstract class UIViewWithButtons : UIView, IUIViewWithButtons
     {
         public override Tween SlidePanelIn()

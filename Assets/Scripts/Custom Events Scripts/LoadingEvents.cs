@@ -1,8 +1,8 @@
 
-public class PlayerInitializedEvent { }
+public class PlayerInitializedLoadingEvent { }
 
-public class CameraFollowTargetInitializedEvent { }
+public class CameraFollowTargetInitializedLoadingEvent { }
 
-public class CinemachineCameraInitializedEvent { }
+public class CinemachineCameraInitializedLoadingEvent { }
 
-public class MainSceneBootstrappedEvent { }
+public class MainSceneBootstrappedLoadingEvent { }

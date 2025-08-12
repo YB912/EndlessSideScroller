@@ -2,6 +2,7 @@
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using DG.Tweening;
+using Mechanics.Scoring;
 
 namespace UI.GameOverMenu
 {
@@ -9,7 +10,7 @@ namespace UI.GameOverMenu
     {
         public void RestartButtonClicked();
         public void QuitButtonClicked();
-        public static IGameOverUIPresenter Create(IUIViewWithButtons view)
+        public static IGameOverUIPresenter Create(IGameOverMenuUIView view)
         {
             return new GameOverMenuUIPresenter(view);
         }
@@ -17,14 +18,14 @@ namespace UI.GameOverMenu
 
     public class GameOverMenuUIPresenter : IGameOverUIPresenter
     {
-        IUIViewWithButtons _view;
+        IGameOverMenuUIView _view;
         UIEventBus _UIEventBus;
         GameplayEventBus _gameplayEventBus;
+        ScoreManager _scoreManager;
 
-        public GameOverMenuUIPresenter(IUIViewWithButtons view)
+        public GameOverMenuUIPresenter(IGameOverMenuUIView view)
         {
-            _UIEventBus = ServiceLocator.instance.Get<UIEventBus>();
-            _gameplayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
+            FetchDependencies();
             _view = view;
             _gameplayEventBus.Subscribe<PlayerDiedGameplayEvent>(OnPlayerDied);
         }
@@ -41,8 +42,16 @@ namespace UI.GameOverMenu
             _view.SlidePanelOut().OnComplete(() => _UIEventBus.Publish<MainMenuStateButtonClickedUIEvent>());
         }
 
+        void FetchDependencies()
+        {
+            _UIEventBus = ServiceLocator.instance.Get<UIEventBus>();
+            _gameplayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
+            _scoreManager = ServiceLocator.instance.Get<ScoreManager>();
+        }
+
         void OnPlayerDied()
         {
+            _view.UpdateTotalScore(_scoreManager.totalScore);
             _view.SlidePanelIn();
         }
     }

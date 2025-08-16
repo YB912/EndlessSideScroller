@@ -2,17 +2,19 @@
 using DesignPatterns.EventBusPattern;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 namespace Mechanics.CourseGeneration
 {
     /// <summary>
     /// Controls an individual tilemap segment in the course generation system.
     /// </summary>
-    public class TilemapController : MonoBehaviour
+    public partial class TilemapController : MonoBehaviour
     {
         [SerializeField] GameObject _entryTriggerPrefab;
         [SerializeField] GameObject _revolvingTriggerPrefab;
-        [SerializeField] GameObject _deathTriggerPrefab;
+        [SerializeField] GameObject _floorDeathTriggerPrefab;
+        [SerializeField] GameObject _ceilingDeathTriggerPrefab;
 
         Tilemap _tilemap;
         TileSetter _tileSetter;
@@ -20,7 +22,17 @@ namespace Mechanics.CourseGeneration
         GenerationParameters _parameters;
         TilemapParameters _tilemapParameters;
 
+        // 
+        int[][] _occupancyMatrix;
+        List<Vector2Int> _emptyCells;
+
         public Tilemap tilemap => _tilemap;
+
+        /// <summary>
+        /// 0 = Empty, 1 = Solid Tile, 2 = Ceiling Gap
+        /// </summary>
+        public int[][] occupancyMatrix => _occupancyMatrix;
+        public List<Vector2Int> emptyCells => _emptyCells;
 
         public void Initialize(GenerationParameters parameters, GameplayEventBus gameplayEventBus)
         {
@@ -35,7 +47,7 @@ namespace Mechanics.CourseGeneration
         void FetchDependencies()
         {
             _tilemap = GetComponent<Tilemap>();
-            _tileSetter = new TileSetter(_tilemap, _parameters);
+            _tileSetter = new TileSetter(this, _parameters);
         }
 
         public void Generate()
@@ -53,7 +65,8 @@ namespace Mechanics.CourseGeneration
         {
             SetupEntryTrigger(gameplayEventBus);
             SetupRevolvingTrigger(gameplayEventBus);
-            SetupDeathTrigger(gameplayEventBus);
+            SetupFloorDeathTrigger(gameplayEventBus);
+            SetupCeilingDeathTrigger(gameplayEventBus);
         }
 
         void SetupEntryTrigger(GameplayEventBus gameplayEventBus)
@@ -68,10 +81,16 @@ namespace Mechanics.CourseGeneration
             trigger.GetComponent<TilemapRevolvingTriggerController>().Initialize(gameplayEventBus, _tilemapParameters);
         }
 
-        void SetupDeathTrigger(GameplayEventBus gameplayEventBus)
+        void SetupFloorDeathTrigger(GameplayEventBus gameplayEventBus)
         {
-            var trigger = Instantiate(_deathTriggerPrefab, transform);
-            trigger.GetComponent<DeathTriggerController>().Initialize(gameplayEventBus, _tilemapParameters);
+            var trigger = Instantiate(_floorDeathTriggerPrefab, transform);
+            trigger.GetComponent<TilemapFloorDeathTriggerController>().Initialize(gameplayEventBus, _tilemapParameters);
+        }
+
+        void SetupCeilingDeathTrigger(GameplayEventBus gameplayEventBus)
+        {
+            var trigger = Instantiate(_ceilingDeathTriggerPrefab, transform);
+            trigger.GetComponent<TilemapCeilingDeathTriggerController>().Initialize(gameplayEventBus, _tilemapParameters);
         }
 
         void VisualizeTilemapArea()
@@ -101,49 +120,6 @@ namespace Mechanics.CourseGeneration
             Rect rect = new Rect(0, 0, 1, 1);
             Vector2 pivot = new Vector2(0f, 0f);
             return Sprite.Create(tex, rect, pivot, 100f);
-        }
-
-        private class TileSetter
-        {
-            TilemapParameters _tilemapParameters;
-            TilePaletteReferences _paletteReferences;
-            CourseParameters _courseParameters;
-            Tilemap _attachedTilemap;
-            public TileSetter(Tilemap attachedTilemap, GenerationParameters parameters)
-            {
-                _attachedTilemap = attachedTilemap;
-                _tilemapParameters = parameters.tilemapParameters;
-                _paletteReferences = parameters.tilePaletteReferences;
-                _courseParameters = parameters.courseParameters;
-            }
-
-            public void SetTiles()
-            {
-                ClearAllTiles();
-                GenerateCeiling();
-            }
-
-            public void ClearAllTiles()
-            {
-                _attachedTilemap.ClearAllTiles();
-            }
-
-            void GenerateCeiling()
-            {
-                var origin = new Vector2Int(0, _tilemapParameters.tilemapHeight - 1);
-                FillBox(origin, _tilemapParameters.tilemapWidth, 1, _paletteReferences.whiteTile);
-            }
-
-            void FillBox(Vector2Int origin, int width, int height, TileBase fillTile)
-            {
-                var area = new BoundsInt(origin.x, origin.y, 0, width, height, 1);
-
-                TileBase[] tileArray = new TileBase[width * height];
-                for (int i = 0; i < tileArray.Length; i++)
-                    tileArray[i] = fillTile;
-
-                _attachedTilemap.SetTilesBlock(area, tileArray);
-            }
         }
     }
 }

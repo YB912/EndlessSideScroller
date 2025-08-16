@@ -15,7 +15,7 @@ public class MainSceneBootstrapper : MonoBehaviour
     {
         foreach (Transform module in transform)
         {
-            if (module.gameObject.activeInHierarchy == false) { continue; }
+            if (module.gameObject.activeSelf == false) { continue; }
             var bootstrappableComponents = module.GetComponents<IBootstrapper>();
             if (bootstrappableComponents.Length == 0)
             {

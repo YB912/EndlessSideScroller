@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7574329818475318977}
-  - component: {fileID: 4516752926767538840}
+  - component: {fileID: 3670023901984831070}
   - component: {fileID: 2942751439395077066}
   m_Layer: 0
-  m_Name: TilemapDeathTrigger
+  m_Name: TilemapCeilingDeathTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4516752926767538840
+--- !u!114 &3670023901984831070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8976931240075049548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c1e40411f072b44fae1d1602aa1b4cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 770c4aadaa27bf04e8f787559bd0b0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!61 &2942751439395077066
@@ -89,5 +89,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1000, y: 10}
+  m_Size: {x: 1000, y: 5}
   m_EdgeRadius: 0

@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: CourseParameters
   m_EditorClassIdentifier: 
   _minCeilingGapNumberPerMap: 0
-  _maxCeilingGapNumberPerMap: 0
+  _maxCeilingGapNumberPerMap: 3
   _minPlatformNumberPerMap: 0
   _maxPlatformNumberPerMap: 0
   _minWallNumberPerMap: 0
   _maxWallNumberPerMap: 0
-  _minCeilingGapLength: 0
-  _maxCeilingGapLength: 0
+  _minCeilingGapLength: 4
+  _maxCeilingGapLength: 8
   _minPlatformLength: 0
   _maxPlatformLength: 0
   _minPlatformHeight: 0

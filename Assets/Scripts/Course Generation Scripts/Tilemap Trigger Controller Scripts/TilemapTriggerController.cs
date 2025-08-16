@@ -23,7 +23,7 @@ namespace Mechanics.CourseGeneration
             SetupTrigger();
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        protected virtual void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag(PLAYER_ABDOMEN_TAG))
             {

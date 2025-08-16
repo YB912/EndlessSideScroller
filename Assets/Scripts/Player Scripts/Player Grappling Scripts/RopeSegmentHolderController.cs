@@ -12,6 +12,7 @@ namespace Mechanics.Grappling
         List<GameObject> _segmentsToDespawn = new();
 
         GameplayEventBus _gameplayEventBus;
+        GameCycleEventBus _gameCycleEventBus;
 
         ObjectPoolManager _objectPool;
 
@@ -20,11 +21,13 @@ namespace Mechanics.Grappling
             FetchDependencies();
             _gameplayEventBus.Subscribe<PlayerEnteredATilemapGameplayEvent>(OnPlayerEnteredATilemap);
             _gameplayEventBus.Subscribe<PlayerPassedATilemapRevolvingTriggerGameplayEvent>(OnPlayerPassedATilemapRevolvingTrigger);
+            _gameCycleEventBus.Subscribe<ExitedPlayStateGameCycleEvent>(ClearAllSegments);
         }
 
         void FetchDependencies()
         {
             _gameplayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
+            _gameCycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
             _objectPool = ServiceLocator.instance.Get<ObjectPoolManager>();
         }
 
@@ -32,7 +35,7 @@ namespace Mechanics.Grappling
         {
             foreach (Transform segment in transform)
             {
-                if (segment.gameObject.activeInHierarchy == false) continue;
+                if (segment.gameObject.activeSelf == false) continue;
                 _segmentsToDespawn.Add(segment.gameObject);
             }
         }
@@ -42,6 +45,16 @@ namespace Mechanics.Grappling
             foreach (GameObject segment in _segmentsToDespawn)
             {
                 _objectPool.ReturnToPool(segment);
+            }
+            _segmentsToDespawn.Clear();
+        }
+
+        void ClearAllSegments()
+        {
+            foreach (Transform segment in transform)
+            {
+                if (segment.gameObject.activeSelf)
+                    _objectPool.ReturnToPool(segment.gameObject);
             }
             _segmentsToDespawn.Clear();
         }

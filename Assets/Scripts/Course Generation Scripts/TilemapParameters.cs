@@ -16,9 +16,10 @@ namespace Mechanics.CourseGeneration
         [SerializeField] int _numberOfTilemaps;
         [SerializeField] int _tilemapWidth;
         [SerializeField] int _tilemapHeight;
-        [Tooltip("Depends on the tilemap width. Can also be < 0 && 100 < and put it outside of the tilemap.")]
+        [Tooltip("Can also be < 0 && 100 < and put it outside of the tilemap.")]
         [SerializeField] float _revolvingTriggerOffsetPercentage;
-        [SerializeField] int _deathTriggerYOffsetInTiles;
+        [SerializeField] int _floorDeathTriggerYOffsetInTiles;
+        [SerializeField] int _ceilingDeathTriggerYOffsetInTiles;
 
         [SerializeField] Vector2Int _playerSpawnTile;
 
@@ -29,7 +30,8 @@ namespace Mechanics.CourseGeneration
         public int tilemapWidth => _tilemapWidth;
         public int tilemapHeight => _tilemapHeight;
         public float revolvingTriggerOffsetPercentage => _revolvingTriggerOffsetPercentage;
-        public float deathTriggerYOffsetInTiles => _deathTriggerYOffsetInTiles;
+        public float floorDeathTriggerYOffsetInTiles => _floorDeathTriggerYOffsetInTiles;
+        public float ceilingDeathTriggerYOffsetInTiles => _ceilingDeathTriggerYOffsetInTiles;
         public Vector2Int playerSpawnTile => _playerSpawnTile;
     }
 }

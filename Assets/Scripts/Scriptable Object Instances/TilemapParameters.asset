@@ -17,6 +17,7 @@ MonoBehaviour:
   _numberOfTilemaps: 3
   _tilemapWidth: 80
   _tilemapHeight: 20
-  _revolvingTriggerOffsetPercentage: 150
-  _deathTriggerYOffsetInTiles: -3
+  _revolvingTriggerOffsetPercentage: 125
+  _floorDeathTriggerYOffsetInTiles: -3
+  _ceilingDeathTriggerYOffsetInTiles: 1
   _playerSpawnTile: {x: 30, y: 15}

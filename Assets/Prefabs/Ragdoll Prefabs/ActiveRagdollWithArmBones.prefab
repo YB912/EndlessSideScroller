@@ -2125,7 +2125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxForwardAttachmentForce: 10
-  _maxOutwardAttachmentForce: 60
+  _maxOutwardAttachmentForce: 0
   _detachmentForce: 750
   _attachmentForceDuration: 2
   _attachmentForceCurve:

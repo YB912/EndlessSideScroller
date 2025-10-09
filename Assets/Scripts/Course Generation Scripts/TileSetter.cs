@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,14 +7,13 @@ namespace Mechanics.CourseGeneration
 {
     public class TileSetter
     {
-
         static TilemapParameters _tilemapParameters;
         static TilePaletteReferences _paletteReferences;
         static CourseParameters _courseParameters;
-        static List<Vector2Int> _defaultRelevantCeilingCells;
         static bool _staticsSet;
 
         TilemapController _attachedTilemap;
+        byte[,] _occupancyMatrix;
 
         public TileSetter(TilemapController attachedTilemap, GenerationParameters parameters)
         {
@@ -24,114 +22,182 @@ namespace Mechanics.CourseGeneration
                 _tilemapParameters = parameters.tilemapParameters;
                 _paletteReferences = parameters.tilePaletteReferences;
                 _courseParameters = parameters.courseParameters;
-                SetDefaultCeilingRelevantCells();
                 _staticsSet = true;
             }
 
             _attachedTilemap = attachedTilemap;
-        }
-
-        static void SetDefaultCeilingRelevantCells()
-        {
-            _defaultRelevantCeilingCells = new List<Vector2Int>();
-            for (int j = _courseParameters.minHorizontalDistance; j < _tilemapParameters.tilemapWidth; j++)
-            {
-                _defaultRelevantCeilingCells.Add(new Vector2Int(j, 0));
-            }
+            _occupancyMatrix = _attachedTilemap.occupancyMatrix;
         }
 
         public void SetTiles()
         {
             ClearAllTiles();
             GenerateCeiling();
+            GenerateAllBlocks();
+        }
+
+        public void SetCeilingTilesOnly()
+        {
+            ClearAllTiles();
+            GenerateCeiling(false);
         }
 
         public void ClearAllTiles()
         {
             _attachedTilemap.tilemap.ClearAllTiles();
+            System.Array.Clear(_occupancyMatrix, 0, _occupancyMatrix.Length);
         }
 
-        void GenerateCeiling()
+        void GenerateCeiling(bool withGaps = true)
         {
             var origin = new Vector2Int(0, _tilemapParameters.tilemapHeight - 1);
-            var gaps = CeilingGapIndexes();
-            FillBox(origin, _tilemapParameters.tilemapWidth, 1, _paletteReferences.whiteTile, gaps);
+            if (withGaps)
+            {
+                GenerateCeilingGaps();
+            }
+            FillBlock(origin, _tilemapParameters.tilemapWidth, 1, _paletteReferences.whiteTile);
         }
 
-        List<int> CeilingGapIndexes()
+        void GenerateCeilingGaps()
         {
-            var output = new List<int>();
-            var numberOfGaps = Random.Range(_courseParameters.minCeilingGapNumberPerMap, _courseParameters.maxCeilingGapNumberPerMap + 1);
-            var relevantCells = new List<Vector2Int>(_defaultRelevantCeilingCells);
+            var numberOfGaps = _courseParameters.RandomCeilingGapNumber();
             for (var i = 0; i < numberOfGaps; i++)
             {
-                var gapLength = Random.Range(_courseParameters.minCeilingGapLength, _courseParameters.maxCeilingGapLength + 1);
-                var fittingIndexes = ColumnIndexesWhereThisGapFits(relevantCells, gapLength);
+                var gapWidth = _courseParameters.RandomCeilingGapWidth();
+                var fittingIndexes = OriginXsWhereThisGapFits(gapWidth);
                 if (fittingIndexes == null || fittingIndexes.Count == 0) continue;
                 var randomX = fittingIndexes[Random.Range(0, fittingIndexes.Count)];
-                for (var offset = 0; offset < gapLength; offset++)
-                {
-                    output.Add(randomX + offset);
-                    relevantCells = relevantCells.Where(cell => output.Contains(cell.x) == false).ToList();
-                }
-            }
-            return output;
-        }
-
-        void FillBox(Vector2Int origin, int width, int height, TileBase fillTile, List<int> exceptionCells = null)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    if (exceptionCells != null && exceptionCells.Contains(x)) continue;
-
-                    Vector3Int cellPosition = new Vector3Int(origin.x + x, origin.y + y, 0);
-                    _attachedTilemap.tilemap.SetTile(cellPosition, fillTile);
-                }
+                SetOccupancyMatrixBlock(new Vector2Int(randomX, _tilemapParameters.tilemapHeight - 1), new Vector2Int(gapWidth, 1), 2);
             }
         }
 
-        bool IsBlockAvailable(Vector2Int origin, int width, int height)
+        void GenerateAllBlocks()
         {
-            width = width + _courseParameters.minHorizontalDistance;
-            height = height + _courseParameters.minVerticalDistance;
-            origin = new Vector2Int(origin.x - _courseParameters.minHorizontalDistance, origin.y - _courseParameters.minVerticalDistance);
-            for (int i = origin.y; i < height; i++)
+            GeneratePlatforms();
+            GenerateWalls();
+        }
+
+        void GeneratePlatforms()
+        {
+            var number = _courseParameters.RandomPlatformNumber();
+            System.Func<int> randomWidthMethod = _courseParameters.RandomPlatformWidth;
+            System.Func<int> randomHeightMethod = _courseParameters.RandomPlatformHeight;
+            GenerateBlocks(number, randomWidthMethod, randomHeightMethod);
+        }
+
+        void GenerateWalls()
+        {
+            var number = _courseParameters.RandomWallNumber();
+            System.Func<int> randomWidthMethod = _courseParameters.RandomWallWidth;
+            System.Func<int> randomHeightMethod = _courseParameters.RandomWallHeight;
+            GenerateBlocks(number, randomWidthMethod, randomHeightMethod);
+        }
+
+        void GenerateBlocks(int numberOfBlocks, System.Func<int> randomWidthMethod, System.Func<int> randomHeightMethod)
+        {
+            for (var i = 0; i < numberOfBlocks; i++)
             {
-                for (int j = origin.x; j < width; j++)
+                var blockWidth = randomWidthMethod();
+                var blockHeight = randomHeightMethod();
+                for (var trial = 0; trial < _courseParameters.maxElementOriginRandomTrials; trial++)
                 {
-                    if (IsCellEmpty(i, j) == false) return false;
+                    var randomOriginX = Random.Range(_courseParameters.minHorizontalDistance, _tilemapParameters.tilemapWidth - blockWidth);
+                    var randomOriginY = Random.Range(_courseParameters.minVerticalDistance, _tilemapParameters.tilemapHeight - blockHeight);
+                    var randomOrigin = new Vector2Int(randomOriginX, randomOriginY);
+                    if (IsSpaceAvailableForBlock(randomOrigin, blockWidth, blockHeight))
+                    {
+                        FillBlock(randomOrigin, blockWidth, blockHeight, _paletteReferences.whiteTile);
+                        break;
+                    }
+                }
+            }
+        }
+
+        bool IsSpaceAvailableForBlock(Vector2Int blockOrigin, int blockWidth, int blockHeight)
+        {
+            var xStart = Mathf.Max(0, blockOrigin.x - _courseParameters.minHorizontalDistance);
+            var xEnd = Mathf.Min(blockOrigin.x + blockWidth + _courseParameters.minHorizontalDistance, _tilemapParameters.tilemapWidth);
+            var yStart = Mathf.Max(0, blockOrigin.y - _courseParameters.minVerticalDistance);
+            var yEnd = Mathf.Min(blockOrigin.y + blockHeight + _courseParameters.minVerticalDistance, _tilemapParameters.tilemapHeight);
+
+            for (int x = xStart; x < xEnd; x++)
+            {
+                for (int y = yStart; y < yEnd; y++)
+                {
+                    if (IsCellEmpty(x, y) == false) return false;
                 }
             }
             return true;
         }
 
-        List<Vector2Int> EmptyCells()
+        void FillBlock(Vector2Int blockOrigin, int width, int height, TileBase fillTile)
         {
-            var output = new List<Vector2Int>();
-            for (int i = 0; i < _attachedTilemap.occupancyMatrix.Length; i++)
+            
+            for (int y = blockOrigin.y; y < blockOrigin.y + height; y++)
             {
-                for (int j = 0; j < _attachedTilemap.occupancyMatrix[0].Length; j++)
+                for (int x = blockOrigin.x; x < blockOrigin.x + width; x++)
                 {
-                    if (IsCellEmpty(i, j)) { output.Add(new Vector2Int(i, j)); }
+                    if (_occupancyMatrix[x, y] == 2)
+                    {
+                        continue;
+                    }
+                    _attachedTilemap.tilemap.SetTile(new Vector3Int(x, y, 0), fillTile);
+                    SetOccupancyMatrixCell(new Vector2Int(x, y), 1);
                 }
             }
-            return output;
         }
 
         bool IsCellEmpty(int x, int y)
         {
-            if (_attachedTilemap.occupancyMatrix[x][y] != 0) return false;
+            if (x < 0 || _occupancyMatrix.GetLength(0) <= x) return false;
+            if (y < 0 || _occupancyMatrix.GetLength(1) <= y) return false;
+            if (_occupancyMatrix[x, y] != 0) return false;
             return true;
         }
 
-        List<int> ColumnIndexesWhereThisGapFits(List<Vector2Int> relevantCells, int gapLength)
+        List<int> OriginXsWhereThisGapFits(int gapWidth)
         {
-            return relevantCells.
-                Where(cell => cell.x < _tilemapParameters.tilemapWidth - (gapLength - 1)).
-                Select(cell => cell.x).
-                ToList();
+            var output = new List<int>();
+            for (var originX = _courseParameters.minHorizontalDistance; originX < _tilemapParameters.tilemapWidth - (gapWidth - 1); originX++)
+            {
+                var allCellsEmpty = true;
+                for (var gapCellX = originX; gapCellX < originX + gapWidth; gapCellX++)
+                {
+                    if (IsCellEmpty(gapCellX, 0) == false)
+                    {
+                        originX = gapCellX;
+                        allCellsEmpty = false;
+                        break;
+                    }
+                }
+                if (allCellsEmpty) output.Add(originX);
+            }
+            return output;
+        }
+
+        void SetOccupancyMatrixBlock(Vector2Int origin, Vector2Int size, byte code)
+        {
+            for (int x = origin.x; x < origin.x + size.x; x++)
+            {
+                for (int y = origin.y; y < origin.y + size.y; y++)
+                {
+                    SetOccupancyMatrixCell(new Vector2Int(x, y), code);
+                }
+            }
+        }
+
+        void SetOccupancyMatrixCell(Vector2Int cell, byte code)
+        {
+            if (IsCellOutOfBounds(cell)) return;
+            _occupancyMatrix[cell.x, cell.y] = code;
+        }
+
+        bool IsCellOutOfBounds(Vector2Int cell)
+        {
+            var output = 
+                (cell.x < 0 || cell.x >= _occupancyMatrix.GetLength(0)) ||
+                (cell.y < 0 || cell.y >= _occupancyMatrix.GetLength(1));
+            return output;
         }
     }
 }

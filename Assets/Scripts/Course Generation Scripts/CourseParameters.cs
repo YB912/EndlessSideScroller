@@ -37,6 +37,9 @@ namespace Mechanics.CourseGeneration
         [SerializeField] int _minVerticalDistance;
         [SerializeField] int _minHorizontalDistance;
 
+        [Header("Thresholds")]
+        [SerializeField] int _maxElementOriginRandomTrials;
+
         public int minCeilingGapNumberPerMap => _minCeilingGapNumberPerMap;
         public int maxCeilingGapNumberPerMap => _maxCeilingGapNumberPerMap;
         public int minPlatformNumberPerMap => _minPlatformNumberPerMap;
@@ -59,5 +62,16 @@ namespace Mechanics.CourseGeneration
 
         public int minVerticalDistance => _minVerticalDistance;
         public int minHorizontalDistance => _minHorizontalDistance;
+
+        public int maxElementOriginRandomTrials => _maxElementOriginRandomTrials;
+
+        public int RandomCeilingGapNumber() => Random.Range(_minCeilingGapNumberPerMap, _maxCeilingGapNumberPerMap + 1);
+        public int RandomPlatformNumber() => Random.Range(_minPlatformNumberPerMap, _maxPlatformNumberPerMap + 1);
+        public int RandomWallNumber() => Random.Range(_minWallNumberPerMap, _maxWallNumberPerMap + 1);
+        public int RandomCeilingGapWidth() => Random.Range(_minCeilingGapLength, _maxCeilingGapLength + 1);
+        public int RandomPlatformWidth() => Random.Range(_minPlatformLength, _maxPlatformLength + 1);
+        public int RandomPlatformHeight() => Random.Range(_minPlatformHeight, _maxPlatformHeight + 1);
+        public int RandomWallWidth() => Random.Range(_minWallLength, _maxWallLength + 1);
+        public int RandomWallHeight() => Random.Range(_minWallHeight, _maxWallHeight + 1);
     }
 }

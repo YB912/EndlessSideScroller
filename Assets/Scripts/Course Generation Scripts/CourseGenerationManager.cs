@@ -58,6 +58,7 @@ namespace Mechanics.CourseGeneration
                 var tilemapController = Instantiate(_tilemapParameters.TilemapPrefab, position, Quaternion.identity, transform).
                     GetComponent<TilemapController>();
                 tilemapController.Initialize(_parameters, _gameplayEventBus);
+                tilemapController.Generate(i == 0);
                 tilemapController.name = TILEMAP_NAME + (i + 1).ToString();
                 _tilemapControllers.Enqueue(tilemapController);
             }
@@ -79,7 +80,7 @@ namespace Mechanics.CourseGeneration
             for (var i = 0; i < count; i++)
             {
                 var map = _tilemapControllers.Dequeue();
-                map.ResetTilemap();
+                map.ResetTilemap(i == 0);
                 var position = TilemapInitialPositionOfIndex(i);
                 map.transform.position = position;
                 _tilemapControllers.Enqueue(map);

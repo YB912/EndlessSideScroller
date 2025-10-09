@@ -23,7 +23,7 @@ namespace Mechanics.CourseGeneration
         TilemapParameters _tilemapParameters;
 
         // 
-        int[][] _occupancyMatrix;
+        byte[,] _occupancyMatrix;
         List<Vector2Int> _emptyCells;
 
         public Tilemap tilemap => _tilemap;
@@ -31,17 +31,17 @@ namespace Mechanics.CourseGeneration
         /// <summary>
         /// 0 = Empty, 1 = Solid Tile, 2 = Ceiling Gap
         /// </summary>
-        public int[][] occupancyMatrix => _occupancyMatrix;
+        public byte[,] occupancyMatrix => _occupancyMatrix;
         public List<Vector2Int> emptyCells => _emptyCells;
 
         public void Initialize(GenerationParameters parameters, GameplayEventBus gameplayEventBus)
         {
             _parameters = parameters;
             _tilemapParameters = _parameters.tilemapParameters;
+            _occupancyMatrix = new byte[_parameters.tilemapParameters.tilemapWidth, _parameters.tilemapParameters.tilemapHeight];
             FetchDependencies();
             SetupTriggers(gameplayEventBus);
-            Generate();
-            // VisualizeTilemapArea();
+            VisualizeTilemapArea();
         }
 
         void FetchDependencies()
@@ -50,15 +50,22 @@ namespace Mechanics.CourseGeneration
             _tileSetter = new TileSetter(this, _parameters);
         }
 
-        public void Generate()
+        public void Generate(bool isStartingTilemap = false)
         {
-            _tileSetter.SetTiles();
+            if (isStartingTilemap)
+            {
+                _tileSetter.SetCeilingTilesOnly();
+            }
+            else
+            {
+                _tileSetter.SetTiles();
+            }
         }
 
-        public void ResetTilemap()
+        public void ResetTilemap(bool isStartingTilemap)
         {
             _tileSetter.ClearAllTiles();
-            Generate();
+            Generate(isStartingTilemap);
         }
 
         void SetupTriggers(GameplayEventBus gameplayEventBus)

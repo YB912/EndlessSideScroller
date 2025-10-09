@@ -3,7 +3,6 @@ using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using DG.Tweening;
 using Unity.Cinemachine;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 namespace Mechanics.Camera

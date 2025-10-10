@@ -1,74 +1,52 @@
 
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 namespace UI
 {
     public interface IUIView
     {
         public void Initialize();
-        public Tween SlidePanelIn();
-        public Tween SlidePanelOut();
-        public void SetPositionOnScreen();
-        public void SetPositionOffScreen();
+        public Tween FadePanelIn();
+        public Tween FadePanelOut();
     }
 
     public abstract class UIView : MonoBehaviour, IUIView
     {
         [SerializeField] protected GameObject _rootPanel;
-        [SerializeField] SlidingWindowSettings _slidingWindowSettings;
+        [SerializeField] FadingWindowSettings _fadingWindowSettings;
 
-        Vector2 _onScreenAnchorMin;
-        Vector2 _onScreenAnchorMax;
-
-        Vector2 _offScreenAnchorMin;
-        Vector2 _offScreenAnchorMax;
-
-        protected RectTransform _rootPanelRectTransform;
+        CanvasGroup _canvasGroup;
 
         Tween _currentTween;
 
         protected virtual void Awake()
         {
             FetchDependencies();
-            SetPositionOffScreen();
+            Hide();
         }
 
         public abstract void Initialize();
 
         protected virtual void FetchDependencies()
         {
-            _rootPanelRectTransform = _rootPanel.GetComponent<RectTransform>();
-
-            _onScreenAnchorMin = _rootPanelRectTransform.anchorMin;
-            _onScreenAnchorMax = _rootPanelRectTransform.anchorMax;
-            CalculateOffscreenAnchors();
+            _canvasGroup = _rootPanel.GetComponent<CanvasGroup>();
         }
 
-        public virtual Tween SlidePanelIn()
+        public virtual Tween FadePanelIn()
         {
             ActivateRootPanel();
-            return SlidePanel(_onScreenAnchorMin, _onScreenAnchorMax);
+            return FadePanel(_fadingWindowSettings.visibleStateAlpha);
         }
 
-        public virtual Tween SlidePanelOut()
+        public virtual Tween FadePanelOut()
         {
-            return SlidePanel(_offScreenAnchorMin, _offScreenAnchorMax)
-                .OnComplete(DeactivateRootPanel);
-        }
-
-        public virtual void SetPositionOnScreen()
-        {
-            _rootPanelRectTransform.anchorMin = _onScreenAnchorMin;
-            _rootPanelRectTransform.anchorMax = _onScreenAnchorMax;
-            SetPanelRectOffsets();
-        }
-
-        public virtual void SetPositionOffScreen()
-        {
-            _rootPanelRectTransform.anchorMin = _offScreenAnchorMin;
-            _rootPanelRectTransform.anchorMax = _offScreenAnchorMax;
-            SetPanelRectOffsets();
+            return FadePanel(0f)
+                .OnComplete(() => 
+                {
+                    DeactivateRootPanel();
+                });
         }
 
         protected void ActivateRootPanel()
@@ -81,30 +59,26 @@ namespace UI
             _rootPanel.SetActive(false);
         }
 
-        private void CalculateOffscreenAnchors()
+        void Hide()
         {
-            _offScreenAnchorMin = new Vector2(_onScreenAnchorMin.x + _slidingWindowSettings.offScreenAnchorOffsetMin.x,
-                _onScreenAnchorMin.y + _slidingWindowSettings.offScreenAnchorOffsetMin.y);
-            _offScreenAnchorMax = new Vector2(_onScreenAnchorMax.x + _slidingWindowSettings.offScreenAnchorOffsetMax.x,
-                _onScreenAnchorMax.y + _slidingWindowSettings.offScreenAnchorOffsetMax.y);
+            _canvasGroup.alpha = 0f;
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
+
         }
 
-        void SetPanelRectOffsets()
-        {
-            _rootPanelRectTransform.offsetMin = Vector2.zero;
-            _rootPanelRectTransform.offsetMax = Vector2.zero;
-        }
-
-        Tween SlidePanel(Vector2 targetAnchorMin, Vector2 targetAnchorMax)
+        Tween FadePanel(float targetAlpha)
         {
             _currentTween?.Kill();
 
-            var anchorMinTween = _rootPanelRectTransform.DOAnchorMin(targetAnchorMin, _slidingWindowSettings.slidingDuration);
-            var anchorMaxTween = _rootPanelRectTransform.DOAnchorMax(targetAnchorMax, _slidingWindowSettings.slidingDuration);
-
-            _currentTween = DOTween.Sequence().Join(anchorMinTween).Join(anchorMaxTween)
-                .SetEase(_slidingWindowSettings.slidingEase);
-            _currentTween.Play();
+            _currentTween = _canvasGroup
+                .DOFade(targetAlpha, _fadingWindowSettings.fadingDuration)
+                .SetEase(_fadingWindowSettings.fadingEase)
+                .OnStart(() =>
+                {
+                    _canvasGroup.interactable = targetAlpha > 0f;
+                    _canvasGroup.blocksRaycasts = targetAlpha > 0f;
+                });
 
             return _currentTween;
         }

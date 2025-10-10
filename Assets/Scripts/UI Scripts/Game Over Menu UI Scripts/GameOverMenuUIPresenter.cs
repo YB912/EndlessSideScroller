@@ -33,13 +33,13 @@ namespace UI.GameOverMenu
         public void RestartButtonClicked()
         {
             _view.DisableButtonsInteractability();
-            _view.SlidePanelOut().OnComplete(() => _UIEventBus.Publish<UpgradeShopStateButtonClickedUIEvent>());
+            _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<UpgradeShopStateButtonClickedUIEvent>());
         }
 
         public void QuitButtonClicked()
         {
             _view.DisableButtonsInteractability();
-            _view.SlidePanelOut().OnComplete(() => _UIEventBus.Publish<MainMenuStateButtonClickedUIEvent>());
+            _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<MainMenuStateButtonClickedUIEvent>());
         }
 
         void FetchDependencies()
@@ -52,7 +52,7 @@ namespace UI.GameOverMenu
         void OnPlayerDied()
         {
             _view.UpdateTotalScore(_scoreManager.totalScore);
-            _view.SlidePanelIn();
+            _view.FadePanelIn();
         }
     }
 }

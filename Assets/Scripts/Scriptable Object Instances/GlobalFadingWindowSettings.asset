@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9a1ef81a62587645beb69f776c9d743, type: 3}
-  m_Name: MainMenuSlidingWindowSettings
+  m_Name: GlobalFadingWindowSettings
   m_EditorClassIdentifier: 
-  _offScreenAnchorOffsetMin: {x: 1, y: 0}
-  _offScreenAnchorOffsetMax: {x: 1, y: 0}
-  _slidingDuration: 1.5
-  _slidingEase: 7
+  _visibleStateAlpha: 1
+  _fadingDuration: 1
+  _fadingEase: 7

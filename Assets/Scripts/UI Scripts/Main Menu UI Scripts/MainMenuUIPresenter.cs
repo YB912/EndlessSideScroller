@@ -32,7 +32,7 @@ namespace UI.MainMenu
         public void PlayButtonClicked()
         {
             _view.DisableButtonsInteractability();
-            _view.SlidePanelOut().OnComplete(() => _UIEventBus.Publish<UpgradeShopStateButtonClickedUIEvent>());
+            _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<UpgradeShopStateButtonClickedUIEvent>());
         }
 
         public void SettingsButtonClicked()
@@ -43,7 +43,7 @@ namespace UI.MainMenu
 
         void OnEnteredMainMenuState()
         {
-            _view.SlidePanelIn();
+            _view.FadePanelIn();
         }
     }
 }

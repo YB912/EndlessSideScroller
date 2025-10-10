@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 1027847225635859653}
   - component: {fileID: 7581948146068355200}
   - component: {fileID: 7794030681983467416}
+  - component: {fileID: 4280476127523518590}
   m_Layer: 5
   m_Name: GameOverMenuPanel
   m_TagString: Untagged
@@ -712,6 +713,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4280476127523518590
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7341546040771744622}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8227573767268016838
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,7 +1030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rootPanel: {fileID: 7341546040771744622}
-  _slidingWindowSettings: {fileID: 11400000, guid: df3ccbda41d89a744b667c011dc18187, type: 2}
+  _fadingWindowSettings: {fileID: 11400000, guid: 73af2b0dcf50f9140af25bacc8514002, type: 2}
   _gameOverTitleText: {fileID: 4875113891024998565}
   _scoreText: {fileID: 1552328734811783199}
   _restartButton: {fileID: 3104101651994816369}

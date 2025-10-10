@@ -16,9 +16,9 @@ namespace UI
 
     public abstract class UIViewWithButtons : UIView, IUIViewWithButtons
     {
-        public override Tween SlidePanelIn()
+        public override Tween FadePanelIn()
         {
-            return base.SlidePanelIn()
+            return base.FadePanelIn()
                 .OnComplete(() =>
                 {
                     AddButtonListeners();
@@ -26,11 +26,11 @@ namespace UI
                 });
         }
 
-        public override Tween SlidePanelOut()
+        public override Tween FadePanelOut()
         {
             RemoveButtonListeners();
             DisableButtonsInteractability();
-            return base.SlidePanelOut();
+            return base.FadePanelOut();
         }
 
         public abstract void EnableButtonsInteractability();

@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rootPanel: {fileID: 7424830233092536106}
-  _slidingWindowSettings: {fileID: 11400000, guid: 2ffc2aea54bafbe4f8dcb91b76b9244a, type: 2}
+  _fadingWindowSettings: {fileID: 11400000, guid: 73af2b0dcf50f9140af25bacc8514002, type: 2}
   _mainMenuTitleText: {fileID: 8421655147203637103}
   _mainMenuPlayButton: {fileID: 7468061595126369355}
   _mainMenuSettingsButton: {fileID: 4401617892006535861}
@@ -575,6 +575,7 @@ GameObject:
   - component: {fileID: 460514110213633960}
   - component: {fileID: 4521674382752982949}
   - component: {fileID: 8166694025218828755}
+  - component: {fileID: 397007250400277046}
   m_Layer: 5
   m_Name: MainMenuPanel
   m_TagString: Untagged
@@ -642,6 +643,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &397007250400277046
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7424830233092536106}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7493934786265648397
 GameObject:
   m_ObjectHideFlags: 0

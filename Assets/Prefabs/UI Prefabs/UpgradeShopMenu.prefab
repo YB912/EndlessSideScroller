@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 2602277812582729551}
   - component: {fileID: 6528094481856024717}
   - component: {fileID: 5064392599515825157}
+  - component: {fileID: 6299575300844006689}
   m_Layer: 5
   m_Name: UpgradeShopPanel
   m_TagString: Untagged
@@ -199,6 +200,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6299575300844006689
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3448783244223858368}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3483992559034514808
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rootPanel: {fileID: 3448783244223858368}
-  _slidingWindowSettings: {fileID: 11400000, guid: 03b808aefe372ee429f3e18009ccfcef, type: 2}
+  _fadingWindowSettings: {fileID: 11400000, guid: 73af2b0dcf50f9140af25bacc8514002, type: 2}
   _upgradeShopTitleText: {fileID: 3400561275162050248}
   _upgradeShopComingSoonText: {fileID: 6197214613747602718}
   _upgradeShopDeployButton: {fileID: 4987515009770479953}

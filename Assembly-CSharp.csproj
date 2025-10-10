@@ -76,10 +76,10 @@
     <Compile Include="Assets\Scripts\Player Scripts\PlayerSwingingForceController.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\Scripts\Custom Events Scripts\GameplayEvents.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\FadingWindowSettings.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Grappling Scripts\GrapplingManager.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\CourseParameters.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Singleton Pattern\Singleton.cs" />
-    <Compile Include="Assets\Scripts\UI Scripts\SlidingWindowSettings.cs" />
     <Compile Include="Assets\Scripts\Score Scripts\ScoringSettings.cs" />
     <Compile Include="Assets\Scripts\Game Manager Scripts\Game Manager State Machine Scripts\GameCycleMainMenuState.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\UIBootstrapper.cs" />

@@ -9,5 +9,12 @@ public class GameManager : MonoBehaviour, IInitializeable
     public void Initialize()
     {
         _cycleStateMachine = new GameCycleStatemachine();
+        SetFPSSettings();
+    }
+
+    void SetFPSSettings()
+    {
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
     }
 }

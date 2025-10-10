@@ -31,12 +31,12 @@ namespace UI.UpgradeShop
         public void DeployButtonClicked()
         {
             _view.DisableButtonsInteractability();
-            _view.SlidePanelOut().OnComplete(() => _UIEventBus.Publish<PlayStateButtonClickedUIEvent>());
+            _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<PlayStateButtonClickedUIEvent>());
         }
 
         void OnEnteredUpgradeShopState()
         {
-            _view.SlidePanelIn();
+            _view.FadePanelIn();
         }
     }
 }

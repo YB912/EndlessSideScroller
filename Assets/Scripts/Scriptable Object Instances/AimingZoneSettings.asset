@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e99642b4ecb7e9459e3e8096f237c93, type: 3}
   m_Name: AimingZoneSettings
   m_EditorClassIdentifier: 
-  _aimingZoneXAnchorMinNormalized: 0.2
-  _aimingZoneXAnchorMaxNormalized: 0.6
+  _aimingZoneXAnchorMinNormalized: 0.25
+  _aimingZoneXAnchorMaxNormalized: 0.65

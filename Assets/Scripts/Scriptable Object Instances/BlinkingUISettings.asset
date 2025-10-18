@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c278554485d9d4941a06c83bdc072e85, type: 3}
   m_Name: BlinkingUISettings
   m_EditorClassIdentifier: 
-  _eachBlinkDuration: 0.3
+  _eachBlinkDuration: 0.4
   _numberOfBlinks: 2
-  _maxAlpha: 0.5
-  _blinkingEase: 0
+  _maxAlpha: 0.8
+  _blinkingEase: 1

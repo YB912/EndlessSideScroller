@@ -34,6 +34,7 @@ namespace UI.GameplayInput
                     var tweenOut = element.DOFade(1/255, _blinkingUISettings.eachBlinkDuration)
                         .SetEase(_blinkingUISettings.blinkingEase);
                     sequence.Append(tweenIn);
+                    sequence.AppendInterval(_blinkingUISettings.eachBlinkDuration);
                     sequence.Append(tweenOut);
                 }
                 sequence.Play();

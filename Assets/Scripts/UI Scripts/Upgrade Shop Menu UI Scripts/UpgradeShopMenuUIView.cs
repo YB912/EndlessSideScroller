@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI.UpgradeShop
 {
-    public class UpgradeShopMenuUIView : UIViewWithButtons, IInitializeable
+    public class UpgradeShopMenuUIView : FadingUIViewWithButtons, IInitializeable
     {
         [SerializeField] TextMeshProUGUI _upgradeShopTitleText;
         [SerializeField] TextMeshProUGUI _upgradeShopComingSoonText;
@@ -16,16 +16,6 @@ namespace UI.UpgradeShop
         public override void Initialize()
         {
             _presenter = IUpgradeShipMenuUIPresenter.Create(this);
-        }
-
-        public override void EnableButtonsInteractability()
-        {
-            _upgradeShopDeployButton.interactable = true;
-        }
-
-        public override void DisableButtonsInteractability()
-        {
-            _upgradeShopDeployButton.interactable = false;
         }
 
         protected override void AddButtonListeners()

@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 namespace UI.GameOverMenu
 {
-    public class GameOverMenuUIView : UIViewWithButtons, IInitializeable, IGameOverMenuUIView
+    public interface IGameOverMenuUIView : IFadingUIViewWithButtons
+    {
+        public void UpdateTotalScore(int totalScore);
+    }
+
+    public class GameOverMenuUIView : FadingUIViewWithButtons, IInitializeable, IGameOverMenuUIView
     {
         [SerializeField] TextMeshProUGUI _gameOverTitleText;
         [SerializeField] TextMeshProUGUI _scoreText;
@@ -17,18 +22,6 @@ namespace UI.GameOverMenu
         public override void Initialize()
         {
             _presenter = IGameOverUIPresenter.Create(this);
-        }
-
-        public override void EnableButtonsInteractability()
-        {
-            _restartButton.interactable = true;
-            _quitButton.interactable = true;
-        }
-
-        public override void DisableButtonsInteractability()
-        {
-            _restartButton.interactable = false;
-            _quitButton.interactable = false;
         }
 
         public void UpdateTotalScore(int totalScore)

@@ -32,13 +32,11 @@ namespace UI.GameOverMenu
 
         public void RestartButtonClicked()
         {
-            _view.DisableButtonsInteractability();
             _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<UpgradeShopStateButtonClickedUIEvent>());
         }
 
         public void QuitButtonClicked()
         {
-            _view.DisableButtonsInteractability();
             _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<MainMenuStateButtonClickedUIEvent>());
         }
 

@@ -21,12 +21,12 @@ namespace Player.StateMachines
 
         protected override void SubscribeToTransitionEvents()
         {
-            _inputEventBus.Subscribe<TouchStartedEvent>(TransitionToAimingState);
+            _inputEventBus.Subscribe<AimingTouchStartedInputEvent>(TransitionToAimingState);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
-            _inputEventBus.Unsubscribe<TouchStartedEvent>(TransitionToAimingState);
+            _inputEventBus.Unsubscribe<AimingTouchStartedInputEvent>(TransitionToAimingState);
         }
 
         void TransitionToAimingState()

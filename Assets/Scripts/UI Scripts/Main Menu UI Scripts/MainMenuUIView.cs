@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI.MainMenu
 {
-    public class MainMenuUIView : UIViewWithButtons, IInitializeable
+    public class MainMenuUIView : FadingUIViewWithButtons, IInitializeable
     {
         [SerializeField] TextMeshProUGUI _mainMenuTitleText;
         [SerializeField] Button _mainMenuPlayButton;
@@ -16,18 +16,6 @@ namespace UI.MainMenu
         public override void Initialize()
         {
             _presenter = IMainMenuUIPresenter.Create(this);
-        }
-
-        public override void EnableButtonsInteractability()
-        {
-            _mainMenuPlayButton.interactable = true;
-            _mainMenuSettingsButton.interactable = true;
-        }
-
-        public override void DisableButtonsInteractability()
-        {
-            _mainMenuPlayButton.interactable = false;
-            _mainMenuSettingsButton.interactable = false;
         }
 
         protected override void AddButtonListeners()

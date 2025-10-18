@@ -9,6 +9,7 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
     [SerializeField] GameObject _mainMenuPrefab;
     [SerializeField] GameObject _upgradeShopMenuPrefab;
     [SerializeField] GameObject _gameOverMenuPrefab;
+    [SerializeField] GameObject _inputUIPrefab;
 
     public IEnumerator BootstrapCoroutine()
     {
@@ -16,6 +17,7 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
         BootstrapMainMenu();
         BootstrapUpgradeShopMenu();
         BootstrapGameOverMenu();
+        BootstrapInputUI();
         yield break;
     }
 
@@ -45,5 +47,12 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
         var gameOverMenu = Instantiate(_gameOverMenuPrefab);
         gameOverMenu.name = "GameOverMenu";
         gameOverMenu.GetComponent<IInitializeable>().Initialize();
+    }
+
+    void BootstrapInputUI()
+    {
+        var inputUI = Instantiate(_inputUIPrefab);
+        inputUI.name = "AimingZoneUI";
+        inputUI.GetComponent<IInitializeable>().Initialize();
     }
 }

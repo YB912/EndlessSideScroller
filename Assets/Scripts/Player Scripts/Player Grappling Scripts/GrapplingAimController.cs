@@ -2,8 +2,8 @@
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using DG.Tweening;
-using InputManagement;
 using System.Collections;
+using UI.GameplayInput;
 using UnityEngine;
 using UnityEngine.U2D.IK;
 
@@ -22,7 +22,7 @@ namespace Mechanics.Grappling
         float _aimMovementDuration;
         float _minimumAimDistance;
 
-        TouchInputManager _touchInputManager;
+        ITouchPositionProvider _touchPositionProvider;
         GrapplingEventBus _grapplingEventBus;
         HingeJoint2D _forearmJoint;
 
@@ -61,14 +61,14 @@ namespace Mechanics.Grappling
             _aimMovementDuration = aimDependencies.aimMovementDuration;
             _minimumAimDistance = aimDependencies.minimumAimDistance;
             _effectorTransform = commonDependencies.effectorTransform;
-            _touchInputManager = ServiceLocator.instance.Get<TouchInputManager>();
+            _touchPositionProvider = ServiceLocator.instance.Get<ITouchPositionProvider>();
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
             _forearmJoint = transform.GetChild(0).GetComponent<HingeJoint2D>();
         }
 
         void SubscribeToInput()
         {
-            _touchInputManager.currentTouchPositionInWorldObservable.AddListener(OnTouchPositionChanged);
+            _touchPositionProvider.currentTouchPositionInWorldObservable.AddListener(OnTouchPositionChanged);
         }
 
         IEnumerator WaitForTouchPositionAndAimCoroutine()

@@ -1,4 +1,6 @@
 
-public class TouchStartedEvent { }
+public class AimingTouchStartedInputEvent { }
 
-public class TouchEndedEvent { }
+public class AimingTouchEndedInputEvent { }
+
+public class BackgroundTouchedInputEvent { }

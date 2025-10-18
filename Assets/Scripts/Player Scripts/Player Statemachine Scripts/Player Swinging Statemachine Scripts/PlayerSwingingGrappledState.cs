@@ -36,12 +36,12 @@ namespace Player.StateMachines
 
         protected override void SubscribeToTransitionEvents()
         {
-            _inputEventBus.Subscribe<TouchEndedEvent>(TransitionToIdleState);
+            _inputEventBus.Subscribe<AimingTouchEndedInputEvent>(TransitionToIdleState);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
-            _inputEventBus.Unsubscribe<TouchEndedEvent>(TransitionToIdleState);
+            _inputEventBus.Unsubscribe<AimingTouchEndedInputEvent>(TransitionToIdleState);
         }
 
         void TransitionToIdleState()

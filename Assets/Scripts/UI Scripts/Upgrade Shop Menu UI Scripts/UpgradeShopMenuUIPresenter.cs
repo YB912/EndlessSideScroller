@@ -8,7 +8,7 @@ namespace UI.UpgradeShop
     public interface IUpgradeShipMenuUIPresenter
     {
         public void DeployButtonClicked();
-        public static IUpgradeShipMenuUIPresenter Create(IUIViewWithButtons view)
+        public static IUpgradeShipMenuUIPresenter Create(IFadingUIViewWithButtons view)
         {
             return new UpgradeShopMenuUIPresenter(view);
         }
@@ -16,11 +16,11 @@ namespace UI.UpgradeShop
 
     public class UpgradeShopMenuUIPresenter : IUpgradeShipMenuUIPresenter
     {
-        IUIViewWithButtons _view;
+        IFadingUIViewWithButtons _view;
         UIEventBus _UIEventBus;
         GameCycleEventBus _gameCycleEventBus;
 
-        public UpgradeShopMenuUIPresenter(IUIViewWithButtons view)
+        public UpgradeShopMenuUIPresenter(IFadingUIViewWithButtons view)
         {
             _view = view;
             _UIEventBus = ServiceLocator.instance.Get<UIEventBus>(); 
@@ -30,7 +30,6 @@ namespace UI.UpgradeShop
 
         public void DeployButtonClicked()
         {
-            _view.DisableButtonsInteractability();
             _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<PlayStateButtonClickedUIEvent>());
         }
 

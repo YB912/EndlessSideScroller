@@ -21,10 +21,5 @@ namespace InputManagement
         {
             return new InputManager();
         }
-
-        public static TouchInputManager CreateTouchInputManager()
-        {
-            return new TouchInputManager();
-        }
     }
 }

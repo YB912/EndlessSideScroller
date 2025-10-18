@@ -301,6 +301,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainSceneBootstrapper
       objectReference: {fileID: 0}
+    - target: {fileID: 3525114056553202152, guid: eb77b64207ae5ae4d98e4bf4f2055de0, type: 3}
+      propertyPath: _inputUIPrefab
+      value: 
+      objectReference: {fileID: 6839404661190976985, guid: de86d75dff1ba7849acab0b35b3dc25d, type: 3}
+    - target: {fileID: 3525114056553202152, guid: eb77b64207ae5ae4d98e4bf4f2055de0, type: 3}
+      propertyPath: _aimingZoneUIPrefab
+      value: 
+      objectReference: {fileID: 6839404661190976985, guid: de86d75dff1ba7849acab0b35b3dc25d, type: 3}
     - target: {fileID: 4786759228865644056, guid: eb77b64207ae5ae4d98e4bf4f2055de0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

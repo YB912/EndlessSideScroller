@@ -9,7 +9,7 @@ namespace UI.MainMenu
     {
         public void PlayButtonClicked();
         public void SettingsButtonClicked();
-        public static IMainMenuUIPresenter Create(IUIViewWithButtons view)
+        public static IMainMenuUIPresenter Create(IFadingUIViewWithButtons view)
         {
             return new MainMenuUIPresenter(view);
         }
@@ -17,11 +17,11 @@ namespace UI.MainMenu
 
     public class MainMenuUIPresenter : IMainMenuUIPresenter
     {
-        IUIViewWithButtons _view;
+        IFadingUIViewWithButtons _view;
         UIEventBus _UIEventBus;
         GameCycleEventBus _gameCycleEventBus;
 
-        public MainMenuUIPresenter(IUIViewWithButtons view)
+        public MainMenuUIPresenter(IFadingUIViewWithButtons view)
         {
             _UIEventBus = ServiceLocator.instance.Get<UIEventBus>();
             _gameCycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
@@ -31,7 +31,6 @@ namespace UI.MainMenu
 
         public void PlayButtonClicked()
         {
-            _view.DisableButtonsInteractability();
             _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<UpgradeShopStateButtonClickedUIEvent>());
         }
 

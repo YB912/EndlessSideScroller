@@ -8,7 +8,6 @@ public class InputManagementBootstrapper : MonoBehaviour, IBootstrapper
     public IEnumerator BootstrapCoroutine()
     {
         yield return StartCoroutine(InitializeInputManager());
-        yield return StartCoroutine(InitializeTouchInputManager());
 
         yield break;
     }
@@ -17,13 +16,6 @@ public class InputManagementBootstrapper : MonoBehaviour, IBootstrapper
     {
         var inputManager = IInputManagementFactory.CreateInputManager();
         ServiceLocator.instance.Register(inputManager);
-        yield break;
-    }
-
-    private IEnumerator InitializeTouchInputManager()
-    {
-        var touchInputManager = IInputManagementFactory.CreateTouchInputManager();
-        ServiceLocator.instance.Register(touchInputManager);
         yield break;
     }
 }

@@ -64,11 +64,13 @@ namespace Mechanics.Grappling
         [SerializeField] Transform _IKTargetTransform;
         [SerializeField] float _aimMovementDuration;
         [SerializeField] float _minimumAimDistance;
+        [SerializeField] GameObject _aimVisualizerPrefab;
 
         public IKManager2D IKManager => _IKManager;
         public Transform IKTargetTransform => _IKTargetTransform;
         public float aimMovementDuration => _aimMovementDuration;
         public float minimumAimDistance => _minimumAimDistance;
+        public GameObject aimVisualizerPrefab => _aimVisualizerPrefab;
     }
 
     /// <summary>

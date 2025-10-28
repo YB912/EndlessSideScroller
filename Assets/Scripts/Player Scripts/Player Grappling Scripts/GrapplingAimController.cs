@@ -24,17 +24,29 @@ namespace Mechanics.Grappling
 
         ITouchPositionProvider _touchPositionProvider;
         GrapplingEventBus _grapplingEventBus;
+        GameCycleEventBus _gameCycleEventBus;
         HingeJoint2D _forearmJoint;
 
+        Vector3 _currentTouchPosition;
         Vector3 _currentAimPosition;
+        Vector3 _aimMissedPosition = new Vector3(-1, -1, -1);
         Tween _currentTween;
         float _forearmJointLimitRange;
+
+        AimVisualizer _visualizer;
+
+        int _wallLayerInBitMap;
+
+        const string WALL_LAYER_NAME = "Wall";
 
         public void Initialize(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
         {
             FetchDependencies(aimDependencies, commonDependencies);
-            SubscribeToInput();
+            _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(SubscribeToTouchPositionInput);
+            _gameCycleEventBus.Subscribe<ExitedPlayStateGameCycleEvent>(UnsubscribeFromTouchPositionInput);
             _forearmJointLimitRange = _forearmJoint.limits.max - _forearmJoint.limits.min;
+            _visualizer = Instantiate(aimDependencies.aimVisualizerPrefab).GetComponent<AimVisualizer>().Initialize();
+            _wallLayerInBitMap = Utility.LayerNameToBitMap(WALL_LAYER_NAME);
             DisableIK();
         }
 
@@ -63,12 +75,18 @@ namespace Mechanics.Grappling
             _effectorTransform = commonDependencies.effectorTransform;
             _touchPositionProvider = ServiceLocator.instance.Get<ITouchPositionProvider>();
             _grapplingEventBus = ServiceLocator.instance.Get<GrapplingEventBus>();
+            _gameCycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
             _forearmJoint = transform.GetChild(0).GetComponent<HingeJoint2D>();
         }
 
-        void SubscribeToInput()
+        void SubscribeToTouchPositionInput()
         {
             _touchPositionProvider.currentTouchPositionInWorldObservable.AddListener(OnTouchPositionChanged);
+        }
+
+        void UnsubscribeFromTouchPositionInput()
+        {
+            _touchPositionProvider.currentTouchPositionInWorldObservable.RemoveListener(OnTouchPositionChanged);
         }
 
         IEnumerator WaitForTouchPositionAndAimCoroutine()
@@ -85,27 +103,37 @@ namespace Mechanics.Grappling
 
         void OnTouchPositionChanged(Vector3 newPosition)
         {
-            _currentAimPosition = newPosition;
+            _currentTouchPosition = new Vector3(newPosition.x, newPosition.y, 0);
+            var raycastHit = Physics2D.Raycast(_currentTouchPosition, Vector2.up, _wallLayerInBitMap);
+            if (raycastHit)
+            {
+                _currentAimPosition = raycastHit.point;
+            }
+            else
+            {
+                _currentAimPosition = _aimMissedPosition;
+            }
         }
 
         void Aim()
         {
-            if (IsAimPositionFarEnough())
+            if (IsAimPositionFarEnough() && AimingMissed() == false)
             {
                 EnableIK();
                 _currentTween = _IKTargetTransform.DOMove(_currentAimPosition, _aimMovementDuration).OnComplete(OnAimingFinished);
             }
         }
 
-        void EndAiming()
-        {
-            DisableIK();
-        }
-
         void OnAimingFinished()
         {
             _grapplingEventBus.Publish<GrapplerAimedEvent>();
+            _visualizer.VisualizeAim(_currentTouchPosition, _currentAimPosition);
             EndAiming();
+        }
+
+        void EndAiming()
+        {
+            DisableIK();
         }
 
         void EnableIK()
@@ -144,6 +172,11 @@ namespace Mechanics.Grappling
         bool IsAimPositionFarEnough()
         {
             return Vector3.Distance(transform.position, _currentAimPosition) > _minimumAimDistance;
+        }
+
+        bool AimingMissed()
+        {
+            return _currentAimPosition == _aimMissedPosition;
         }
     }
 }

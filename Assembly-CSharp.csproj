@@ -100,6 +100,7 @@
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Scripts\InputManagement Scripts\InputManager.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
+    <Compile Include="Assets\Scripts\Player Scripts\Player Grappling Scripts\AimVisualizer.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Service Locator Pattern\ServiceLocator.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\InputManagementBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\Tilemap Trigger Controller Scripts\TilemapCeilingDeathTriggerController.cs" />

@@ -1174,8 +1174,9 @@ MonoBehaviour:
   _aimDependencies:
     _IKManager: {fileID: 7529450375515982238}
     _IKTargetTransform: {fileID: 2693220998924326774}
-    _aimMovementDuration: 0.3
+    _aimMovementDuration: 0.05
     _minimumAimDistance: 15
+    _aimVisualizerPrefab: {fileID: 1293533182682457454, guid: 662e50208d207f2408ab9a18c2ff76ce, type: 3}
   _ropeDependencies:
     _ropeSegmentPrefab: {fileID: 1371022108987316997, guid: 46836c3bee2c90a4a93fc5d1c13d10e3, type: 3}
     _ropeSegmentHolderPrefab: {fileID: 2403139474734644955, guid: 55925fc3264cdd6419d3cd39edf4da59, type: 3}
@@ -2124,10 +2125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5080a9ae390db445833c1c040f622ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxForwardAttachmentForce: 10
+  _maxForwardAttachmentForce: 5
   _maxOutwardAttachmentForce: 0
-  _detachmentForce: 750
-  _attachmentForceDuration: 2
+  _detachmentForce: 500
+  _attachmentForceDuration: 1.5
   _attachmentForceCurve:
     serializedVersion: 2
     m_Curve:

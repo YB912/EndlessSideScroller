@@ -27,8 +27,6 @@ public class AimVisualizer : MonoBehaviour
         _lineRenderer.SetPosition(1, targetPosition);
         _spriteRenderer.transform.position = targetPosition;
         EnableVisuals();
-
-        //StartCoroutine(BreakAfterDelay());
     }
 
     void EnableVisuals()
@@ -41,11 +39,5 @@ public class AimVisualizer : MonoBehaviour
     {
         _spriteRenderer.enabled = false;
         _lineRenderer.enabled = false;
-    }
-
-    IEnumerator BreakAfterDelay()
-    {
-        yield return new WaitForSeconds(2);
-        Debug.Break();
     }
 }

@@ -1,12 +1,11 @@
 
-using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
+using Mechanics.CourseGeneration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Mechanics.Grappling
 {
@@ -15,48 +14,51 @@ namespace Mechanics.Grappling
     /// </summary>
     public class GrapplingRopeController : MonoBehaviour
     {
-        List<RopeSegmentController> _currentRope;
         Coroutine _currentCoroutine;
 
-        RopeCreator _ropeCreator;
-        Transform _segmentHolder;
-        RopeCreationAnimationController _animationController;
+        RopeVisualsController _ropeVisualsController;
 
-        GameObject _foreArm;
-        HingeJoint2D _hingeJointToRope;
-        DistanceJoint2D _distanceJointToRope;
+        Rigidbody2D _foreArmRigidbody;
+        SpringJoint2D _springJoint2DAsRope;
+        Rigidbody2D _ropeAttachmentEndRigidbody;
+
+        int _wallLayerInBitMap;
+
+        const string WALL_LAYER_NAME = "Wall";
+        float _raycastDistance = 500;
 
         public void Initialize(
             GrapplingRopeDependencies ropeDependencies,
             RopeAnimationDependencies ropeAnimationDependencies,
             CommonGrapplingDependencies commonDependencies)
         {
+            _wallLayerInBitMap = Utility.LayerNameToBitMap(WALL_LAYER_NAME);
             FetchDependencies(ropeDependencies, commonDependencies);
-            SetupSegmentHolder(ropeDependencies.ropeSegmentHolderPrefab);
-            _ropeCreator.Initialize(ropeDependencies, commonDependencies, _segmentHolder);
-            _animationController.Initialize(ropeAnimationDependencies);
+            _ropeVisualsController.Initialize(ropeAnimationDependencies, ropeDependencies.player.bodyParts.backForearm.transform);
         }
 
-        void SetupSegmentHolder(GameObject prefab)
+        void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
         {
-            _segmentHolder = Instantiate(prefab).transform;
-            _segmentHolder.name = "RopeSegmentHolder";
-            _segmentHolder.GetComponent<RopeSegmentHolderController>().Initilaize();
+            _ropeVisualsController = GetComponent<RopeVisualsController>();
+            _foreArmRigidbody = ropeDependencies.player.bodyParts.backForearm.GetComponent<Rigidbody2D>();
+
+            // Assumes second joint of each type is for rope (index 1)
+            _springJoint2DAsRope = _foreArmRigidbody.GetComponent<SpringJoint2D>();
+            _ropeAttachmentEndRigidbody = ropeDependencies.ropeAttachmentEndRigidbody;
         }
 
         public void StartGrappling()
         {
             if (_currentCoroutine != null) { StopCoroutine(_currentCoroutine); }
-            var newRope = _ropeCreator.CreateRope();
-            _currentRope = newRope;
             AttachRopeEndToHand();
-            _animationController.AnimateRopeCreation(_currentRope);
+            _ropeVisualsController.AnimateRopeCreation(_ropeAttachmentEndRigidbody.transform.position);
         }
 
         public void EndGrappling()
         {
             if (_currentCoroutine != null) { StopCoroutine(_currentCoroutine); }
             DetatchRopeEndFromHand();
+            _ropeVisualsController.AnimateRopeFade();
         }
 
         public void StartGrapplingWithDelay(float delay)
@@ -83,42 +85,40 @@ namespace Mechanics.Grappling
             _currentCoroutine = StartCoroutine(EndGrapplingWithDelayCoroutine(delay, onComplete));
         }
 
-        void FetchDependencies(GrapplingRopeDependencies ropeDependencies, CommonGrapplingDependencies commonDependencies)
-        {
-            _ropeCreator = GetComponent<RopeCreator>();
-            _animationController = GetComponent<RopeCreationAnimationController>();
-            _foreArm = ropeDependencies.player.bodyParts.backForearm;
-
-            // Assumes second joint of each type is for rope (index 1)
-            _hingeJointToRope = _foreArm.GetComponents<HingeJoint2D>()[1];
-            _distanceJointToRope = _foreArm.GetComponents<DistanceJoint2D>()[1];
-        }
-
         void AttachRopeEndToHand()
         {
-            var firstSegmentRigidbody = _currentRope.First().rigidBody;
-            _hingeJointToRope.connectedBody = firstSegmentRigidbody;
-            _distanceJointToRope.connectedBody = firstSegmentRigidbody;
+            AttachRope();
             EnableHandJointsToRope();
+        }
+
+        void AttachRope()
+        {
+            var raycastHit = Physics2D.Raycast(
+                _foreArmRigidbody.transform.position,
+                _foreArmRigidbody.transform.right,
+                _raycastDistance,
+                _wallLayerInBitMap
+            );
+            var tilemap = raycastHit.collider.GetComponent<Tilemap>();
+            _springJoint2DAsRope.distance = raycastHit.distance;
+            _ropeAttachmentEndRigidbody.transform.position = tilemap.GetCellCenterWorld(tilemap.WorldToCell(raycastHit.point));
         }
 
         void DetatchRopeEndFromHand()
         {
             DisableHandJointsToRope();
-            _hingeJointToRope.connectedBody = null;
-            _distanceJointToRope.connectedBody = null;
+            _springJoint2DAsRope.connectedBody = null;
         }
 
         void EnableHandJointsToRope()
         {
-            _hingeJointToRope.enabled = true;
-            _distanceJointToRope.enabled = true;
+            _springJoint2DAsRope.connectedBody = _ropeAttachmentEndRigidbody;
+            _springJoint2DAsRope.enabled = true;
         }
 
         void DisableHandJointsToRope()
         {
-            _hingeJointToRope.enabled = false;
-            _distanceJointToRope.enabled = false;
+            _springJoint2DAsRope.enabled = false;
         }
 
         IEnumerator GrappleWithDelayCoroutine(float delay)

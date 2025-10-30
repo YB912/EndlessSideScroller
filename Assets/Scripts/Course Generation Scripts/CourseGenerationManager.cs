@@ -27,8 +27,6 @@ namespace Mechanics.CourseGeneration
 
         public GenerationParameters parameters => _parameters;
 
-        public TilemapController leftmostTilemap => _tilemapControllers.Peek();
-
         public Vector3 playerSpawnPoint => PlayerSpawnPoint();
         public float cameraHeight => CameraHeightRelativeToCourse();
 

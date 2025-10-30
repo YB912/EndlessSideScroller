@@ -13,8 +13,7 @@ namespace Mechanics.Grappling
     /// </summary>
     [RequireComponent(typeof(GrapplingAimController))]
     [RequireComponent(typeof(GrapplingRopeController))]
-    [RequireComponent(typeof(RopeCreator))]
-    [RequireComponent(typeof(RopeCreationAnimationController))]
+    [RequireComponent(typeof(RopeVisualsController))]
     public class GrapplingManager : MonoBehaviour, IInitializeable
     {
         [SerializeField] CommonGrapplingDependencies _commonDependencies;
@@ -79,15 +78,11 @@ namespace Mechanics.Grappling
     [System.Serializable]
     public class GrapplingRopeDependencies
     {
-        [SerializeField] GameObject _ropeSegmentPrefab;
-        [SerializeField] GameObject _ropeSegmentHolderPrefab;
-        [SerializeField] int _segmentCountLimit;
-
+        [SerializeField] Rigidbody2D _ropeAttachmentEndRigidbody;
         PlayerController _player;
 
-        public GameObject ropeSegmentPrefab => _ropeSegmentPrefab;
-        public GameObject ropeSegmentHolderPrefab => _ropeSegmentHolderPrefab;
-        public int segmentCountLimit => _segmentCountLimit;
+        public Rigidbody2D ropeAttachmentEndRigidbody => _ropeAttachmentEndRigidbody;
+
         public PlayerController player
         {
             get

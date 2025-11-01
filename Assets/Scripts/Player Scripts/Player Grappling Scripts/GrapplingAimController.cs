@@ -5,6 +5,7 @@ using DG.Tweening;
 using System.Collections;
 using UI.GameplayInputAndHUD;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.U2D.IK;
 
 namespace Mechanics.Grappling
@@ -28,7 +29,7 @@ namespace Mechanics.Grappling
         HingeJoint2D _forearmJoint;
 
         Vector3 _currentTouchPosition;
-        Vector3 _currentAimPosition;
+        Vector3 _currentAimedTilePosition;
         Vector3 _aimMissedPosition = new Vector3(-1, -1, -1);
         Tween _currentTween;
         float _forearmJointLimitRange;
@@ -38,6 +39,8 @@ namespace Mechanics.Grappling
         int _wallLayerInBitMap;
 
         const string WALL_LAYER_NAME = "Wall";
+
+        public Vector3 currentAimedTilePosition => _currentAimedTilePosition;
 
         public void Initialize(GrapplingAimDependencies aimDependencies, CommonGrapplingDependencies commonDependencies)
         {
@@ -58,7 +61,8 @@ namespace Mechanics.Grappling
         public void AimTowards(Vector3 position)
         {
             EnableIK();
-            _currentTween = _IKTargetTransform.DOMove(position, _aimMovementDuration).OnComplete(OnAimingFinished);
+            SetCurrentAimedTilePosition(position);
+            _currentTween = _IKTargetTransform.DOMove(position, _aimMovementDuration).OnComplete(() => OnAimingFinished(false));
         }
 
         public void AimTowardsWithDelay(Vector3 position, float delay)
@@ -104,14 +108,20 @@ namespace Mechanics.Grappling
         void OnTouchPositionChanged(Vector3 newPosition)
         {
             _currentTouchPosition = new Vector3(newPosition.x, newPosition.y, 0);
-            var raycastHit = Physics2D.Raycast(_currentTouchPosition, Vector2.up, _wallLayerInBitMap);
+            SetCurrentAimedTilePosition(_currentTouchPosition);
+        }
+
+        void SetCurrentAimedTilePosition(Vector3 raycastOrigin)
+        {
+            var raycastHit = Physics2D.Raycast(raycastOrigin, Vector2.up, Mathf.Infinity, _wallLayerInBitMap);
             if (raycastHit)
             {
-                _currentAimPosition = raycastHit.point;
+                var tilemap = raycastHit.collider.GetComponent<Tilemap>();
+                _currentAimedTilePosition = tilemap.GetCellCenterWorld(tilemap.WorldToCell(raycastHit.point));
             }
             else
             {
-                _currentAimPosition = _aimMissedPosition;
+                _currentAimedTilePosition = _aimMissedPosition;
             }
         }
 
@@ -120,14 +130,14 @@ namespace Mechanics.Grappling
             if (IsAimPositionFarEnough() && AimingMissed() == false)
             {
                 EnableIK();
-                _currentTween = _IKTargetTransform.DOMove(_currentAimPosition, _aimMovementDuration).OnComplete(OnAimingFinished);
+                _currentTween = _IKTargetTransform.DOMove(_currentAimedTilePosition, _aimMovementDuration).OnComplete(() => OnAimingFinished());
             }
         }
 
-        void OnAimingFinished()
+        void OnAimingFinished(bool visualize = true)
         {
             _grapplingEventBus.Publish<GrapplerAimedEvent>();
-            _visualizer.VisualizeAim(_currentTouchPosition, _currentAimPosition);
+            if (visualize) _visualizer.VisualizeAim(_currentTouchPosition, _currentAimedTilePosition);
             EndAiming();
         }
 
@@ -171,12 +181,12 @@ namespace Mechanics.Grappling
 
         bool IsAimPositionFarEnough()
         {
-            return Vector3.Distance(transform.position, _currentAimPosition) > _minimumAimDistance;
+            return Vector3.Distance(transform.position, _currentAimedTilePosition) > _minimumAimDistance;
         }
 
         bool AimingMissed()
         {
-            return _currentAimPosition == _aimMissedPosition;
+            return _currentAimedTilePosition == _aimMissedPosition;
         }
     }
 }

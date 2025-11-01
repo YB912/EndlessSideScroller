@@ -1,9 +1,7 @@
 
 using DesignPatterns.ServiceLocatorPattern;
-using Mechanics.CourseGeneration;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,6 +13,8 @@ namespace Mechanics.Grappling
     public class GrapplingRopeController : MonoBehaviour
     {
         Coroutine _currentCoroutine;
+
+        GrapplingAimController _aimController;
 
         RopeVisualsController _ropeVisualsController;
 
@@ -30,9 +30,11 @@ namespace Mechanics.Grappling
         public void Initialize(
             GrapplingRopeDependencies ropeDependencies,
             RopeAnimationDependencies ropeAnimationDependencies,
-            CommonGrapplingDependencies commonDependencies)
+            CommonGrapplingDependencies commonDependencies,
+            GrapplingAimController aimController)
         {
             _wallLayerInBitMap = Utility.LayerNameToBitMap(WALL_LAYER_NAME);
+            _aimController = aimController;
             FetchDependencies(ropeDependencies, commonDependencies);
             _ropeVisualsController.Initialize(ropeAnimationDependencies, ropeDependencies.player.bodyParts.backForearm.transform);
         }
@@ -93,15 +95,9 @@ namespace Mechanics.Grappling
 
         void AttachRope()
         {
-            var raycastHit = Physics2D.Raycast(
-                _foreArmRigidbody.transform.position,
-                _foreArmRigidbody.transform.right,
-                _raycastDistance,
-                _wallLayerInBitMap
-            );
-            var tilemap = raycastHit.collider.GetComponent<Tilemap>();
-            _springJoint2DAsRope.distance = raycastHit.distance;
-            _ropeAttachmentEndRigidbody.transform.position = tilemap.GetCellCenterWorld(tilemap.WorldToCell(raycastHit.point));
+            var handPosition = _foreArmRigidbody.transform.TransformPoint(_springJoint2DAsRope.anchor);
+            _springJoint2DAsRope.distance = Vector3.Distance(handPosition, _aimController.currentAimedTilePosition);
+            _ropeAttachmentEndRigidbody.transform.position = _aimController.currentAimedTilePosition;
         }
 
         void DetatchRopeEndFromHand()

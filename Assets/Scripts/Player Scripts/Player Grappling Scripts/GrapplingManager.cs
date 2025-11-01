@@ -31,7 +31,7 @@ namespace Mechanics.Grappling
         {
             FetchDependencies();
             _aimController.Initialize(_aimDependencies, _commonDependencies);
-            _ropeController.Initialize(_ropeDependencies, _ropeAnimationDependencies, _commonDependencies);
+            _ropeController.Initialize(_ropeDependencies, _ropeAnimationDependencies, _commonDependencies, _aimController);
             ServiceLocator.instance.Register(this);
         }
 

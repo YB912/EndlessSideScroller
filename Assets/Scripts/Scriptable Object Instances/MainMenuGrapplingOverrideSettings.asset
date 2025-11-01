@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: MainMenuGrapplingOverrideSettings
   m_EditorClassIdentifier: 
   _hangingRopeAimHeightNormalized: 0.65
-  _hangingRopeAimOffsetFromHead: {x: 0, y: 100, z: 0}
-  _forwardRopeAimOffsetFromHead: {x: 180, y: 100, z: 0}
+  _hangingRopeAimOffsetFromHead: {x: 0, y: 10, z: 0}
+  _forwardRopeAimOffsetFromHead: {x: 100, y: 20, z: 0}
   _forwardRopeReleaseDelay: 4

@@ -2,7 +2,6 @@
 using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using Player;
-using System.Data.Common;
 using UnityEngine;
 
 namespace Mechanics.Scoring

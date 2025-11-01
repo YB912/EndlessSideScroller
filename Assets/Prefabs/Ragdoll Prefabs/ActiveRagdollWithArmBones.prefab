@@ -2416,6 +2416,7 @@ MonoBehaviour:
     _frontLowerLeg: {fileID: 363127508848576343}
     _frontFoot: {fileID: 7159195818275289307}
   _mainMenuGrapplingOverrideSettings: {fileID: 11400000, guid: b2c663749be49e74f90c96aec43f3b38, type: 2}
+  _stopDeathSettings: {fileID: 11400000, guid: 2160a490af9265a4c9d88a51446f667c, type: 2}
 --- !u!114 &4963878393000747996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2428,9 +2429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5080a9ae390db445833c1c040f622ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxForwardAttachmentForce: 5
+  _maxForwardAttachmentForce: 7.5
   _maxOutwardAttachmentForce: 0
-  _detachmentForce: 500
+  _detachmentForce: 750
   _attachmentForceDuration: 1.5
   _attachmentForceCurve:
     serializedVersion: 2

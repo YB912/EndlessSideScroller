@@ -17,6 +17,7 @@ namespace Player
     {
         [SerializeField] PlayerBodyParts _bodyParts;
         [SerializeField] MainMenuGrapplingOverrideSettings _mainMenuGrapplingOverrideSettings;
+        [SerializeField] PlayerStopDeathSettings _stopDeathSettings;
  
         GrapplingManager _grapplingManager;
         IStateMachine _lifeCycleStatemachine;
@@ -27,6 +28,7 @@ namespace Player
 
         public PlayerBodyParts bodyParts => _bodyParts;
         public MainMenuGrapplingOverrideSettings mainMenuGrapplingOverrideSettings => _mainMenuGrapplingOverrideSettings;
+        public PlayerStopDeathSettings stopDeathSettings => _stopDeathSettings;
         public GrapplingManager grapplingManager => _grapplingManager;
         public PlayerSwingingForceController swingingForceController => _swingingForceController;
 
@@ -58,6 +60,7 @@ namespace Player
         void Update()
         {
             _swingingStatemachine.Update();
+            _lifeCycleStatemachine.Update();
         }
 
         void InitializeStatemachines()

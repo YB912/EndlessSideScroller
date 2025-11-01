@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace UI.GameplayInput
+namespace UI.GameplayInputAndHUD
 {
     public interface IBlinkingFadingUIViewWithButtons : IFadingUIViewWithButtons
     {

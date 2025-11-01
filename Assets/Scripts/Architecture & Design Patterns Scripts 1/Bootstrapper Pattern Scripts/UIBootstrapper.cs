@@ -52,7 +52,7 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
     void BootstrapInputUI()
     {
         var inputUI = Instantiate(_inputUIPrefab);
-        inputUI.name = "AimingZoneUI";
+        inputUI.name = "InputUIAndHUD";
         inputUI.GetComponent<IInitializeable>().Initialize();
     }
 }

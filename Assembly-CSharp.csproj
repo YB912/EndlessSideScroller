@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Observer Pattern\Observable.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\BlinkingUIViewWithButtons.cs" />
-    <Compile Include="Assets\Scripts\UI Scripts\Aiming Zone UI Scripts\InputUIView.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\State Pattern\State.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\Game Over Menu UI Scripts\GameOverMenuUIPresenter.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\GenerationParameters.cs" />
@@ -83,7 +82,9 @@
     <Compile Include="Assets\Scripts\Course Generation Scripts\CourseParameters.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Singleton Pattern\Singleton.cs" />
     <Compile Include="Assets\Scripts\Score Scripts\ScoringSettings.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\Aiming Zone UI Scripts\InputAndHUDPresenter.cs" />
     <Compile Include="Assets\Scripts\Game Manager Scripts\Game Manager State Machine Scripts\GameCycleMainMenuState.cs" />
+    <Compile Include="Assets\Scripts\Player Scripts\PlayerStopDeathSettings.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\UIBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\State Pattern\Statemachine.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\FadingUIView.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="Assets\Scripts\Player Scripts\Player Grappling Scripts\GrapplingAimController.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\Tilemap Trigger Controller Scripts\TilemapTriggerController.cs" />
     <Compile Include="Assets\Scripts\Utility Scripts\Utility.cs" />
-    <Compile Include="Assets\Scripts\UI Scripts\Aiming Zone UI Scripts\InputUIPresenter.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\GameManagerBootstrapper.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleUI.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\PlayerBodyParts.cs" />
@@ -144,6 +144,7 @@
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModulePhysics2D.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\TilemapController.cs" />
     <Compile Include="Assets\Input System\InputSystem_Actions.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\Aiming Zone UI Scripts\InputAndHUDView.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\Main Menu UI Scripts\MainMenuUIPresenter.cs" />
     <Compile Include="Assets\Scripts\Custom Events Scripts\GrapplingEvents.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleSprite.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Assets\Scripts\Camera Scripts\MainCameraController.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Statemachine Scripts\PlayerLifecycleStatemachine\PlayerLifeCycleAliveState.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Statemachine Scripts\Player Swinging Statemachine Scripts\PlayerSwingingMainMenuState.cs" />
+    <Compile Include="Assets\Scripts\Player Scripts\PlayerStopDeathController.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\FadingUIViewWithButtons.cs" />
   </ItemGroup>
   <ItemGroup>

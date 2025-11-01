@@ -7,16 +7,30 @@ namespace Player.StateMachines
     public class PlayerLifeCycleAliveState : State
     {
         GameplayEventBus _gamePlayEventBus;
+
+        PlayerStopDeathController _stopDeathController;
+
         public PlayerLifeCycleAliveState(IStateMachine statemachine, GameplayEventBus gameplayEventBus) : base(statemachine)
         {
             _gamePlayEventBus = gameplayEventBus;
+            _stopDeathController = new PlayerStopDeathController(this);
         }
 
         public override void OnEnter()
         {
             base.OnEnter();
-            // Reset the player
+            _stopDeathController.Activate();
         }
+
+        public override void Update()
+        {
+            _stopDeathController?.Update();
+        }
+
+        public void PlayerStopped()
+        {
+            TransitionToDeadState();
+        } 
 
         protected override void SubscribeToTransitionEvents()
         {
@@ -32,5 +46,6 @@ namespace Player.StateMachines
         {
             _statemachine.TransitionTo(typeof(PlayerLifeCycleDeadState));
         }
+
     }
 }

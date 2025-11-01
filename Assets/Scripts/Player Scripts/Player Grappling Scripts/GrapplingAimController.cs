@@ -3,7 +3,7 @@ using DesignPatterns.EventBusPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using DG.Tweening;
 using System.Collections;
-using UI.GameplayInput;
+using UI.GameplayInputAndHUD;
 using UnityEngine;
 using UnityEngine.U2D.IK;
 

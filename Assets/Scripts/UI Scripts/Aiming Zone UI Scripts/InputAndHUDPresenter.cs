@@ -6,16 +6,16 @@ using InputManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace UI.GameplayInput
+namespace UI.GameplayInputAndHUD
 {
-    public interface IInputUIPresenter
+    public interface IInputAndHUDPresenter
     {
         public void StartAimingTouch();
         public void EndAimingTouch();
         public void BackgroundTouch();
-        public static IInputUIPresenter Create(IInputUIView view)
+        public static IInputAndHUDPresenter Create(IInputAndHUDView view)
         {
-            return new InputUIPresenter(view);
+            return new InputAndHUDPresenter(view);
         }
     }
 
@@ -25,7 +25,7 @@ namespace UI.GameplayInput
         public Observable<Vector2> currentTouchPositionInScreenObservable { get; }
     }
 
-    public class InputUIPresenter : IInputUIPresenter, ITouchPositionProvider
+    public class InputAndHUDPresenter : IInputAndHUDPresenter, ITouchPositionProvider
     {
 
         private Observable<Vector3> _currentTouchPositionInWorldObservable;
@@ -33,10 +33,13 @@ namespace UI.GameplayInput
 
         InputManager _inputManager;
 
-        IInputUIView _view;
+        IInputAndHUDView _view;
         InputEventBus _inputEventBus;
         GameCycleEventBus _gameCycleEventBus;
         GameplayEventBus _gameplayEventBus;
+        LoadingEventBus _loadingEventBus;
+
+        PlayerStopDeathController _playerStopDeathController;
 
         Camera _mainCamera;
         float _cameraZ;
@@ -44,7 +47,7 @@ namespace UI.GameplayInput
         public Observable<Vector3> currentTouchPositionInWorldObservable => _currentTouchPositionInWorldObservable;
         public Observable<Vector2> currentTouchPositionInScreenObservable => _currentTouchPositionInScreenObservable;
 
-        public InputUIPresenter(IInputUIView view)
+        public InputAndHUDPresenter(IInputAndHUDView view)
         {
             _currentTouchPositionInWorldObservable = new Observable<Vector3>(Vector3.zero);
             _currentTouchPositionInScreenObservable = new Observable<Vector2>(Vector2.zero);
@@ -70,10 +73,12 @@ namespace UI.GameplayInput
 
         void FetchDependencies()
         {
-            _inputManager = ServiceLocator.instance.Get<InputManager>();
-            _inputEventBus = ServiceLocator.instance.Get<InputEventBus>();
-            _gameCycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
-            _gameplayEventBus = ServiceLocator.instance.Get<GameplayEventBus>();
+            var serviceLocator = ServiceLocator.instance;
+            _inputManager = serviceLocator.Get<InputManager>();
+            _inputEventBus = serviceLocator.Get<InputEventBus>();
+            _gameCycleEventBus = serviceLocator.Get<GameCycleEventBus>();
+            _gameplayEventBus = serviceLocator.Get<GameplayEventBus>();
+            _loadingEventBus = serviceLocator.Get<LoadingEventBus>();
             _mainCamera = Camera.main;
             _cameraZ = _mainCamera.transform.position.z;
         }
@@ -83,6 +88,7 @@ namespace UI.GameplayInput
             _inputManager.inputSystemActions.Player.TouchPosition.performed += OnAimingTouchPositionPerformed;
             _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(OnEnteredPlayState);
             _gameplayEventBus.Subscribe<PlayerDiedGameplayEvent>(OnPlayerDied);
+            _loadingEventBus.Subscribe<PlayerInitializedLoadingEvent>(OnPlayerLoaded);
         }
 
         void OnAimingTouchPositionPerformed(InputAction.CallbackContext context)
@@ -102,6 +108,18 @@ namespace UI.GameplayInput
         void OnPlayerDied()
         {
             _view.FadePanelOut();
+        }
+
+        void OnCountDownNumberChanged(int number)
+        {
+            if (number <= 0) return;
+            _view.DisplayStopDeathCountdownNumber(number);
+        }
+
+        void OnPlayerLoaded()
+        {
+            _playerStopDeathController = ServiceLocator.instance.Get<PlayerStopDeathController>();
+            _playerStopDeathController.countdownNumberToDisplay.AddListener(OnCountDownNumberChanged);
         }
     }
 }

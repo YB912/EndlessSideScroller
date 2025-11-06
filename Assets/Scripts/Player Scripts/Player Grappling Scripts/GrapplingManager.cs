@@ -79,9 +79,19 @@ namespace Mechanics.Grappling
     public class GrapplingRopeDependencies
     {
         [SerializeField] Rigidbody2D _ropeAttachmentEndRigidbody;
+        [SerializeField, Range(0f, 1f)] float _pullFactor;
+        [SerializeField] float _pullFrequency;
+        [SerializeField, Range(0f, 1f)] float _dampingRatio;
+        [SerializeField] float _pullDuration;
+        [SerializeField] float _maxSpeedMagnitudeForPull;
         PlayerController _player;
 
         public Rigidbody2D ropeAttachmentEndRigidbody => _ropeAttachmentEndRigidbody;
+        public float pullFactor => _pullFactor;
+        public float pullFrequency => _pullFrequency;
+        public float dampingRatio => _dampingRatio;
+        public float pullDuration => _pullDuration;
+        public float maxSpeedMagnitudeForPull => _maxSpeedMagnitudeForPull;
 
         public PlayerController player
         {

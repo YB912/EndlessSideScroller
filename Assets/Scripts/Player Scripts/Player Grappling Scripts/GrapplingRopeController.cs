@@ -1,9 +1,8 @@
 
-using DesignPatterns.ServiceLocatorPattern;
+using DG.Tweening;
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Mechanics.Grappling
 {
@@ -21,11 +20,15 @@ namespace Mechanics.Grappling
         Rigidbody2D _foreArmRigidbody;
         SpringJoint2D _springJoint2DAsRope;
         Rigidbody2D _ropeAttachmentEndRigidbody;
+        Rigidbody2D _abdomenRigidbody;
 
-        int _wallLayerInBitMap;
+        float _pullFactor;
+        float _pullFrequency;
+        float _dampingRatio;
+        float _pullDuration;
+        float _maxSpeedMagnitudeForPull;
 
-        const string WALL_LAYER_NAME = "Wall";
-        float _raycastDistance = 500;
+        Tween _pullTween;
 
         public void Initialize(
             GrapplingRopeDependencies ropeDependencies,
@@ -33,9 +36,9 @@ namespace Mechanics.Grappling
             CommonGrapplingDependencies commonDependencies,
             GrapplingAimController aimController)
         {
-            _wallLayerInBitMap = Utility.LayerNameToBitMap(WALL_LAYER_NAME);
             _aimController = aimController;
             FetchDependencies(ropeDependencies, commonDependencies);
+            SetupRope();
             _ropeVisualsController.Initialize(ropeAnimationDependencies, ropeDependencies.player.bodyParts.backForearm.transform);
         }
 
@@ -43,10 +46,23 @@ namespace Mechanics.Grappling
         {
             _ropeVisualsController = GetComponent<RopeVisualsController>();
             _foreArmRigidbody = ropeDependencies.player.bodyParts.backForearm.GetComponent<Rigidbody2D>();
+            _abdomenRigidbody = ropeDependencies.player.bodyParts.abdomen.GetComponent<Rigidbody2D>();
 
             // Assumes second joint of each type is for rope (index 1)
             _springJoint2DAsRope = _foreArmRigidbody.GetComponent<SpringJoint2D>();
             _ropeAttachmentEndRigidbody = ropeDependencies.ropeAttachmentEndRigidbody;
+
+            _pullFactor = ropeDependencies.pullFactor;
+            _pullFrequency = ropeDependencies.pullFrequency;
+            _dampingRatio = ropeDependencies.dampingRatio;  
+            _pullDuration = ropeDependencies.pullDuration;
+            _maxSpeedMagnitudeForPull = ropeDependencies.maxSpeedMagnitudeForPull;
+        }
+
+        void SetupRope()
+        {
+            _springJoint2DAsRope.frequency = _pullFrequency;
+            _springJoint2DAsRope.dampingRatio = _dampingRatio;
         }
 
         public void StartGrappling()
@@ -96,8 +112,10 @@ namespace Mechanics.Grappling
         void AttachRope()
         {
             var handPosition = _foreArmRigidbody.transform.TransformPoint(_springJoint2DAsRope.anchor);
-            _springJoint2DAsRope.distance = Vector3.Distance(handPosition, _aimController.currentAimedTilePosition);
+            var originalDistance = Vector3.Distance(handPosition, _aimController.currentAimedTilePosition);
+            _springJoint2DAsRope.distance = originalDistance;
             _ropeAttachmentEndRigidbody.transform.position = _aimController.currentAimedTilePosition;
+            PullRope(originalDistance);
         }
 
         void DetatchRopeEndFromHand()
@@ -117,6 +135,17 @@ namespace Mechanics.Grappling
             _springJoint2DAsRope.enabled = false;
         }
 
+        void PullRope(float originalDistance)
+        {
+            var velocity = _abdomenRigidbody.linearVelocity.magnitude;
+            var speedFactor = Mathf.Min(velocity / _maxSpeedMagnitudeForPull, 1);
+            _pullTween?.Kill();
+            _pullTween = DOTween.To(() => _springJoint2DAsRope.distance,
+                x => _springJoint2DAsRope.distance = x,
+                originalDistance * _pullFactor * speedFactor,
+                _pullDuration);
+        }
+
         IEnumerator GrappleWithDelayCoroutine(float delay)
         {
             yield return new WaitForSeconds(delay);
@@ -134,6 +163,7 @@ namespace Mechanics.Grappling
             yield return new WaitForSeconds(delay);
             EndGrappling();
             onComplete?.Invoke();
+            _currentCoroutine = null;
         }
     }
 }

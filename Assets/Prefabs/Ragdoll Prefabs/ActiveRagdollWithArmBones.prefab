@@ -1494,6 +1494,11 @@ MonoBehaviour:
     _aimVisualizerPrefab: {fileID: 1293533182682457454, guid: 662e50208d207f2408ab9a18c2ff76ce, type: 3}
   _ropeDependencies:
     _ropeAttachmentEndRigidbody: {fileID: 4713812657375097748}
+    _pullFactor: 0.8
+    _pullFrequency: 4
+    _dampingRatio: 0.75
+    _pullDuration: 1.5
+    _maxSpeedMagnitudeForPull: 3
   _ropeAnimationDependencies:
     _animationCurve:
       serializedVersion: 2
@@ -2429,7 +2434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5080a9ae390db445833c1c040f622ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxForwardAttachmentForce: 7.5
+  _maxForwardAttachmentForce: 5
   _maxOutwardAttachmentForce: 0
   _detachmentForce: 750
   _attachmentForceDuration: 1.5

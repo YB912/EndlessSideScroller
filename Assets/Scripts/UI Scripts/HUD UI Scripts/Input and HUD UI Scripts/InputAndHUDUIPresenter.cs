@@ -3,19 +3,20 @@ using DesignPatterns.EventBusPattern;
 using DesignPatterns.ObserverPattern;
 using DesignPatterns.ServiceLocatorPattern;
 using InputManagement;
+using Player.Health;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace UI.GameplayInputAndHUD
 {
-    public interface IInputAndHUDPresenter
+    public interface IInputAndHUDUIPresenter
     {
         public void StartAimingTouch();
         public void EndAimingTouch();
         public void BackgroundTouch();
-        public static IInputAndHUDPresenter Create(IInputAndHUDView view)
+        public static IInputAndHUDUIPresenter Create(IInputAndHUDView view)
         {
-            return new InputAndHUDPresenter(view);
+            return new InputAndHUDUIPresenter(view);
         }
     }
 
@@ -25,7 +26,7 @@ namespace UI.GameplayInputAndHUD
         public Observable<Vector2> currentTouchPositionInScreenObservable { get; }
     }
 
-    public class InputAndHUDPresenter : IInputAndHUDPresenter, ITouchPositionProvider
+    public class InputAndHUDUIPresenter : IInputAndHUDUIPresenter, ITouchPositionProvider
     {
 
         private Observable<Vector3> _currentTouchPositionInWorldObservable;
@@ -37,9 +38,11 @@ namespace UI.GameplayInputAndHUD
         InputEventBus _inputEventBus;
         GameCycleEventBus _gameCycleEventBus;
         GameplayEventBus _gameplayEventBus;
+        UIEventBus _UIEventBus;
         LoadingEventBus _loadingEventBus;
 
         PlayerStopDeathController _playerStopDeathController;
+        PlayerHealthManager _playerHealthManager;
 
         Camera _mainCamera;
         float _cameraZ;
@@ -47,7 +50,7 @@ namespace UI.GameplayInputAndHUD
         public Observable<Vector3> currentTouchPositionInWorldObservable => _currentTouchPositionInWorldObservable;
         public Observable<Vector2> currentTouchPositionInScreenObservable => _currentTouchPositionInScreenObservable;
 
-        public InputAndHUDPresenter(IInputAndHUDView view)
+        public InputAndHUDUIPresenter(IInputAndHUDView view)
         {
             _currentTouchPositionInWorldObservable = new Observable<Vector3>(Vector3.zero);
             _currentTouchPositionInScreenObservable = new Observable<Vector2>(Vector2.zero);
@@ -78,6 +81,7 @@ namespace UI.GameplayInputAndHUD
             _inputEventBus = serviceLocator.Get<InputEventBus>();
             _gameCycleEventBus = serviceLocator.Get<GameCycleEventBus>();
             _gameplayEventBus = serviceLocator.Get<GameplayEventBus>();
+            _UIEventBus = serviceLocator.Get<UIEventBus>();
             _loadingEventBus = serviceLocator.Get<LoadingEventBus>();
             _mainCamera = Camera.main;
             _cameraZ = _mainCamera.transform.position.z;
@@ -103,10 +107,12 @@ namespace UI.GameplayInputAndHUD
         void OnEnteredPlayState()
         {
             _view.FadePanelIn();
+            _UIEventBus.Subscribe<UpgradeShopStateButtonClickedUIEvent>(OnUpgradeShopButtonClicked);
         }
 
         void OnPlayerDied()
         {
+            _view.UpdateHealthTint(0);
             _view.FadePanelOut();
         }
 
@@ -116,10 +122,25 @@ namespace UI.GameplayInputAndHUD
             _view.DisplayStopDeathCountdownNumber(number);
         }
 
+        void OnPlayerHealthChanged(float normalizedHealth)
+        {
+            _view.UpdateHealthTint(normalizedHealth);
+        }
+
+        void OnUpgradeShopButtonClicked()
+        {
+            _view.UpdateHealthTint(1);
+            _UIEventBus.Unsubscribe<UpgradeShopStateButtonClickedUIEvent>(OnUpgradeShopButtonClicked);
+        }
+
         void OnPlayerLoaded()
         {
-            _playerStopDeathController = ServiceLocator.instance.Get<PlayerStopDeathController>();
+            var serviceLocator = ServiceLocator.instance;
+            _playerStopDeathController = serviceLocator.Get<PlayerStopDeathController>();
+            _playerHealthManager = serviceLocator.Get<PlayerHealthManager>();
+
             _playerStopDeathController.countdownNumberToDisplay.AddListener(OnCountDownNumberChanged);
+            _playerHealthManager.currentHealthNormalizedObservable.AddListener(OnPlayerHealthChanged);
         }
     }
 }

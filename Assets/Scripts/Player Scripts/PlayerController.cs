@@ -6,6 +6,7 @@ using System.Linq;
 using Player.StateMachines;
 using UnityEngine;
 using DesignPatterns.StatePattern;
+using Player.Health;
 
 namespace Player
 {
@@ -23,7 +24,7 @@ namespace Player
         IStateMachine _lifeCycleStatemachine;
         IStateMachine _swingingStatemachine;
         PlayerSwingingForceController _swingingForceController;
-        GameplayEventBus _gameplayEventBus;
+        PlayerHealthManager _healthManager;
         GameCycleEventBus _gamecycleEventBus;
 
         public PlayerBodyParts bodyParts => _bodyParts;
@@ -54,6 +55,7 @@ namespace Player
         {
             _grapplingManager = GetComponentInChildren<GrapplingManager>();
             _swingingForceController = GetComponent<PlayerSwingingForceController>();
+            _healthManager = GetComponent<PlayerHealthManager>();
             _gamecycleEventBus = ServiceLocator.instance.Get<GameCycleEventBus>();
         }
 
@@ -83,6 +85,7 @@ namespace Player
         {
             ResetRagdollPosition();
             ResetRagdollVelocity();
+            _healthManager.ResetHealth();
             _gamecycleEventBus.Publish<RagdollResetGameCycleEvent>();
         }
 

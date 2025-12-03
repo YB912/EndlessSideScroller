@@ -13,17 +13,25 @@ namespace UI.GameplayInputAndHUD
         public AimingZoneSettings aimingZoneSettings { get; }
 
         public void DisplayStopDeathCountdownNumber(int number);
+        public void UpdateHealthTint(float healthNormalized);
     }
 
     public class InputAndHUDView : BlinkingFadingUIViewWithButtons, IInputAndHUDView, IInitializeable
     {
+        [Header("Aiming Zone")]
         [SerializeField] AimingZoneSettings _aimingZoneSettings;
         [SerializeField] Button _aimingZoneButton;
         [SerializeField] Button _backgroundButton;
+
+        [Header("Stop Death Countdown")]
         [SerializeField] TMP_Text _stopDeathCountdownText;
         [SerializeField] float _countdownDisplayAnimationDuration;
 
-        IInputAndHUDPresenter _presenter;
+        [Header("Health Tint")]
+        [SerializeField] Image _healthTintImage;
+        [SerializeField] float _healthTintTweenDuration;
+
+        IInputAndHUDUIPresenter _presenter;
 
         PointerDownOrUpListener _aimingZoneListener;
         PointerDownOrUpListener _backgroundListener;
@@ -34,14 +42,13 @@ namespace UI.GameplayInputAndHUD
         {
             base.Initialize();
             SetupZone();
-            _presenter = IInputAndHUDPresenter.Create(this);
+            _presenter = IInputAndHUDUIPresenter.Create(this);
             ServiceLocator.instance.Register(_presenter as ITouchPositionProvider);
             DisableCountdownText();
         }
 
         public void DisplayStopDeathCountdownNumber(int number)
         {
-            Debug.Log($"Time at beginning of display: {Time.time}");
             _stopDeathCountdownText.text = number.ToString();
             _stopDeathCountdownText.enabled = true;
             _stopDeathCountdownText.alpha = 0f;
@@ -49,11 +56,16 @@ namespace UI.GameplayInputAndHUD
             _stopDeathCountdownText.DOFade(1, _countdownDisplayAnimationDuration).SetEase(Ease.InOutQuad);
             _stopDeathCountdownText.rectTransform.DOScale(Vector3.one, _countdownDisplayAnimationDuration).SetEase(Ease.InOutQuad)
                 .OnComplete(() => {
-                    Debug.Log($"Time at OnComplete: {Time.time}");
                     _stopDeathCountdownText.DOFade(0, _countdownDisplayAnimationDuration).SetEase(Ease.InOutQuad);
                     _stopDeathCountdownText.rectTransform.DOScale(Vector3.zero, _countdownDisplayAnimationDuration).SetEase(Ease.InOutQuad)
                     .OnComplete(DisableCountdownText);
                 });
+        }
+
+        public void UpdateHealthTint(float healthNormalized)
+        {
+            var endValue = (1 - healthNormalized);
+            _healthTintImage.DOFade(endValue, _healthTintTweenDuration);
         }
 
         protected override void AddButtonListeners()

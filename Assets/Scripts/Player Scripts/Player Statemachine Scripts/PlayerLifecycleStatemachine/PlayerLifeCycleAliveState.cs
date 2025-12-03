@@ -35,11 +35,13 @@ namespace Player.StateMachines
         protected override void SubscribeToTransitionEvents()
         {
             _gamePlayEventBus.Subscribe<PlayerHitADeathTriggerGameplayEvent>(TransitionToDeadState);
+            _gamePlayEventBus.Subscribe<PlayerReachedZeroHealth>(TransitionToDeadState);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
             _gamePlayEventBus.Unsubscribe<PlayerHitADeathTriggerGameplayEvent>(TransitionToDeadState);
+            _gamePlayEventBus.Unsubscribe<PlayerReachedZeroHealth>(TransitionToDeadState);
         }
 
         void TransitionToDeadState()

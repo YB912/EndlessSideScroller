@@ -9,4 +9,6 @@ public class CameraTargetReachedTweenPositionGameplayEvent { }
 
 public class LaunchSequenceCompletedGameplayEvent { }
 
+public class PlayerReachedZeroHealth { }
+
 public class PlayerDiedGameplayEvent { }

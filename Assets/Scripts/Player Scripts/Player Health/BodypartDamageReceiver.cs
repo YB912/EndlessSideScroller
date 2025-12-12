@@ -36,6 +36,7 @@ namespace Player.Health
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            if (_shouldReceiveDamage == false) return;
             if (collision.gameObject.layer != LayerMask.NameToLayer(WALL_LAYER_NAME)) return;
 
             var force = _rigidBody.mass * collision.relativeVelocity.magnitude / Time.fixedDeltaTime;

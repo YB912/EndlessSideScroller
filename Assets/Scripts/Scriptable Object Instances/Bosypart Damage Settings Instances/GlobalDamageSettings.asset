@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5c5f0550c2e42643800ddae5e30de64, type: 3}
   m_Name: GlobalDamageSettings
   m_EditorClassIdentifier: 
-  _maxImpactDamage: 1000
-  _impactForceThreshold: 15000
-  _maxImpactForce: 75000
+  _maxImpactDamage: 500
+  _impactForceThreshold: 5000
+  _maxImpactForce: 50000
   _impactForceToDamageCurve:
     serializedVersion: 2
     m_Curve:

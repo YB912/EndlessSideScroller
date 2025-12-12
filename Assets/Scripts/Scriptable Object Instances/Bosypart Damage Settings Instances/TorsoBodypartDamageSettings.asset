@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0337cf11166d6a54ba6fd0a9d5cff5fa, type: 3}
   m_Name: TorsoBodypartDamageSettings
   m_EditorClassIdentifier: 
-  _impactSensitivity: 0.75
+  _impactSensitivity: 0.9

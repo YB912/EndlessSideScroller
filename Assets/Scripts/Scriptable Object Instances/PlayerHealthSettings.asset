@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: PlayerHealthSettings
   m_EditorClassIdentifier: 
   _playerMaxHealth: 1000
+  _normalizedRegenerationPerSecond: 0.1
+  _timeBeforeRegenerationStarts: 4

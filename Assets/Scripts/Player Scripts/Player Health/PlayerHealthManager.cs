@@ -32,6 +32,11 @@ namespace Player.Health
             }
         }
 
+        public bool IsPlayerAlive()
+        {
+            return currentHealthObservable.value > 0f;
+        }
+
         public void RegisterBodypartDamage(float damage)
         {
             if (damage < 0)
@@ -41,10 +46,22 @@ namespace Player.Health
             if (currentHealthObservable.value == 0) return;
             currentHealthObservable.value = Mathf.Max(0f, currentHealthObservable.value - damage);
             currentHealthNormalizedObservable.value = currentHealthObservable.value / _healthSettings.playerMaxHealth;
+            _gameplayEventBus.Publish<PlayerReceivedDamageGameplayEvent>();
             if (currentHealthObservable.value <= 0f)
             {
                 _gameplayEventBus.Publish<PlayerReachedZeroHealth>();
             }
+        }
+
+        public void RegisterRegeneration(float regenerationAmount)
+        {
+            if (regenerationAmount < 0)
+            {
+                Debug.LogWarning($"Tried to register a negative regeneration to PlayerHealthManager: {regenerationAmount} is invalid");
+            }
+            if (currentHealthObservable.value == _healthSettings.playerMaxHealth) return;
+            currentHealthObservable.value = Mathf.Min(_healthSettings.playerMaxHealth, currentHealthObservable.value + regenerationAmount);
+            currentHealthNormalizedObservable.value = currentHealthObservable.value / _healthSettings.playerMaxHealth;
         }
 
         public void ResetHealth()

@@ -105,6 +105,7 @@
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Service Locator Pattern\ServiceLocator.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\InputManagementBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\Tilemap Trigger Controller Scripts\TilemapCeilingDeathTriggerController.cs" />
+    <Compile Include="Assets\Scripts\Player Scripts\Player Health\PlayerHealthRegenerationController.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\TilePaletteReferences.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\CourseGenerationManager.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\ScoreManagerBootstrapper.cs" />

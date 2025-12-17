@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GlobalDamageSettings
   m_EditorClassIdentifier: 
   _maxImpactDamage: 500
-  _impactForceThreshold: 5000
+  _impactForceThreshold: 2500
   _maxImpactForce: 50000
   _impactForceToDamageCurve:
     serializedVersion: 2

@@ -41,7 +41,7 @@ namespace Mechanics.CourseGeneration
             _occupancyMatrix = new byte[_parameters.tilemapParameters.tilemapWidth, _parameters.tilemapParameters.tilemapHeight];
             FetchDependencies();
             SetupTriggers(gameplayEventBus);
-            VisualizeTilemapArea();
+            //VisualizeTilemapArea();
         }
 
         void FetchDependencies()

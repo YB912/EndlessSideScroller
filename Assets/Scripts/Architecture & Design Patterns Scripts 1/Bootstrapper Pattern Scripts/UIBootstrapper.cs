@@ -10,6 +10,7 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
     [SerializeField] GameObject _upgradeShopMenuPrefab;
     [SerializeField] GameObject _gameOverMenuPrefab;
     [SerializeField] GameObject _inputUIPrefab;
+    [SerializeField] GameObject _backgroundCanvasPrefab;
 
     public IEnumerator BootstrapCoroutine()
     {
@@ -18,6 +19,7 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
         BootstrapUpgradeShopMenu();
         BootstrapGameOverMenu();
         BootstrapInputUI();
+        BootstrapBackgroundCanvas();
         yield break;
     }
 
@@ -54,5 +56,15 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
         var inputUI = Instantiate(_inputUIPrefab);
         inputUI.name = "InputUIAndHUD";
         inputUI.GetComponent<IInitializeable>().Initialize();
+    }
+
+    void BootstrapBackgroundCanvas()
+    {
+        var backgroundCanvasGameObject = Instantiate(_backgroundCanvasPrefab);
+        backgroundCanvasGameObject.name = "BackgroundCanvas";
+
+        var canvas = backgroundCanvasGameObject.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        canvas.worldCamera = Camera.main;
     }
 }

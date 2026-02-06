@@ -26,12 +26,14 @@ namespace Player.StateMachines
         {
             _gameCycleEventBus.Subscribe<EnteredUpgradeShopStateGameCycleEvent>(TransitionToAliveState);
             _gameCycleEventBus.Subscribe<EnteredMainMenuStateGameCycleEvent>(TransitionToAliveState);
+            _gameCycleEventBus.Subscribe<ExitedPlayStateGameCycleEvent>(TransitionToAliveState);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
             _gameCycleEventBus.Unsubscribe<EnteredUpgradeShopStateGameCycleEvent>(TransitionToAliveState);
             _gameCycleEventBus.Unsubscribe<EnteredMainMenuStateGameCycleEvent>(TransitionToAliveState);
+            _gameCycleEventBus.Unsubscribe<ExitedPlayStateGameCycleEvent>(TransitionToAliveState);
         }
 
         void TransitionToAliveState()

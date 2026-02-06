@@ -66,6 +66,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1785122563662567761
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -84,6 +85,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -105,9 +108,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 1}
   m_FlipX: 0
@@ -117,7 +122,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3576497111341008669
 GameObject:
@@ -277,7 +281,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &8475640451664386974
 LineRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -296,6 +300,8 @@ LineRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -317,9 +323,11 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
@@ -378,7 +386,6 @@ LineRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MaskInteraction: 0
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
@@ -447,7 +454,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &685569188816075954
 LineRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -466,6 +473,8 @@ LineRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -487,9 +496,11 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
@@ -548,7 +559,6 @@ LineRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MaskInteraction: 0
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
@@ -560,6 +570,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8939128112907900536, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.81
+      objectReference: {fileID: 0}
+    - target: {fileID: -8939128112907900536, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Size.y
+      value: 2.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8939128112907900536, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -855673421185924262, guid: 178522264c539b34491cf63ee5af186b, type: 3}
+    - target: {fileID: -8939128112907900536, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8653719598885068355, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Name
       value: ActiveRagdollWithArmBones
@@ -572,6 +598,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -7618016638744197833, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8575911142349869747, guid: 178522264c539b34491cf63ee5af186b, type: 3}
     - target: {fileID: -7552582706839291426, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -628,6 +658,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5961439576983198722, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2590856770568369196, guid: 178522264c539b34491cf63ee5af186b, type: 3}
+    - target: {fileID: -5674745638789391690, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8127659980080409609, guid: 178522264c539b34491cf63ee5af186b, type: 3}
     - target: {fileID: -5022005042360769746, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -640,6 +678,26 @@ PrefabInstance:
       propertyPath: m_TagString
       value: PlayerAbdomen
       objectReference: {fileID: 0}
+    - target: {fileID: -4258057430568916116, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_AutoRebind
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4258057430568916116, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_BoneTransforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4258057430568916116, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: 'm_BoneTransforms.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -4073585591633178559, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2764259585393044748, guid: 178522264c539b34491cf63ee5af186b, type: 3}
+    - target: {fileID: -3973160390364675713, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2659562803134822446, guid: 178522264c539b34491cf63ee5af186b, type: 3}
     - target: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -647,6 +705,18 @@ PrefabInstance:
     - target: {fileID: -3192435080320139870, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3083257417519127703, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_AutoRebind
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3083257417519127703, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_BoneTransforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3083257417519127703, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: 'm_BoneTransforms.Array.data[0]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: -1339697315920065478, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
@@ -664,6 +734,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -534671857626762088, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3534960402611484680, guid: 178522264c539b34491cf63ee5af186b, type: 3}
+    - target: {fileID: 97385661786326501, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3922262621208389490, guid: 178522264c539b34491cf63ee5af186b, type: 3}
     - target: {fileID: 1604397006641993874, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -675,6 +753,22 @@ PrefabInstance:
     - target: {fileID: 2779113019117988365, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602990915445093638, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6645978344745572922, guid: 178522264c539b34491cf63ee5af186b, type: 3}
+    - target: {fileID: 3625794154226183156, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_AutoRebind
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3625794154226183156, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_BoneTransforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3625794154226183156, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: 'm_BoneTransforms.Array.data[0]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3982659400702417615, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
@@ -696,10 +790,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5673037079879340455, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -246384721392802793, guid: 178522264c539b34491cf63ee5af186b, type: 3}
     - target: {fileID: 6070971444643974334, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6165062432512028936, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 5353399549866760284, guid: 178522264c539b34491cf63ee5af186b, type: 3}
+    - target: {fileID: 6263748671866830865, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6512167428329512489, guid: 178522264c539b34491cf63ee5af186b, type: 3}
     - target: {fileID: 6523056464005995568, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -720,6 +826,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.106
       objectReference: {fileID: 0}
+    - target: {fileID: 6737347709859261948, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1990241388231905250, guid: 178522264c539b34491cf63ee5af186b, type: 3}
     - target: {fileID: 8161142440266185364, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -727,6 +837,18 @@ PrefabInstance:
     - target: {fileID: 8161142440266185364, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9130763388501208369, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_AutoRebind
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9130763388501208369, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: m_BoneTransforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9130763388501208369, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
+      propertyPath: 'm_BoneTransforms.Array.data[0]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9215417930284277836, guid: 03071ebde73c9de44a44a1737ff66a6d, type: 3}
       propertyPath: m_Layer
@@ -1024,7 +1146,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.01, y: 3.31}
+    oldSize: {x: 1, y: 3.3}
     newSize: {x: 1.01, y: 3.31}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1141,7 +1263,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.01, y: 3.31}
+    oldSize: {x: 1, y: 3.3}
     newSize: {x: 1.01, y: 3.31}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1533,7 +1655,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2, y: 0.61}
+    oldSize: {x: 2.2, y: 0.6}
     newSize: {x: 2.2, y: 0.61}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1888,7 +2010,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.01, y: 3.31}
+    oldSize: {x: 1, y: 3.3}
     newSize: {x: 1.01, y: 3.31}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2005,7 +2127,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.01, y: 2.01}
+    oldSize: {x: 1, y: 2}
     newSize: {x: 1.01, y: 2.01}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2213,7 +2335,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.01, y: 3.31}
+    oldSize: {x: 1, y: 3.3}
     newSize: {x: 1.01, y: 3.31}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2330,7 +2452,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.41, y: 2.81}
+    oldSize: {x: 1.4, y: 2.8}
     newSize: {x: 1.41, y: 2.81}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2447,7 +2569,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.2, y: 0.61}
+    oldSize: {x: 2.2, y: 0.6}
     newSize: {x: 2.2, y: 0.61}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2564,7 +2686,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.01, y: 2.01}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 2.01, y: 2.01}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

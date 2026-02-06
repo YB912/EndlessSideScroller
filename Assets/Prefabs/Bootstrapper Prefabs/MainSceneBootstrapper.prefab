@@ -486,6 +486,10 @@ PrefabInstance:
       value: UIBootstrapper
       objectReference: {fileID: 0}
     - target: {fileID: 8770725657112849115, guid: 9eb3c343dba7367459817a8ca700ec0b, type: 3}
+      propertyPath: _inputUIPrefab
+      value: 
+      objectReference: {fileID: 6839404661190976985, guid: de86d75dff1ba7849acab0b35b3dc25d, type: 3}
+    - target: {fileID: 8770725657112849115, guid: 9eb3c343dba7367459817a8ca700ec0b, type: 3}
       propertyPath: _gameOverMenuPrefab
       value: 
       objectReference: {fileID: 8878941451365191633, guid: 5054656fe6386364bb2a37ce4066e4d3, type: 3}
@@ -493,6 +497,10 @@ PrefabInstance:
       propertyPath: _upgradeShopMenuPrefab
       value: 
       objectReference: {fileID: 4098245201888535385, guid: 14f0ee6e915060d46b9c49978a4c82fb, type: 3}
+    - target: {fileID: 8770725657112849115, guid: 9eb3c343dba7367459817a8ca700ec0b, type: 3}
+      propertyPath: _backgroundCanvasPrefab
+      value: 
+      objectReference: {fileID: 5566595382857432998, guid: 4fd4aa5f547f2864db517a98bf41c3b0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

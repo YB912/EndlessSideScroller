@@ -8,8 +8,10 @@ namespace Mechanics.CourseGeneration
     [CreateAssetMenu(fileName = "TilePaletteReferences", menuName = "Course Generation/Tile Palette References")]
     public class TilePaletteReferences : ScriptableObject
     {
-        [SerializeField] TileBase _whiteTile;
+        [SerializeField] TileBase _solidBlock;
+        [SerializeField] TileBase _ceilingLaser;
 
-        public TileBase whiteTile => _whiteTile;
+        public TileBase solidBlock => _solidBlock;
+        public TileBase ceilingLaser => _ceilingLaser;
     }
 }

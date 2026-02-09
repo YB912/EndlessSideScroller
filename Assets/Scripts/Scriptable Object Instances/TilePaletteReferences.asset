@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53869eedb8bf49c47a6272f549f62d56, type: 3}
   m_Name: TilePaletteReferences
   m_EditorClassIdentifier: 
-  _whiteTile: {fileID: 11400000, guid: e7d2e6d9302fbda418eb88c1e69b57fd, type: 2}
+  _solidBlock: {fileID: 11400000, guid: e7d2e6d9302fbda418eb88c1e69b57fd, type: 2}
+  _ceilingLaser: {fileID: 11400000, guid: fee8db3abe8ba4d43b5c97c570ba4bdd, type: 2}

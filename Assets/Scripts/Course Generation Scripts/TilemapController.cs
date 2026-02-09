@@ -22,7 +22,6 @@ namespace Mechanics.CourseGeneration
         GenerationParameters _parameters;
         TilemapParameters _tilemapParameters;
 
-        // 
         byte[,] _occupancyMatrix;
         List<Vector2Int> _emptyCells;
 

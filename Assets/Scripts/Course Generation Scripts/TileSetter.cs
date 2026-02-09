@@ -15,6 +15,12 @@ namespace Mechanics.CourseGeneration
         TilemapController _attachedTilemap;
         byte[,] _occupancyMatrix;
 
+        int _ceilingY;
+
+        const byte EMPTY = 0;
+        const byte SOLID = 1;
+        const byte LASER = 2;
+
         public TileSetter(TilemapController attachedTilemap, GenerationParameters parameters)
         {
             if (_staticsSet == false)
@@ -27,6 +33,8 @@ namespace Mechanics.CourseGeneration
 
             _attachedTilemap = attachedTilemap;
             _occupancyMatrix = _attachedTilemap.occupancyMatrix;
+
+            _ceilingY = _tilemapParameters.tilemapHeight - 1;
         }
 
         public void SetTiles()
@@ -50,26 +58,42 @@ namespace Mechanics.CourseGeneration
 
         void GenerateCeiling(bool withGaps = true)
         {
-            var origin = new Vector2Int(0, _tilemapParameters.tilemapHeight - 1);
+            FillBlock(
+                new Vector2Int(0, _ceilingY),
+                _tilemapParameters.tilemapWidth,
+                1,
+                _paletteReferences.solidBlock
+            );
+
             if (withGaps)
-            {
                 GenerateCeilingGaps();
-            }
-            FillBlock(origin, _tilemapParameters.tilemapWidth, 1, _paletteReferences.whiteTile);
         }
+
 
         void GenerateCeilingGaps()
         {
             var numberOfGaps = _courseParameters.RandomCeilingGapNumber();
-            for (var i = 0; i < numberOfGaps; i++)
+
+            for (int i = 0; i < numberOfGaps; i++)
             {
-                var gapWidth = _courseParameters.RandomCeilingGapWidth();
-                var fittingIndexes = OriginXsWhereThisGapFits(gapWidth);
-                if (fittingIndexes == null || fittingIndexes.Count == 0) continue;
-                var randomX = fittingIndexes[Random.Range(0, fittingIndexes.Count)];
-                SetOccupancyMatrixBlock(new Vector2Int(randomX, _tilemapParameters.tilemapHeight - 1), new Vector2Int(gapWidth, 1), 2);
+                int gapWidth = _courseParameters.RandomCeilingGapWidth();
+                var fittingXs = OriginXsWhereThisGapFits(gapWidth);
+
+                if (fittingXs.Count == 0) continue;
+
+                int x = fittingXs[Random.Range(0, fittingXs.Count)];
+
+                for (int gx = x; gx < x + gapWidth; gx++)
+                {
+                    _attachedTilemap.tilemap.SetTile(
+                        new Vector3Int(gx, _ceilingY, 0),
+                        _paletteReferences.ceilingLaser
+                    );
+                    _occupancyMatrix[gx, _ceilingY] = LASER;
+                }
             }
         }
+
 
         void GenerateAllBlocks()
         {
@@ -106,7 +130,7 @@ namespace Mechanics.CourseGeneration
                     var randomOrigin = new Vector2Int(randomOriginX, randomOriginY);
                     if (IsSpaceAvailableForBlock(randomOrigin, blockWidth, blockHeight))
                     {
-                        FillBlock(randomOrigin, blockWidth, blockHeight, _paletteReferences.whiteTile);
+                        FillBlock(randomOrigin, blockWidth, blockHeight, _paletteReferences.solidBlock);
                         break;
                     }
                 }
@@ -157,23 +181,29 @@ namespace Mechanics.CourseGeneration
 
         List<int> OriginXsWhereThisGapFits(int gapWidth)
         {
-            var output = new List<int>();
-            for (var originX = _courseParameters.minHorizontalDistance; originX < _tilemapParameters.tilemapWidth - (gapWidth - 1); originX++)
+            var result = new List<int>();
+
+            for (int x = _courseParameters.minHorizontalDistance;
+                 x <= _tilemapParameters.tilemapWidth - gapWidth;
+                 x++)
             {
-                var allCellsEmpty = true;
-                for (var gapCellX = originX; gapCellX < originX + gapWidth; gapCellX++)
+                bool fit = true;
+
+                for (int gx = x; gx < x + gapWidth; gx++)
                 {
-                    if (IsCellEmpty(gapCellX, 0) == false)
+                    if (_occupancyMatrix[gx, _ceilingY] != SOLID)
                     {
-                        originX = gapCellX;
-                        allCellsEmpty = false;
+                        fit = false;
                         break;
                     }
                 }
-                if (allCellsEmpty) output.Add(originX);
+
+                if (fit) result.Add(x);
             }
-            return output;
+
+            return result;
         }
+
 
         void SetOccupancyMatrixBlock(Vector2Int origin, Vector2Int size, byte code)
         {

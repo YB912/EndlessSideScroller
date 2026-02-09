@@ -32,7 +32,7 @@ namespace UI.GameOverMenu
 
         public void RestartButtonClicked()
         {
-            _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<UpgradeShopStateButtonClickedUIEvent>());
+            _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<PlayStateButtonClickedUIEvent>());
         }
 
         public void QuitButtonClicked()

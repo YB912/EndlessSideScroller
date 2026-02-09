@@ -9,7 +9,6 @@ namespace UI.MainMenu
     {
         [SerializeField] TextMeshProUGUI _mainMenuTitleText;
         [SerializeField] Button _mainMenuPlayButton;
-        [SerializeField] Button _mainMenuSettingsButton;
 
         IMainMenuUIPresenter _presenter;
 
@@ -21,13 +20,11 @@ namespace UI.MainMenu
         protected override void AddButtonListeners()
         {
             _mainMenuPlayButton.onClick.AddListener(_presenter.PlayButtonClicked);
-            _mainMenuSettingsButton.onClick.AddListener(_presenter.SettingsButtonClicked);
         }
 
         protected override void RemoveButtonListeners()
         {
             _mainMenuPlayButton.onClick.RemoveAllListeners();
-            _mainMenuSettingsButton.onClick.RemoveAllListeners();
         }
     }
 }

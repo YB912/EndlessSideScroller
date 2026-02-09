@@ -55,7 +55,6 @@
     <Compile Include="Assets\Scripts\UI Scripts\Game Over Menu UI Scripts\GameOverMenuUIPresenter.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\GenerationParameters.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\Event Bus Bootstrapping Scripts\EventBusesBootstrapper.cs" />
-    <Compile Include="Assets\Scripts\UI Scripts\Upgrade Shop Menu UI Scripts\UpgradeShopMenuUIView.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\ObjectPoolManagerBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Event Bus Pattern\EventBus.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Health\GlobalDamageSettings.cs" />
@@ -132,14 +131,12 @@
     <Compile Include="Assets\Scripts\UI Scripts\BlinkingFadingUIViewWithButtons.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\Tilemap Trigger Controller Scripts\TilemapRevolvingTriggerController.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleUtils.cs" />
-    <Compile Include="Assets\Scripts\UI Scripts\Upgrade Shop Menu UI Scripts\UpgradeShopMenuUIPresenter.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModulePhysics2D.cs" />
     <Compile Include="Assets\Scripts\Course Generation Scripts\TilemapController.cs" />
     <Compile Include="Assets\Input System\InputSystem_Actions.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\Main Menu UI Scripts\MainMenuUIPresenter.cs" />
     <Compile Include="Assets\Scripts\Custom Events Scripts\GrapplingEvents.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleSprite.cs" />
-    <Compile Include="Assets\Scripts\Game Manager Scripts\Game Manager State Machine Scripts\GameCycleUpgradeShopState.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\Game Over Menu UI Scripts\GameOverMenuUIView.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Health\PlayerHealthManager.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\HUD UI Scripts\Input and HUD UI Scripts\InputAndHUDView.cs" />

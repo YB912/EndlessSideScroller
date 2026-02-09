@@ -106,8 +106,8 @@ namespace UI.GameplayInputAndHUD
 
         void OnEnteredPlayState()
         {
+            _view.UpdateHealthTint(1);
             _view.FadePanelIn();
-            _UIEventBus.Subscribe<UpgradeShopStateButtonClickedUIEvent>(OnUpgradeShopButtonClicked);
             _UIEventBus.Subscribe<MainMenuStateButtonClickedUIEvent>(OnMainMenuStateButtonClicked);
         }
 
@@ -126,12 +126,6 @@ namespace UI.GameplayInputAndHUD
         void OnPlayerHealthChanged(float normalizedHealth)
         {
             _view.UpdateHealthTint(normalizedHealth);
-        }
-
-        void OnUpgradeShopButtonClicked()
-        {
-            _view.UpdateHealthTint(1);
-            _UIEventBus.Unsubscribe<UpgradeShopStateButtonClickedUIEvent>(OnUpgradeShopButtonClicked);
         }
 
         void OnMainMenuStateButtonClicked()

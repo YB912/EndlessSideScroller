@@ -8,7 +8,6 @@ namespace UI.MainMenu
     public interface IMainMenuUIPresenter
     {
         public void PlayButtonClicked();
-        public void SettingsButtonClicked();
         public static IMainMenuUIPresenter Create(IFadingUIViewWithButtons view)
         {
             return new MainMenuUIPresenter(view);
@@ -31,13 +30,7 @@ namespace UI.MainMenu
 
         public void PlayButtonClicked()
         {
-            _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<UpgradeShopStateButtonClickedUIEvent>());
-        }
-
-        public void SettingsButtonClicked()
-        {
-            // _view.DisableButtons();
-            // Hide this menu here
+            _view.FadePanelOut().OnComplete(() => _UIEventBus.Publish<PlayStateButtonClickedUIEvent>());
         }
 
         void OnEnteredMainMenuState()

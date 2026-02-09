@@ -28,11 +28,9 @@ namespace Mechanics.GameManagement
         protected override void SetupStates()
         {
             var mainMenuState = new GameCycleMainMenuState(this, _UIEventBus, _gameCycleEventbus);
-            var upgradeShopState = new GameCycleUpgradeShopState(this, _UIEventBus, _gameCycleEventbus);
             var playState = new GameCyclePlayState(this, _UIEventBus, _gameCycleEventbus);
 
             _states.Add(typeof(GameCycleMainMenuState), mainMenuState);
-            _states.Add(typeof(GameCycleUpgradeShopState) ,upgradeShopState);
             _states.Add(typeof(GameCyclePlayState), playState);
         }
 

@@ -29,24 +29,24 @@ namespace Mechanics.GameManagement
 
         protected override void SubscribeToTransitionEvents()
         {
-            _UIEventBus.Subscribe<UpgradeShopStateButtonClickedUIEvent>(TransitionToUpgradeShopState);
             _UIEventBus.Subscribe<MainMenuStateButtonClickedUIEvent>(TransitionToMainMenuState);
+            _UIEventBus.Subscribe<PlayStateButtonClickedUIEvent>(TransitionToSelf);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
-            _UIEventBus.Unsubscribe<UpgradeShopStateButtonClickedUIEvent>(TransitionToUpgradeShopState);
             _UIEventBus.Unsubscribe<MainMenuStateButtonClickedUIEvent>(TransitionToMainMenuState);
-        }
-
-        void TransitionToUpgradeShopState()
-        {
-            _statemachine.TransitionTo(typeof(GameCycleUpgradeShopState));
+            _UIEventBus.Unsubscribe<PlayStateButtonClickedUIEvent>(TransitionToSelf);
         }
 
         void TransitionToMainMenuState()
         {
             _statemachine.TransitionTo(typeof(GameCycleMainMenuState));
+        }
+
+        void TransitionToSelf()
+        {
+            _statemachine.TransitionTo(typeof(GameCyclePlayState));
         }
     }
 }

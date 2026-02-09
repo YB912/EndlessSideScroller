@@ -26,7 +26,7 @@ namespace UI.GameOverMenu
 
         public void UpdateTotalScore(int totalScore)
         {
-            _scoreText.text = "Total Score: " + totalScore.ToString();
+            _scoreText.text = "Distance: " + totalScore.ToString();
         }
 
         protected override void AddButtonListeners()

@@ -7,7 +7,6 @@ using UnityEngine.InputSystem.UI;
 public class UIBootstrapper : MonoBehaviour, IBootstrapper
 {
     [SerializeField] GameObject _mainMenuPrefab;
-    [SerializeField] GameObject _upgradeShopMenuPrefab;
     [SerializeField] GameObject _gameOverMenuPrefab;
     [SerializeField] GameObject _inputUIPrefab;
     [SerializeField] GameObject _backgroundCanvasPrefab;
@@ -16,7 +15,6 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
     {
         BootstrapUnityUIEventSystem();
         BootstrapMainMenu();
-        BootstrapUpgradeShopMenu();
         BootstrapGameOverMenu();
         BootstrapInputUI();
         BootstrapBackgroundCanvas();
@@ -35,13 +33,6 @@ public class UIBootstrapper : MonoBehaviour, IBootstrapper
         var mainMenu = Instantiate(_mainMenuPrefab);
         mainMenu.name = "MainMenu";
         mainMenu.GetComponent<IInitializeable>().Initialize();
-    }
-
-    void BootstrapUpgradeShopMenu()
-    {
-        var upgradeMenu = Instantiate(_upgradeShopMenuPrefab);
-        upgradeMenu.name = "UpgradeShopMenu";
-        upgradeMenu.GetComponent<IInitializeable>().Initialize();
     }
 
     void BootstrapGameOverMenu()

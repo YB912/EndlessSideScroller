@@ -109,9 +109,9 @@ ScriptedImporter:
       height: 280
     spriteID: add1d09bcba776942ab34813d83217f7
     spriteBone:
-    - name: bone_2
+    - name: Player_Front_Forearm
       guid: 50ac3453e1557f04dadb2cd6e655c7df
-      position: {x: 40, y: 280.71918, z: 0}
+      position: {x: 40.00003, y: 280.71918, z: 0}
       rotation: {x: 0, y: 0, z: 0.7071068, w: -0.7071068}
       length: 280.20065
       parentId: -1
@@ -437,10 +437,10 @@ ScriptedImporter:
       height: 280
     spriteID: cb2b4f1cd6723b4458fa0d021f8cf705
     spriteBone:
-    - name: bone_1
+    - name: Player_Front_UpperArm
       guid: 1f025f3b3d9f2f5499b05843768f6a42
       position: {x: 40, y: 278.25427, z: 0}
-      rotation: {x: 0, y: 0, z: 0.7071068, w: -0.7071068}
+      rotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
       length: 277.53506
       parentId: -1
       color:
@@ -3702,7 +3702,7 @@ ScriptedImporter:
       height: 280
     spriteID: 858360c8d72caa442a9fddee6f8e8a5b
     spriteBone:
-    - name: bone_3
+    - name: Player_Back_UpperArm
       guid: 5ed21447fb0f93c4b9b0e9ab6b2a9097
       position: {x: 40, y: 278.25403, z: 0}
       rotation: {x: 0, y: 0, z: 0.7071068, w: -0.7071068}
@@ -4030,7 +4030,7 @@ ScriptedImporter:
       height: 280
     spriteID: eef73c7397f78dc4c8bf71ac9b039b12
     spriteBone:
-    - name: bone_4
+    - name: Player_Back_Forearm
       guid: f15dc9f28373616409035583d3239b03
       position: {x: 40, y: 280.71918, z: 0}
       rotation: {x: 0, y: 0, z: 0.7071067, w: -0.70710695}
@@ -4357,25 +4357,25 @@ ScriptedImporter:
     boneReadOnly: 0
   characterData:
     bones:
-    - name: bone_1
+    - name: Player_Front_UpperArm
       guid: 1f025f3b3d9f2f5499b05843768f6a42
       position: {x: 100, y: 1144.2543, z: 0}
-      rotation: {x: 0, y: 0, z: 0.7071068, w: -0.7071068}
+      rotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
       length: 277.53506
       parentId: -1
       color:
         serializedVersion: 2
         rgba: 4278190335
-    - name: bone_2
+    - name: Player_Front_Forearm
       guid: 50ac3453e1557f04dadb2cd6e655c7df
-      position: {x: 277.53506, y: 0.00003734601, z: 0}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
+      position: {x: 277.53506, y: 0.000067863584, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: -1}
       length: 280.20065
       parentId: 0
       color:
         serializedVersion: 2
         rgba: 4278255615
-    - name: bone_3
+    - name: Player_Back_UpperArm
       guid: 5ed21447fb0f93c4b9b0e9ab6b2a9097
       position: {x: 100, y: 1144.254, z: 0}
       rotation: {x: 0, y: 0, z: 0.7071068, w: -0.7071068}
@@ -4384,7 +4384,7 @@ ScriptedImporter:
       color:
         serializedVersion: 2
         rgba: 4278255360
-    - name: bone_4
+    - name: Player_Back_Forearm
       guid: f15dc9f28373616409035583d3239b03
       position: {x: 277.53482, y: 0.00003734601, z: 0}
       rotation: {x: 0, y: 0, z: 0.00000016855003, w: 1}

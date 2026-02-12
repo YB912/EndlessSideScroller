@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2803690642562426691}
   - component: {fileID: 3889992681543126300}
   - component: {fileID: 4150882237025804841}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: GameOverMenuRestartButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 8227915223756206845}
   - component: {fileID: 1902040618734907391}
   - component: {fileID: 955536313170831353}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: GameOverMenuCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ Canvas:
   m_GameObject: {fileID: 921518363131579079}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -195,7 +195,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 1569098415870123114}
   - component: {fileID: 1440436975232613026}
   - component: {fileID: 3999572281434336538}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: GameOverMenuQuitButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 1455292509548848615}
   - component: {fileID: 95332630230078874}
   - component: {fileID: 3282966788927694253}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: GameOverMenuQuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +510,7 @@ GameObject:
   - component: {fileID: 754540099182759136}
   - component: {fileID: 1470550714381808333}
   - component: {fileID: 1552328734811783199}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: GameOverMenuScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -648,7 +648,7 @@ GameObject:
   - component: {fileID: 7581948146068355200}
   - component: {fileID: 7794030681983467416}
   - component: {fileID: 4280476127523518590}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: GameOverMenuPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -740,7 +740,7 @@ GameObject:
   - component: {fileID: 6687159224769103279}
   - component: {fileID: 7655706126705611294}
   - component: {fileID: 3104101651994816369}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: GameOverMenuRestartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -860,7 +860,7 @@ GameObject:
   - component: {fileID: 73816699568759330}
   - component: {fileID: 6102546939925893854}
   - component: {fileID: 4875113891024998565}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: GameOverMenuTitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -998,7 +998,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1113632279397756704}
   - component: {fileID: 6834515994774662043}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: GameOverMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1033,6 +1033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bbf408f2d79b046b950af9c6676433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 8227915223756206845}
   _rootPanel: {fileID: 7341546040771744622}
   _fadingWindowSettings: {fileID: 11400000, guid: 73af2b0dcf50f9140af25bacc8514002, type: 2}
   _gameOverTitleText: {fileID: 4875113891024998565}

@@ -41,6 +41,7 @@ namespace UI.GameplayInputAndHUD
         public override void Initialize()
         {
             base.Initialize();
+            _canvas.worldCamera = Camera.main;
             SetupZone();
             _presenter = IInputAndHUDUIPresenter.Create(this);
             ServiceLocator.instance.Register(_presenter as ITouchPositionProvider);

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8920372034592957654}
   - component: {fileID: 6259621596143183311}
   - component: {fileID: 7290986731089205994}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: AimingZonePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 8436820737727699333}
   - component: {fileID: 3903926432569795981}
   - component: {fileID: 8574492632162424935}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: HealthTintImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 7809872455605304679}
   - component: {fileID: 5779899451192850589}
   - component: {fileID: 333394965964913666}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: HudPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.003921569}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 6815456847440445453}
   - component: {fileID: 2370005937075140131}
   - component: {fileID: 286854345334822093}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: AimingZoneButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.1254902}
+  m_Color: {r: 0, g: 0.3, b: 0.3, a: 0.1254902}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -389,7 +389,7 @@ GameObject:
   - component: {fileID: 1995742908315217483}
   - component: {fileID: 8542208672903764141}
   - component: {fileID: 2406666151122669830}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: BackgroundButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -520,7 +520,7 @@ GameObject:
   - component: {fileID: 3824375729679610220}
   - component: {fileID: 1068672794263473905}
   - component: {fileID: 3011183811329633596}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: StopDeathCountdownText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,15 +576,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 3
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a2ea9fea120047a4e9ff138ff0daba7b, type: 2}
+  m_sharedMaterial: {fileID: 3460368845825078683, guid: a2ea9fea120047a4e9ff138ff0daba7b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4289901056
+  m_fontColor: {r: 0, g: 0.7, b: 0.7, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -658,7 +658,7 @@ GameObject:
   - component: {fileID: 4457731305170171792}
   - component: {fileID: 7628099689911847923}
   - component: {fileID: 9017922787521827388}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: InputAndHUDCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -695,7 +695,7 @@ Canvas:
   m_GameObject: {fileID: 5748110412811962747}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -703,7 +703,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 6432890795170563600}
   - component: {fileID: 4305367013283262425}
   - component: {fileID: 3927291659938475826}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: AimingZoneWarningText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -784,7 +784,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 50}
+  m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4305367013283262425
 CanvasRenderer:
@@ -818,15 +818,15 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a2ea9fea120047a4e9ff138ff0daba7b, type: 2}
+  m_sharedMaterial: {fileID: 3460368845825078683, guid: a2ea9fea120047a4e9ff138ff0daba7b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4289901056
+  m_fontColor: {r: 0, g: 0.7, b: 0.7, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -843,8 +843,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 120
+  m_fontSizeBase: 120
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -898,7 +898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1027958334884420086}
   - component: {fileID: 394622990118046262}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: InputUIAndHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -933,6 +933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c2921701d523a46abe73a1b243fb85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 4457731305170171792}
   _rootPanel: {fileID: 60685674321458102}
   _fadingWindowSettings: {fileID: 11400000, guid: 73af2b0dcf50f9140af25bacc8514002, type: 2}
   _blinkingUISettings: {fileID: 11400000, guid: 708c739876390ae4daebc92a3cad17c3, type: 2}

@@ -21,6 +21,7 @@ namespace UI.GameOverMenu
 
         public override void Initialize()
         {
+            _canvas.worldCamera = Camera.main;
             _presenter = IGameOverUIPresenter.Create(this);
         }
 

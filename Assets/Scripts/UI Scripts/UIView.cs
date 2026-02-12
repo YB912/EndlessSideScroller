@@ -11,6 +11,7 @@ namespace UI
 
     public abstract class UIView : MonoBehaviour, IUIView
     {
+        [SerializeField] protected Canvas _canvas;
         [SerializeField] protected GameObject _rootPanel;
 
         protected CanvasGroup _canvasGroup;

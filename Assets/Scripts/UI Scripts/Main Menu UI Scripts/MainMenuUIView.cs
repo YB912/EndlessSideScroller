@@ -14,6 +14,7 @@ namespace UI.MainMenu
 
         public override void Initialize()
         {
+            _canvas.worldCamera = Camera.main;
             _presenter = IMainMenuUIPresenter.Create(this);
         }
 

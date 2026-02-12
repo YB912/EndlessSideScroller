@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1808373100545358230}
   - component: {fileID: 2999914704280673737}
   - component: {fileID: 7468061595126369355}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: MainMenuPlayButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 4431607264706650920}
   - component: {fileID: 3337679626319952298}
   - component: {fileID: 3623865249169839144}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: MainMenuPlayButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4600504664479544439}
   - component: {fileID: 216793272589390130}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,11 +303,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2e1c3345ca0b540b12d0f7257e831b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 3399305751304651723}
   _rootPanel: {fileID: 7424830233092536106}
   _fadingWindowSettings: {fileID: 11400000, guid: 73af2b0dcf50f9140af25bacc8514002, type: 2}
   _mainMenuTitleText: {fileID: 8421655147203637103}
   _mainMenuPlayButton: {fileID: 7468061595126369355}
-  _mainMenuSettingsButton: {fileID: 0}
 --- !u!1 &7424830233092536106
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 4521674382752982949}
   - component: {fileID: 8166694025218828755}
   - component: {fileID: 397007250400277046}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: MainMenuPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 3399305751304651723}
   - component: {fileID: 933355835928084725}
   - component: {fileID: 8831264180000311982}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: MainMenuCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +446,7 @@ Canvas:
   m_GameObject: {fileID: 7493934786265648397}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -454,7 +454,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 3781493693076064195}
   - component: {fileID: 7757927536229715647}
   - component: {fileID: 8421655147203637103}
-  m_Layer: 5
+  m_Layer: 31
   m_Name: MainMenuTitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

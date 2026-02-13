@@ -14,3 +14,5 @@ public class PlayerReceivedDamageGameplayEvent { }
 public class PlayerReachedZeroHealth { }
 
 public class PlayerDiedGameplayEvent { }
+
+public class PlayerHitCeilingLaserGameplayEvent { }

@@ -20,6 +20,7 @@ namespace Mechanics.CourseGeneration
         protected override void OnPlayerEnteredTrigger()
         {
             _gamePlayEventBus.Publish<PlayerHitADeathTriggerGameplayEvent>();
+            _gamePlayEventBus.Publish<PlayerHitCeilingLaserGameplayEvent>();
         }
 
         protected override void SetupTrigger()

@@ -33,7 +33,7 @@ namespace Player.StateMachines
             var mainMenuState = new PlayerSwingingMainMenuState(this, _player, _grapplingEventBus, _gameplayEventBus, _tilemapParameters);
             var idleState = new PlayerSwingingIdleState(this, _inputEventBus);
             var aimingState = new PlayerSwingingAimingState(this, _inputEventBus, _grapplingEventBus, _player);
-            var grappledState = new PlayerSwingingGrappledState(this, _inputEventBus, _player);
+            var grappledState = new PlayerSwingingGrappledState(this, _inputEventBus, _grapplingEventBus, _player);
 
             _states.TryAdd(typeof(PlayerSwingingMainMenuState), mainMenuState);
             _states.TryAdd(typeof(PlayerSwingingIdleState), idleState);

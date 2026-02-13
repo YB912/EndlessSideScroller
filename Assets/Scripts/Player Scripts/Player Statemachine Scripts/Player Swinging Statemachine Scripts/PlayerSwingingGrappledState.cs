@@ -11,11 +11,16 @@ namespace Player.StateMachines
     public class PlayerSwingingGrappledState : State
     {
         InputEventBus _inputEventBus;
+        GrapplingEventBus _grapplingEventBus;
         PlayerController _player;
 
-        public PlayerSwingingGrappledState(IStateMachine statemachine, InputEventBus inputEventBus, PlayerController player) : base(statemachine)
+        public PlayerSwingingGrappledState(IStateMachine statemachine, 
+            InputEventBus inputEventBus, 
+            GrapplingEventBus grapplingEventBus, 
+            PlayerController player) : base(statemachine)
         {
             _inputEventBus = inputEventBus;
+            _grapplingEventBus = grapplingEventBus;
             _player = player;
         }
 
@@ -24,6 +29,7 @@ namespace Player.StateMachines
             base.OnEnter();
             _player.grapplingManager.ropeController.StartGrappling();
             _player.swingingForceController.ApplyAttachmentForce();
+            _grapplingEventBus.Publish<GrapplerFiredGrapplingEvent>();
         }
 
         public override void OnExit()

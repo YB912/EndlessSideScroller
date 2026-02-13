@@ -27,13 +27,13 @@ namespace Player.StateMachines
         protected override void SubscribeToTransitionEvents()
         {
             _inputEventBus.Subscribe<AimingTouchEndedInputEvent>(TransitionToIdleState);
-            _grapplingEventBus.Subscribe<GrapplerAimedEvent>(TransitionToGrappledState);
+            _grapplingEventBus.Subscribe<GrapplerAimedGrapplingEvent>(TransitionToGrappledState);
         }
 
         protected override void UnsubscribeFromTransitionEvents()
         {
             _inputEventBus.Unsubscribe<AimingTouchEndedInputEvent>(TransitionToIdleState);
-            _grapplingEventBus.Unsubscribe<GrapplerAimedEvent>(TransitionToGrappledState);
+            _grapplingEventBus.Unsubscribe<GrapplerAimedGrapplingEvent>(TransitionToGrappledState);
         }
 
         void TransitionToIdleState()

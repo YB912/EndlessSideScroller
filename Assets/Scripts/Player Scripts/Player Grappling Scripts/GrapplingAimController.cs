@@ -136,7 +136,7 @@ namespace Mechanics.Grappling
 
         void OnAimingFinished(bool visualize = true)
         {
-            _grapplingEventBus.Publish<GrapplerAimedEvent>();
+            _grapplingEventBus.Publish<GrapplerAimedGrapplingEvent>();
             if (visualize) _visualizer.VisualizeAim(_currentTouchPosition, _currentAimedTilePosition);
             EndAiming();
         }

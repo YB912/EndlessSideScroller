@@ -1,6 +1,4 @@
 
-public class GrapplerAimedEvent { }
+public class GrapplerAimedGrapplingEvent { }
 
-public class GrapplerPullStartedEvent { }
-
-public class GrapplerAttachedToSurfaceEvent { }
+public class GrapplerFiredGrapplingEvent { }

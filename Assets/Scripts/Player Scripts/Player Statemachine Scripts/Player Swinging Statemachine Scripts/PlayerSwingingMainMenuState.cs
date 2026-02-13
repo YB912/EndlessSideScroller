@@ -51,29 +51,31 @@ namespace Player.StateMachines
 
         void MainMenuAimOverride()
         {
-            _grapplingEventBus.Subscribe<GrapplerAimedEvent>(MainMenuGrapplingOverride);
+            _grapplingEventBus.Subscribe<GrapplerAimedGrapplingEvent>(MainMenuGrapplingOverride);
             _waitingToGrapple = true;
         }
 
         void MainMenuGrapplingOverride()
         {
             _player.grapplingManager.ropeController.StartGrappling();
-            _grapplingEventBus.Unsubscribe<GrapplerAimedEvent>(MainMenuGrapplingOverride);
+            _grapplingEventBus.Unsubscribe<GrapplerAimedGrapplingEvent>(MainMenuGrapplingOverride);
+            _grapplingEventBus.Publish<GrapplerFiredGrapplingEvent>();
         }
 
         void LaunchAimOverride()
         {
             _player.grapplingManager.ropeController.EndGrappling();
-            _grapplingEventBus.Subscribe<GrapplerAimedEvent>(LaunchGrapplingOverride);
+            _grapplingEventBus.Subscribe<GrapplerAimedGrapplingEvent>(LaunchGrapplingOverride);
             _player.grapplingManager.aimController.AimTowards(_launchAimPosition);
         }
 
         void LaunchGrapplingOverride()
         {
             _player.grapplingManager.ropeController.StartGrappling();
+            _grapplingEventBus.Publish<GrapplerFiredGrapplingEvent>();
             _player.grapplingManager.ropeController.EndGrapplingWithDelay(_settings.forwardRopeReleaseDelay, 
                 () => _gameplayEventBus.Publish<LaunchSequenceCompletedGameplayEvent>());
-            _grapplingEventBus.Unsubscribe<GrapplerAimedEvent>(LaunchGrapplingOverride);
+            _grapplingEventBus.Unsubscribe<GrapplerAimedGrapplingEvent>(LaunchGrapplingOverride);
         }
 
         protected override void SubscribeToTransitionEvents()

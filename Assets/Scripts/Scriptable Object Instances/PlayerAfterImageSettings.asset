@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e28bcc283201fd4bb11040a9b2430bf, type: 3}
   m_Name: PlayerAfterImageSettings
   m_EditorClassIdentifier: Assembly-CSharp::AfterImageSettings
-  _speedThreshold: 200
+  _speedThreshold: 160
   _spawnInterval: 0.001
   _afterImageLifetime: 0.4
   _afterImageStartAlpha: 0.3

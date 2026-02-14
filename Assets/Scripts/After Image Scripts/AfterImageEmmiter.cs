@@ -2,7 +2,6 @@ using DesignPatterns.ObjectPool;
 using DesignPatterns.ServiceLocatorPattern;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
 public class AfterImageEmitter : MonoBehaviour, IInitializeable
 {
     [Header("Settings & Components")]
@@ -11,18 +10,21 @@ public class AfterImageEmitter : MonoBehaviour, IInitializeable
 
     static GameObject _globalAfterImageContainer;
 
-    SpriteRenderer _spriteRenderer;
-    GameObject _afterImageTemplate;
     ObjectPoolManager _objectPool;
+    GameObject _afterImageTemplate;
+    SpriteRenderer[] _bodyPartRenderers;
+
     float _timer;
 
     public void Initialize()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _objectPool = ServiceLocator.instance.Get<ObjectPoolManager>();
 
         EnsureGlobalContainer();
         SetupAfterImagePrefab();
+
+        // Find ALL sprite renderers under the player (body parts)
+        _bodyPartRenderers = GetComponentsInChildren<SpriteRenderer>(true);
     }
 
     void Update()
@@ -36,26 +38,30 @@ public class AfterImageEmitter : MonoBehaviour, IInitializeable
         _timer += Time.deltaTime;
         if (_timer >= _settings.spawnInterval)
         {
-            SpawnAfterImage();
+            SpawnAfterImages();
             _timer = 0f;
         }
     }
 
-    void SpawnAfterImage()
+    void SpawnAfterImages()
     {
-        var afterImage = _objectPool.TakeFromPool(
-            _afterImageTemplate,
-            transform.position,
-            transform.rotation,
-            _globalAfterImageContainer.transform
-        );
+        foreach (var sr in _bodyPartRenderers)
+        {
+            if (!sr.enabled)
+                continue;
 
-        afterImage.transform.localScale = transform.lossyScale;
+            var afterImage = _objectPool.TakeFromPool(
+                _afterImageTemplate,
+                sr.transform.position,
+                sr.transform.rotation,
+                _globalAfterImageContainer.transform
+            );
 
-        afterImage.GetComponent<AfterImageController>()
-                  .Activate(_settings, _spriteRenderer);
+            afterImage.transform.localScale = sr.transform.lossyScale;
+
+            afterImage.GetComponent<AfterImageController>().Activate(_settings, sr);
+        }
     }
-
 
     static void EnsureGlobalContainer()
     {
@@ -69,15 +75,11 @@ public class AfterImageEmitter : MonoBehaviour, IInitializeable
 
     void SetupAfterImagePrefab()
     {
-        _afterImageTemplate = new GameObject($"{name}_AfterImage_TEMPLATE");
+        _afterImageTemplate = new GameObject("AfterImage_TEMPLATE");
         _afterImageTemplate.SetActive(false);
         _afterImageTemplate.transform.SetParent(_globalAfterImageContainer.transform);
 
-        var spriteRenderer = _afterImageTemplate.AddComponent<SpriteRenderer>();
+        _afterImageTemplate.AddComponent<SpriteRenderer>();
         _afterImageTemplate.AddComponent<AfterImageController>();
-
-        spriteRenderer.material = _spriteRenderer.material;
-        spriteRenderer.sortingLayerID = _spriteRenderer.sortingLayerID;
-        spriteRenderer.sortingOrder = _spriteRenderer.sortingOrder - 1;
     }
 }

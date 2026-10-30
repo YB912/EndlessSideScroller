@@ -89,6 +89,7 @@ namespace UI.GameplayInputAndHUD
 
         void SubscribeToEvents()
         {
+            _inputManager.inputSystemActions.Player.MousePosition.performed += OnAimingTouchPositionPerformed;
             _inputManager.inputSystemActions.Player.TouchPosition.performed += OnAimingTouchPositionPerformed;
             _gameCycleEventBus.Subscribe<EnteredPlayStateGameCycleEvent>(OnEnteredPlayState);
             _gameplayEventBus.Subscribe<PlayerDiedGameplayEvent>(OnPlayerDied);

@@ -117,7 +117,8 @@ namespace Mechanics.Grappling
             if (raycastHit)
             {
                 var tilemap = raycastHit.collider.GetComponent<Tilemap>();
-                _currentAimedTilePosition = tilemap.GetCellCenterWorld(tilemap.WorldToCell(raycastHit.point));
+                var worldToCell = tilemap.WorldToCell(raycastHit.point);
+                _currentAimedTilePosition = tilemap.GetCellCenterWorld(worldToCell);
             }
             else
             {
@@ -130,7 +131,8 @@ namespace Mechanics.Grappling
             if (IsAimPositionFarEnough() && AimingMissed() == false)
             {
                 EnableIK();
-                _currentTween = _IKTargetTransform.DOMove(_currentAimedTilePosition, _aimMovementDuration).OnComplete(() => OnAimingFinished());
+                _currentTween = _IKTargetTransform.DOMove(_currentAimedTilePosition, _aimMovementDuration)
+                    .OnComplete(() => OnAimingFinished());
             }
         }
 

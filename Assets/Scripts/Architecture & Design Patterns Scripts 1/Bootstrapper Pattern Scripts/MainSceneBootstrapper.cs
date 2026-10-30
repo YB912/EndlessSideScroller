@@ -27,6 +27,7 @@ public class MainSceneBootstrapper : MonoBehaviour
             }
         }
         ServiceLocator.instance.Get<LoadingEventBus>().Publish<MainSceneBootstrappedLoadingEvent>();
+        Destroy(gameObject);
     }
 }
 

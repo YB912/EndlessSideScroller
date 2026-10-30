@@ -125,7 +125,12 @@ namespace Mechanics.Camera
         {
             var destination = PositionWhenPlayerIsVisibleAt(playerNormalizedX);
             transform.DOMove(destination, _settings.positionTweenDuration)
-                .OnComplete(_gamePlayEventBus.Publish<CameraTargetReachedTweenPositionGameplayEvent>);
+                .OnComplete(OnTweenPositionToDistanceComplete);
+        }
+
+        void OnTweenPositionToDistanceComplete()
+        {
+            _gamePlayEventBus.Publish<CameraTargetReachedTweenPositionGameplayEvent>();
         }
 
         Vector3 PositionWhenPlayerIsVisibleAt(float playerNormalizedX)

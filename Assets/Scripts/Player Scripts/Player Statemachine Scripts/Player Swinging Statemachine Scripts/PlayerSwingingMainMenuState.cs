@@ -99,5 +99,11 @@ namespace Player.StateMachines
             _aimHeight = _tilemapParameters.tilemapHeight * _tilemapParameters.GridCellSize.y * _settings.hangingRopeAimHeightNormalized;
             _launchAimPosition = _player.bodyParts.head.transform.position + _settings.forwardRopeAimOffsetFromHead;
         }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            _gameplayEventBus.Unsubscribe<CameraTargetReachedTweenPositionGameplayEvent>(LaunchAimOverride);
+        }
     }
 }

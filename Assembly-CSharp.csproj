@@ -61,16 +61,17 @@
     <Compile Include="Assets\Scripts\Course Generation Scripts\GenerationParameters.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\Event Bus Bootstrapping Scripts\EventBusesBootstrapper.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\ObjectPoolManagerBootstrapper.cs" />
+    <Compile Include="Assets\Scripts\Camera Scripts\CameraShakeController.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Event Bus Pattern\EventBus.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Health\GlobalDamageSettings.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\AudioManagerBootstrapper.cs" />
-    <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\Camera Bootstrapping Scripts\CinemachineCameraController.cs" />
     <Compile Include="Assets\Scripts\Custom Events Scripts\LoadingEvents.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\PlayerSwingingForceController.cs" />
     <Compile Include="Assets\Other Packages\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\Scripts\Custom Events Scripts\GameplayEvents.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\FadingWindowSettings.cs" />
     <Compile Include="Assets\Scripts\Audio manager\MusicList.cs" />
+    <Compile Include="Assets\Scripts\Camera Scripts\CinemachineCameraController.cs" />
     <Compile Include="Assets\Scripts\Audio manager\SFXManager.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Grappling Scripts\GrapplingManager.cs" />
     <Compile Include="Assets\Scripts\Player Scripts\Player Statemachine Scripts\Player Swinging Statemachine Scripts\PlayerSwingingStateMachine.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Singleton Pattern\Singleton.cs" />
     <Compile Include="Assets\Scripts\Score Scripts\ScoringSettings.cs" />
     <Compile Include="Assets\Scripts\Game Manager Scripts\Game Manager State Machine Scripts\GameCycleMainMenuState.cs" />
+    <Compile Include="Assets\Scripts\Camera Scripts\CameraShakeSettings.cs" />
     <Compile Include="Assets\Scripts\Architecture &amp; Design Patterns Scripts 1\Bootstrapper Pattern Scripts\UIBootstrapper.cs" />
     <Compile Include="Assets\Scripts\After Image Scripts\AfterImageEmmiter.cs" />
     <Compile Include="Assets\Scripts\Audio manager\Music.cs" />

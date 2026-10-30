@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Mechanics.Camera
 {
-    [CreateAssetMenu(fileName = "CameraFollowTargetSettings", menuName = "Camera Follow Target Settings")]
+    [CreateAssetMenu(fileName = "CameraFollowTargetSettings", menuName = "Camera/Camera Follow Target Settings")]
     public class CameraFollowTargetSettings : ScriptableObject
     {
         [SerializeField, Range(0, 1)] float _playerNormalizedScreenXOutsidePlayState;
